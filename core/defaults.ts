@@ -76,6 +76,28 @@ class CustomResponse {
     }
 }
 
+//410
+class OtpExpired {
+  code: number;
+  message: string;
+  constructor(message?: any) {
+    this.message = Response410.message;
+    if(message) this.message = message;
+    this.code = Response410.code
+  }
+}
+
+//404
+class NotFound {
+  code: number;
+  message: string;
+  constructor(message?: any) {
+    this.message = Response404.message;
+    if(message) this.message = message;
+    this.code = Response404.code
+  }
+}
+
 //200 GET
 const Response200 = {
   code: 200,
@@ -147,4 +169,5 @@ const Response500 = {
   message: 'Something went wrong'
 }
 
-export { MissingAuthToken, Unauthorized, CustomResponse, EntityAlreadyExists, Success, InternalError, ParameterError, Response200, Response201, Response202, Response204, Response400, Response401, Response403, Response404, Response409, Response410, Response419, Response422, Response423, Response500 };
+export { NotFound, OtpExpired, MissingAuthToken, Unauthorized, CustomResponse, EntityAlreadyExists, Success, InternalError, ParameterError, 
+  Response200, Response201, Response202, Response204, Response400, Response401, Response403, Response404, Response409, Response410, Response419, Response422, Response423, Response500 };

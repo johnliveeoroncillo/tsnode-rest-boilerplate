@@ -3,7 +3,7 @@ import { pascalCase } from "case-anything";
 
 const content = `
 import { Entity, Column } from "typeorm";
-import { Model } from "./Model";
+import { Model } from "../core/libs/Model";
 
 @Entity({
   name: "table_name",
@@ -13,7 +13,7 @@ export class <model_name> extends Model {
     type: "varchar",
     length: 25,
   })
-  public upass: string;
+  public column_name: string;
 }
 `;
 

@@ -3,21 +3,13 @@ import { MigrationTemplate } from "./code_templates/MigrationTemplate";
 import { ApiTemplate } from "./code_templates/ApiTemplate";
 import { ModelTemplate } from './code_templates/ModelTemplate';
 import { RepositoryTemplate } from './code_templates/RepositoryTemplate';
-
-// import { ServiceTemplate } from './code_templates/ServiceTemplate';
-// import { HandlerTemplate, Type } from './code_templates/HandlerTemplate';
-// import { SwaggerRequestTemplate } from './code_templates/SwaggerRequestTemplate';
-// import { SwaggerPathTemplate } from './code_templates/SwaggerPathTemplate';
-// import { SwaggerResponseTemplate } from './code_templates/SwaggerResponseTemplate';
-// import { DynamoModelTemplate } from './code_templates/DynamoModelTemplate';
-// import { DynamoRepositoryTemplate } from './code_templates/DynamoRepositoryTemplate';
-// import { SequenceTemplate } from './code_templates/SequenceTemplate';
+import { ServiceTemplate } from "./code_templates/ServiceTemplate";
 
 const commands = yargs(process.argv.slice(2)).options({
   docs: {
     type: "boolean",
     default: false,
-    describe: "Generate Swagger request, response & path",
+    describe: "",
   },
 });
 
@@ -46,31 +38,43 @@ try {
   );
 
   commands.command(
-      'make:model <name>',
+      'make:model <name> <table_name>',
       'Create a model class',
       () => {},
-      (argv: Arguments) => {
-          const template = new ModelTemplate(<string>argv.name);
-          template.generate();
+      async (argv: Arguments) => {
+          const template = new ModelTemplate(<string>argv.name, <string>argv.table_name);
+          await template.generate();
 
           console.log('Model successfully created');
       },
   );
 
   commands.command(
-      'make:repository <name>',
+      'make:repository <name> <table_name>',
       'Create a repository class',
       () => {},
-      (argv: Arguments) => {
-          const template = new ModelTemplate(<string>argv.name);
-          template.generate();
-
+      async (argv: Arguments) => {
           const repository = new RepositoryTemplate(<string>argv.name);
           repository.generate();
+
+          const template = new ModelTemplate(<string>argv.name, <string>argv.table_name);
+          await template.generate();
 
           console.log('Repository successfully created');
       },
   );
+
+  commands.command(
+    'make:service <name>',
+    'Create a service class',
+    () => {},
+    (argv: Arguments) => {
+        const service = new ServiceTemplate(<string>argv.name);
+        service.generate();
+
+        console.log('Service successfully created');
+    },
+);
 
   // commands.command(
   //     'make:event <name>',

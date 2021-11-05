@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 import { Request } from "express";
-import { CustomResponse, Response401 } from "../core/defaults";
+import { CustomResponse, Response401 } from "../defaults";
 
 class TokenService {
     static async generateJWT(data: object): Promise<string> {

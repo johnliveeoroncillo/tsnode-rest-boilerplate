@@ -52,19 +52,22 @@ const generateRoute = (path: string): string => {
 };
 
 const API_RESPONSE = (response: any, res: Response) => {
-  let code = Response500.code;
+  let code:string = Response500.code.toString();
   let new_response:any = {};
 
   try {
     new_response = JSON.parse(JSON.stringify(response));
-    code = new_response?.code ?? 500;
+    code = new_response?.code ?? '500'
+    code = isNaN(parseInt(code)) ? '500' : code;
     new_response.code = code;
     new_response.message = new_response?.message ?? response.toString();
   }
   catch(e:any) {
+
       new_response = {code,message:response.toString()};
   }
-  return res.status(code).json(new_response);
+
+  return res.status(parseInt(code)).json(new_response);
 };
 
 
