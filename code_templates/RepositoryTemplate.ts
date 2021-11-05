@@ -6,7 +6,7 @@ import { EntityRepository, Repository } from "typeorm";
 import { model_name } from "../models/model_name";
 @EntityRepository(model_name)
 export class <repository_name> extends Repository<model_name> {
-    async getAll(): Promise<model_name[] | undefined> {
+    async getAll(): Promise<model_name[] | any> {
         const sql = this.createQueryBuilder('a');
         return sql.getMany();
     }

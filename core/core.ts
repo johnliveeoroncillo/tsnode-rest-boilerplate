@@ -8,8 +8,8 @@ const mainDir = require("path").dirname(__dirname).replace(/\\/g, '/');
 const loadRoutes = (dir?: string): Promise<any> => {
   if (!dir) dir = `${require("path").dirname(__dirname)}/apis`;
 
-    var fs = require('fs');
-    var path = require('path');
+  const fs = require('fs');
+  const path = require('path');
     
   return new Promise((resolve, reject) => {
     fs.readdirSync(dir).forEach((file: string) => {
@@ -30,7 +30,8 @@ const loadMigrations = (): Promise<any> => {
     fs.readdirSync(dir).forEach((file: string) => {
       const absolute = path.join(dir, file);
 
-      if (!fs.statSync(absolute).isDirectory()) migrations.push(absolute);
+      if(file.includes('sql')) 
+        if (!fs.statSync(absolute).isDirectory()) migrations.push(absolute);
     });
 
     return resolve(migrations);
@@ -50,6 +51,23 @@ const generateRoute = (path: string): string => {
   console.log('AVAILABLE ROUTES:', url);
   return url;
 };
+
+const loadCron = () => {
+    const dir = `${require("path").dirname(__dirname)}/cron`;
+    const cron = require('node-cron');
+    fs.readdirSync(dir).forEach((file: string) => {
+      const absolute = path.join(dir, file);
+
+      if(file.includes('.ts')) {
+          const { Cron } = require(`${absolute.replace(/\\/g, "/")}`);
+          cron.schedule(Cron.cron, Cron.execute, {
+              scheduled: Cron.auto_start,
+              timezone: Cron.timezone
+          });
+      }
+    });
+   
+}
 
 const API_RESPONSE = (response: any, res: Response) => {
   let code:string = Response500.code.toString();
@@ -72,4 +90,4 @@ const API_RESPONSE = (response: any, res: Response) => {
 
 
 
-export { generateRoute, loadRoutes, loadMigrations, API_RESPONSE };
+export { loadCron, generateRoute, loadRoutes, loadMigrations, API_RESPONSE };

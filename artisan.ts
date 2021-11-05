@@ -4,6 +4,7 @@ import { ApiTemplate } from "./code_templates/ApiTemplate";
 import { ModelTemplate } from './code_templates/ModelTemplate';
 import { RepositoryTemplate } from './code_templates/RepositoryTemplate';
 import { ServiceTemplate } from "./code_templates/ServiceTemplate";
+import { CronTemplate } from "./code_templates/CronTemplate";
 
 const commands = yargs(process.argv.slice(2)).options({
   docs: {
@@ -65,14 +66,26 @@ try {
   );
 
   commands.command(
-    'make:service <name>',
-    'Create a service class',
+      'make:service <name>',
+      'Create a service class',
+      () => {},
+      (argv: Arguments) => {
+          const service = new ServiceTemplate(<string>argv.name);
+          service.generate();
+
+          console.log('Service successfully created');
+      },
+  );
+
+  commands.command(
+    'make:cron <name>',
+    'Create a cron class',
     () => {},
     (argv: Arguments) => {
-        const service = new ServiceTemplate(<string>argv.name);
-        service.generate();
+        const cron = new CronTemplate(<string>argv.name);
+        cron.generate();
 
-        console.log('Service successfully created');
+        console.log('Cron successfully created');
     },
 );
 

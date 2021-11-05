@@ -33,6 +33,7 @@
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
+    "node-cron": "^3.0.0",
     "node-libcurl": "^2.3.3",
     "nodemon": "^2.0.13",
     "path": "^0.12.7",

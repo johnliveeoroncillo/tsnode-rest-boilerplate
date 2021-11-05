@@ -2,15 +2,15 @@
 import http from "http";
 import express, { Express, NextFunction, Request, Response } from "express";
 import morgan from "morgan";
-import { loadRoutes, API_RESPONSE } from "./core/core";
+import { loadRoutes, API_RESPONSE, loadCron } from "./core/core";
 import { Response404 } from './core/defaults';
 import "reflect-metadata";
 import { authorizer } from './middlewares/authorizer';
 const cors = require('cors')
-
 require("dotenv").config();
-
 const app: Express = express();
+
+loadCron();
 
 /** Logging */
 app.use(morgan("dev"));
@@ -41,34 +41,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   app.use(cors(corsOptions));
   next();
 })
-
-// /** RULES OF OUR API */
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-//   const allowed = ["http://localhost:3000", "https://onemedicord.herokuapp.com"];
-//   const host:any = req.headers.origin;
-
-//   if (allowed.includes(host)) {
-//     console.log('WHITELISTED', host);
-//     res.setHeader('Access-Control-Allow-Origin', host);
-//   }
-//   // set the CORS policy
-//   // res.header("Access-Control-Allow-Origin", ["http://localhost:3000", );
-
-//   // set the CORS headers
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "origin, X-Requested-With,Content-Type,Accept, Authorization",
-//   );
-//   res.setHeader("Access-Control-Allow-Methods", "GET PATCH DELETE POST");
-
-//   // set the CORS method headers
-//   // if (req.method === "OPTIONS") {
-//   //     res.header("Access-Control-Allow-Methods", "GET PATCH DELETE POST");
-//   //     return res.status(200).json({});
-//   // }
-//   next();
-// });
 
 /** Routes */
 loadRoutes().then((routes) => {
