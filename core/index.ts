@@ -1,23 +1,47 @@
-const path = require("path");
-const fs = require("fs");
-const routes: any = [];
+/* eslint-disable @typescript-eslint/no-var-requires */
+import path from 'path';
+import fs from 'fs';
 import { Request, Response, Application } from "express";
 import { Response500 } from "./defaults";
-const mainDir = require("path").dirname(__dirname).replace(/\\/g, '/');
 
-const loadRoutes = (dir?: string): Promise<any> => {
-  if (!dir) dir = `${require("path").dirname(__dirname)}/apis`;
+const mainDir = path.dirname(__dirname).replace(/\\/g, '/');
+const yaml = require('js-yaml');
+const routes: Config[] = [];
 
-  const fs = require('fs');
-  const path = require('path');
-    
+export enum METHODS {
+  post = 'post',
+  get = 'get',
+  delete = 'delete',
+  put = 'put',
+  patch = 'patch'
+}
+
+export interface Config {
+  [key: string]: RouteConfig;
+}
+
+export interface RouteConfig {
+  endpoint: string;
+  method: METHODS;
+  authorizer?: string;
+  handler: string;
+}
+
+
+const loadRoutes = (dir: string = ''): Promise<Config[]> => {
+  if (!dir) dir = `${path.dirname(__dirname)}/apis`;
+
   return new Promise((resolve, reject) => {
     fs.readdirSync(dir).forEach((file: string) => {
-      const absolute = path.join(dir, file);
+        const absolute = path.join(dir, file);
 
-      if (fs.statSync(absolute).isDirectory()) return loadRoutes(absolute);
-      else return routes.push(absolute);
-    });
+        if (fs.statSync(absolute).isDirectory()) {
+            if (fs.existsSync(absolute)) {
+              const config = getConfig(`${absolute}/config.yml`);
+              if (config) routes.push(config);
+            }
+        }
+    }); 
 
     return resolve(routes);
   });
@@ -38,6 +62,7 @@ const loadMigrations = (): Promise<any> => {
   });
 };
 
+////v1
 const generateRoute = (path: string): string => {
   const split = path.toString().replace(/\\/g, '/').split("/");
   const length = split.length;
@@ -52,8 +77,19 @@ const generateRoute = (path: string): string => {
   return url;
 };
 
+////v2
+const getConfig = (path: string): Config | undefined => {
+  try {
+      const doc = yaml.load(fs.readFileSync(path, 'utf8'));
+      return doc;
+  } catch (e) {
+    console.log(e);
+    return undefined;
+  }
+}
+
 const loadCron = () => {
-    const dir = `${require("path").dirname(__dirname)}/cron`;
+    const dir = `${path.dirname(__dirname)}/cron`;
     const cron = require('node-cron');
     fs.readdirSync(dir).forEach((file: string) => {
       const absolute = path.join(dir, file);
@@ -80,8 +116,7 @@ const API_RESPONSE = (response: any, res: Response) => {
     new_response.code = code;
     new_response.message = new_response?.message ?? response.toString();
   }
-  catch(e:any) {
-
+  catch(e: any) {
       new_response = {code,message:response.toString()};
   }
 

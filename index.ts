@@ -1,11 +1,12 @@
 /** source/server.ts */
 import http from "http";
-import express, { Express, NextFunction, Request, Response } from "express";
+import express, { Express, IRoute, IRouter, NextFunction, Request, Response, Router } from "express";
 import morgan from "morgan";
-import { loadRoutes, API_RESPONSE, loadCron } from "./core/core";
+import { loadRoutes, API_RESPONSE, loadCron, Config, METHODS, RouteConfig } from "./core";
 import { Response404 } from './core/defaults';
 import "reflect-metadata";
-import { authorizer } from './middlewares/authorizer';
+import path from "path/posix";
+import { exec } from "child_process";
 const cors = require('cors')
 require("dotenv").config();
 const app: Express = express();
@@ -45,13 +46,28 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 /** Routes */
 loadRoutes().then((routes) => {
   if (routes.length) {
-    const modules: any = [];
-    routes.forEach((element: string) => {
-      console.log("GENERATED", element);
-      modules.push(require(`${element.replace(/\\/g, "/")}`));
-    });
-    // authorizer routes can be change at router.json
-    app.use("/api", authorizer, modules);
+    for(const key in routes) {
+        const api_key: string = Object.keys(routes[key])[0];
+        const api_config: Config = routes[key];
+        const route: RouteConfig = api_config[api_key];
+
+        const endpoint = route.endpoint;
+        const handler = route.handler;
+        const method = METHODS?.[route.method] ?? '';
+        const authorizer = route.authorizer;
+
+        // const authorizer = route.authorizer
+        const { execute } = require(handler);
+
+        const callbacks = []
+        if (authorizer) {
+            const middleware = require(`./middlewares/${authorizer}`);
+            callbacks.push(middleware.execute);
+        }
+        callbacks.push(execute);
+        app[method](endpoint, callbacks);
+        console.log('AVAILABLE ROUTES:', endpoint);
+    }
     app.use((req: Request, res: Response, next: NextFunction) => {
         API_RESPONSE(Response404, res);
     });

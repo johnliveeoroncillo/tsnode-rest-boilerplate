@@ -1,6 +1,6 @@
 import { Database } from "./core/database";
 import { Connection } from "typeorm";
-import { loadMigrations } from "./core/core";
+import { loadMigrations } from "./core";
 const path = require("path");
 require("dotenv").config();
 

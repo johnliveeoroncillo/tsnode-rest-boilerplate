@@ -7,7 +7,7 @@ import { timestamp } from "../core/utils";
 
 let content = `
 import express from "express";
-import { generateRoute, API_RESPONSE } from "<dynamic_route>/core/core";
+import { generateRoute, API_RESPONSE } from "<dynamic_route>/core";
 import { Request, Response, NextFunction } from "express";
 import * as responses from "<dynamic_route>/core/defaults";
 import { Database } from "<dynamic_route>/core/database";
