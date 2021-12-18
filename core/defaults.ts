@@ -51,7 +51,7 @@ class Unauthorized {
 }
 class MissingAuthToken {
   code:number = Response401.code;
-  message:string = 'Missing authentication token';
+  message = 'Missing authentication token';
 }
 
 

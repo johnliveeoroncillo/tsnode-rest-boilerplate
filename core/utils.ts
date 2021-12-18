@@ -9,7 +9,7 @@ const salt: any = { iv : vector_key };
 
 
 const timestamp = (date: Date): number => {
-    var datum = Date.parse(date.toString());
+    const datum = Date.parse(date.toString());
     return datum / 1000;
 };
 

@@ -9,7 +9,8 @@
     "start": "ts-node index.ts",
     "migrate": "ts-node migrate.ts",
     "migrate:refresh": "ts-node migrate.ts down && npm run migrate",
-    "req": "npm i -g ts-node"
+    "req": "npm i -g ts-node",
+    "lint": "eslint --ext .ts core/ --fix"
   },
   "author": "",
   "license": "ISC",
@@ -50,6 +51,9 @@
   },
   "devDependencies": {
     "@types/node": "^16.11.1",
+    "@typescript-eslint/eslint-plugin": "^5.7.0",
+    "@typescript-eslint/parser": "^5.7.0",
+    "eslint": "^8.5.0",
     "typescript": "^4.4.4"
   }
 }

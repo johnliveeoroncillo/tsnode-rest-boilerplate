@@ -18,7 +18,7 @@ export class Database {
     this.connectionManager = getConnectionManager();
   }
 
-  public async getConnection(name: string = 'default'): Promise<Connection> {
+  public async getConnection(name = 'default'): Promise<Connection> {
     const CONNECTION_NAME: string = name;
     let connection: Connection;
     const hasConnection = this.connectionManager.has(CONNECTION_NAME);
