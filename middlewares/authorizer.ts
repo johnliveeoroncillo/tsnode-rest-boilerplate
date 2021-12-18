@@ -1,7 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { API_RESPONSE } from "../core";
 import { Response500, MissingAuthToken } from '../core/defaults';
-import { TokenService } from '../services/TokenService';
+import { TokenService } from '../core/libs/TokenService';
 import fs from 'fs';
 
 

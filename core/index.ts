@@ -119,7 +119,6 @@ const API_RESPONSE = (response: any, res: Response) => {
   catch(e: any) {
       new_response = {code,message:response.toString()};
   }
-
   return res.status(parseInt(code)).json(new_response);
 };
 
