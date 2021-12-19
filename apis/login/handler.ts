@@ -12,8 +12,7 @@ export async function execute(req: Request, res: Response, next: NextFunction): 
     try {
         const request = Validate(req.body);
 
-        const database = new Database();
-        const connection: Connection = await database.getConnection();  
+        const connection: Connection = await Database.getConnection();  
         const action = new LoginAction(connection);
         await action.execute(request);
 
@@ -23,5 +22,8 @@ export async function execute(req: Request, res: Response, next: NextFunction): 
     }
     catch(e) {
         return API_RESPONSE(e, res);
+    }
+    finally {
+        await Database.closeConnection();
     }
 }

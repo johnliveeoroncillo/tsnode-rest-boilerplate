@@ -16,8 +16,7 @@ const runMigration = async () => {
     console.log("RUNNING MIGRATIONS");
     const migration_type = args[0] ?? 'up';
     const connectionName = "default";
-    const database = new Database();
-    const connection: Connection = await database.getConnection(connectionName);
+    const connection: Connection = await Database.getConnection(connectionName);
     const databaseName = process.env.DB_NAME;
     //CHECK MIGRATION TABLE
     const response = await connection.manager.query("SHOW TABLES");

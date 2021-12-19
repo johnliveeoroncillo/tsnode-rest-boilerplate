@@ -31,6 +31,8 @@ TestReponse.json = (json) => {
     return json;
 }
 
+export const nextFunction = function(err: string) { console.error(err); };
+
 export interface ApiEvent {
     request: Request,
     response: Response,

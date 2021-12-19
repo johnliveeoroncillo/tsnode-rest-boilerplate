@@ -2,7 +2,7 @@
 import http from "http";
 import express, { Express, IRoute, IRouter, NextFunction, Request, Response, Router } from "express";
 import morgan from "morgan";
-import { loadRoutes, API_RESPONSE, loadCron } from "./core";
+import { loadRoutes, API_RESPONSE, loadCron, listRoutes } from "./core";
 import { Config, METHODS, RouteConfig } from './core/libs/ApiEvent';
 import { Response404 } from './core/defaults';
 import "reflect-metadata";
@@ -34,7 +34,7 @@ const corsOptions = {
   withCredentials: true
 }
 app.use((req: Request, res: Response, next: NextFunction) => {
-  let allowedOrigins = ['http://localhost:3000', 'https://onemedicord.herokuapp.com']
+  let allowedOrigins = ['http://localhost:3000']
   let origin:any = req.headers?.origin;
   if (allowedOrigins.includes(origin)) {
     console.log('ALLOWED', origin);
@@ -67,7 +67,9 @@ loadRoutes().then((routes) => {
         }
         callbacks.push(execute);
         app[method](endpoint, callbacks);
-        console.log('AVAILABLE ROUTES:', endpoint);
+
+        listRoutes(app)
+        // { prefix: '/v1/' };
     }
     app.use((req: Request, res: Response, next: NextFunction) => {
         API_RESPONSE(Response404, res);

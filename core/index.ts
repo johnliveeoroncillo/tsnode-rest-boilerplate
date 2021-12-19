@@ -9,7 +9,9 @@ const mainDir = path.dirname(__dirname).replace(/\\/g, '/');
 const yaml = require('js-yaml');
 const routes: Config[] = [];
 
-const loadRoutes = (dir: string = ''): Promise<Config[]> => {
+const listRoutes = require('express-list-routes');
+
+const loadRoutes = (dir = ''): Promise<Config[]> => {
   if (!dir) dir = `${path.dirname(__dirname)}/apis`;
 
   return new Promise((resolve, reject) => {
@@ -107,5 +109,8 @@ const API_RESPONSE = (response: any, res: Response): HttpResponse => {
   }
 };
 
+const getRoutes = () => {
 
-export { loadCron, generateRoute, loadRoutes, loadMigrations, API_RESPONSE };
+}
+
+export { loadCron, generateRoute, loadRoutes, loadMigrations, API_RESPONSE, listRoutes };
