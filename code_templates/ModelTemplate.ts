@@ -12,7 +12,7 @@ require('dotenv').config();
 
 const content = `
 import { Entity, Column } from "typeorm";
-import { Model } from "./Model";
+import { Model } from "../core/libs/Model";
 @Entity({
   name: "table_name",
 })

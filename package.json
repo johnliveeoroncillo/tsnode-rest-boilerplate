@@ -12,7 +12,13 @@
     "req": "npm i -g ts-node",
     "lint": "eslint --ext .ts apis/ --fix",
     "test": "jest --silent",
-    "test:log": "jest"
+    "test:log": "jest",
+    "make:model": "ts-node artisan.ts make:model",
+    "make:repository": "ts-node artisan.ts make:repository",
+    "make:migration": "ts-node artisan.ts make:migration",
+    "make:api": "ts-node artisan.ts make:api",
+    "make:service": "ts-node artisan.ts make:service",
+    "make:cron": "ts-node artisan.ts make:cron"
   },
   "license": "ISC",
   "dependencies": {
