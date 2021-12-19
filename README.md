@@ -59,6 +59,25 @@ Create service file.
 Create cron file.
 
 
+## Other API Reference
+
+#### Lint
+
+```bash
+  npm run lint
+```
+
+#### Migrate
+
+```bash
+  npm run migrate
+```
+
+#### Refresh Migrate
+
+```bash
+  npm run migrate:refresh
+```
 ## Running Tests
 
 To run tests, run the following command
