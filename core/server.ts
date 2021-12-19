@@ -2,9 +2,10 @@
 import http from "http";
 import express, { Express, IRoute, IRouter, NextFunction, Request, Response, Router } from "express";
 import morgan from "morgan";
-import { loadRoutes, API_RESPONSE, loadCron, listRoutes } from "./core";
-import { Config, METHODS, RouteConfig } from './core/libs/ApiEvent';
-import { Response404 } from './core/defaults';
+import { loadRoutes, API_RESPONSE, loadCron, listRoutes } from "./";
+import { Config, METHODS, RouteConfig } from './libs/ApiEvent';
+import { Response404 } from './defaults';
+const { dirname } = require('path');
 import "reflect-metadata";
 import path from "path/posix";
 import { exec } from "child_process";
@@ -58,11 +59,11 @@ loadRoutes().then((routes) => {
         const authorizer = route.authorizer;
 
         // const authorizer = route.authorizer
-        const { execute } = require(handler);
+        const { execute } = require(`.${handler}`);
 
         const callbacks = []
         if (authorizer) {
-            const middleware = require(`./middlewares/${authorizer}`);
+            const middleware = require(`../middlewares/${authorizer}`);
             callbacks.push(middleware.execute);
         }
         callbacks.push(execute);
@@ -79,7 +80,7 @@ loadRoutes().then((routes) => {
 
 /** Server */
 const run = async () => {
-  await require("./migrate");
+  await require("../migrate");
   const httpServer = http.createServer(app);
   const PORT: any = process.env.PORT ?? 6060;
   httpServer.listen(PORT, () =>

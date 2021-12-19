@@ -56,7 +56,6 @@ const generateRoute = (path: string): string => {
     const splitUrl = newSplit.join('/');
     url = `/${splitUrl.replace(/_/g, ':').replace(/\.[^.]*$/,'').replace(/[/]index/g, '')}`;
   }
-  console.log('AVAILABLE ROUTES:', url);
   return url;
 };
 
@@ -66,7 +65,6 @@ const getConfig = (path: string): Config | undefined => {
       const doc = yaml.load(fs.readFileSync(path, 'utf8'));
       return doc;
   } catch (e) {
-    console.log(e);
     return undefined;
   }
 }
@@ -109,8 +107,5 @@ const API_RESPONSE = (response: any, res: Response): HttpResponse => {
   }
 };
 
-const getRoutes = () => {
-
-}
 
 export { loadCron, generateRoute, loadRoutes, loadMigrations, API_RESPONSE, listRoutes };

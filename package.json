@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "A node express typescript Rest API Boilerplate",
   "author": "John Livee G. Oroncillo",
-  "main": "index.ts",
+  "main": "./core/server.ts",
   "scripts": {
-    "dev": "nodemon index.ts",
-    "start": "ts-node index.ts",
+    "dev": "nodemon ./core/server.ts",
+    "start": "ts-node ./core/server.ts",
     "migrate": "ts-node migrate.ts",
     "migrate:refresh": "ts-node migrate.ts down && npm run migrate",
     "req": "npm i -g ts-node",
-    "lint": "eslint --ext .ts core/ --fix",
+    "lint": "eslint --ext .ts apis/ --fix",
     "test": "jest --silent",
     "test:log": "jest"
   },

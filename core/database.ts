@@ -28,7 +28,7 @@ export class Database {
     console.log(active);
     if (typeof active[conn] === 'undefined') {
         const connectionOptions: ConnectionOptions = {
-          name: "default",
+          name: conn,
           type: "mysql",
           host: this.host,
           port: 3306,
