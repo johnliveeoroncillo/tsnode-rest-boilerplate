@@ -21,11 +21,11 @@ export class <name>Action {
 
 const request = `
 export interface <name>Request {
-  
+    key: string;
 }`;
 
 const handler = `
-import { generateRoute, API_RESPONSE } from "../../core";
+import { API_RESPONSE } from "../../core";
 import { HttpResponse } from "../../core/libs/ApiEvent";
 import { Request, Response, NextFunction } from "express";
 import { Database } from "../../core/database";
