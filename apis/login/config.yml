@@ -2,4 +2,6 @@ login:
   handler: ./apis/login/handler
   endpoint: /login
   method: post
-  #authorizer: authorizer
+  #UNCOMMENT AUTHORIZER TO ATTACH MIDDLEWARE
+  #EXAMPLE: authorizer: authorizer
+  #authorizer: <authorizer_name>
