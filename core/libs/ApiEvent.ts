@@ -43,6 +43,7 @@ export interface ApiEvent {
 export interface HttpRequest extends Request {
     identity?: KeyValue;
 } 
+
 export const Authorize = (data: any, request: HttpRequest, next: NextFunction) => {
     const user_data = data?.data ?? {};
     request.identity = user_data;
