@@ -2,6 +2,7 @@ import { Response, Request, NextFunction } from "express";
 import { API_RESPONSE } from "../core";
 import { MissingAuthToken } from '../core/defaults';
 import { TokenService } from '../core/libs/TokenService';
+import { Authorize } from "../core/libs/ApiEvent";
 
 
 export async function execute(req: Request, res: Response, next:NextFunction):Promise<void> {
@@ -12,8 +13,7 @@ export async function execute(req: Request, res: Response, next:NextFunction):Pr
         if(token == '') throw new MissingAuthToken();
 
         const jwt:any = await TokenService.verifyToken(token);
-        req.headers.user_data = jwt.data;
-        next();
+        return Authorize(jwt, req, next);
     }
     catch(e) {
         API_RESPONSE(e, res);  

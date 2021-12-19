@@ -1,5 +1,8 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, request } from "express";
 
+interface KeyValue {
+    [key: string]: any;
+}
 
 export enum METHODS {
     post = 'post',
@@ -12,14 +15,12 @@ export enum METHODS {
 export interface Config {
     [key: string]: RouteConfig;
 }
-
 export interface RouteConfig {
     endpoint: string;
     method: METHODS;
     authorizer?: string;
     handler: string;
 }
-
 export interface HttpResponse {
     statusCode: number;
     body: any;
@@ -38,3 +39,12 @@ export interface ApiEvent {
     response: Response,
     next: NextFunction
 }
+
+export interface HttpRequest extends Request {
+    identity?: KeyValue;
+} 
+export const Authorize = (data: any, request: HttpRequest, next: NextFunction) => {
+    const user_data = data?.data ?? {};
+    request.identity = user_data;
+    return next();
+};
