@@ -1,74 +1,129 @@
-import { writeFileSync, existsSync } from "fs";
 import fse from "fs-extra";
-import { snakeCase } from "case-anything";
+import { writeFileSync, existsSync } from "fs";
+import { pascalCase, snakeCase,  } from "case-anything";
 import pluralize from "pluralize";
 import { timestamp } from "../core/utils";
 
 
-let content = `
-import express from "express";
-import { generateRoute, API_RESPONSE } from "<dynamic_route>/core";
+let action = `
+import { Connection } from "typeorm";
+import { <name>Request } from "./request";
+
+export class <name>Action {
+    private connection: Connection;
+
+    constructor(connection: Connection) {
+        this.connection = connection;
+    }
+
+    async execute(request: <name>Request): Promise<void> {}
+}`;
+
+const request = `
+export interface <name>Request {
+  
+}`;
+
+const handler = `
+import { generateRoute, API_RESPONSE } from "../../core";
+import { HttpResponse } from "../../core/libs/ApiEvent";
 import { Request, Response, NextFunction } from "express";
-import * as responses from "<dynamic_route>/core/defaults";
-import { Database } from "<dynamic_route>/core/database";
+import { Database } from "../../core/database";
 import { Connection } from "typeorm";
 
-const router = express.Router();
-const path = generateRoute(__filename);
-const database = new Database();
+import { SUCCESS } from "./response";
+import { Validate } from "./validate";
+import { <name>Action } from "./action";
 
-interface ApiRequest {
-  email: string;
-  password: string;
+export async function execute(req: Request, res: Response, next: NextFunction): Promise<HttpResponse> {
+    try {
+        const request = Validate(req.body);
+        const connection: Connection = await Database.getConnection();  
+        const action = new <name>Action(connection);
+        await action.execute(request);
+        
+        return API_RESPONSE({
+            ...SUCCESS,
+        }, res);
+    }
+    catch(e) {
+        return API_RESPONSE(e, res);
+    }
+    finally {
+        console.log('close');
+        await Database.closeConnection();
+    }
 }
+`;
 
-const Validate = (objects: string): ApiRequest => {
-  const joi = require("joi");
-  const schema = joi.object({
-    email: joi.string().required(),
-    password: joi.string().required(),
-  });
-  const dataToValidate = objects;
+const handler_test = `
+import { execute } from './handler';
+import { <name>Request } from './request';
+import { Request } from "express";
+import { TestReponse, nextFunction } from '../../core/libs/ApiEvent';
 
-  const result = schema.validate(dataToValidate, { abortEarly: false });
+test('200: SUCCESS', async () => {
+    const request = {
+        identity: {},
+        body: <<name>Request>{
+            email: 'John',
+            password: 'test',
+        },
+        params: {
 
-  if (result.error) throw new responses.ParameterError(result);
-  return {
-    ...result.value,
-  };
+        },
+        query: {
+
+        }
+    } as Request
+
+
+    const result = await execute(request, TestReponse, nextFunction);
+    const response = result.body;
+
+    expect(result).toHaveProperty('statusCode');
+    expect(result).toHaveProperty('body');
+    expect(response).toHaveProperty('code');
+    expect(response).toHaveProperty('message');
+
+    expect(result.statusCode).toBe(200);
+    expect(response.code).toBe(200);
+});
+`;
+
+const response = `
+/*
+    Your Custom Response */
+
+export class SUCCESS {
+    code = 200;
+    message = 'Success';
+}
+`;
+
+const validate = `
+import { <name>Request } from "./request";
+import { Validation } from "../../core/libs/Validation";
+
+export const Validate = (request: <name>Request): <name>Request => {
+    const joi = require("joi");
+    const schema = joi
+        .object({
+            key: joi.string().required(),
+        })
+        .required();
+
+    const validate = new Validation(schema);
+    return validate.validate(request);
 };
+`;
 
-const postAction = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const request = Validate(req.body);
-    const connection: Connection = await database.getConnection();
-
-    /*DO ACTIONS HERE*/
-    API_RESPONSE(responses.Response200, res);
-  } 
-  catch(e: any) {
-    API_RESPONSE(e, res);
-  }
-};
-
-
-const getAction = async (req: Request, res: Response) => {
-  try {
-    const connection: Connection = await database.getConnection();
-    
-    /*DO ACTIONS HERE*/
-    API_RESPONSE(responses.Response200, res);
-  } catch (e) {
-    API_RESPONSE(e, res);
-  }
-};
-
-
-router.post(path, postAction);
-router.get(path, getAction);
-// router.delete(path, <function>);
-// router.put(path, <function>);
-export = router;
+const config = `
+<name>: 
+  handler: ./apis/<name>/handler
+  endpoint: /<name>
+  method: <method>
+  #authorizer: authorizer
 `;
 
 export class ApiTemplate {
@@ -76,31 +131,49 @@ export class ApiTemplate {
   private readonly name: string;
 
   constructor(name: string) {
-    // Check for blank filename change it into index
-    const splitName = name.split('/');
-    if(splitName[splitName.length - 1] == '') splitName[splitName.length - 1] = 'index';
-    name = splitName.join('/');
-
     this.name = name.trim(); //pluralize(name.trim())
     this.filename = `${this.name}.ts`;
   }
 
   generate(): void {
-    const route = `./apis/${this.filename}`
+    const route = `./apis/${this.name}/${this.filename}`
     if (existsSync(route))
       throw new Error("API file already existed");
 
-    // Create dynamic route for imports
-    let dynamic_route:any = route.substr(2).split('/');
-    dynamic_route.pop();
-    const route_length = dynamic_route.length;
-    dynamic_route = [];
-    for(let i = 0; i < route_length; i++) {
-        dynamic_route.push('..')
-    }
-
-    dynamic_route = dynamic_route.join('/');
-    content = content.replace(/<dynamic_route>/g, dynamic_route);
-    fse.outputFileSync(`${route.replace(/:/g, '_')}`, content);
+    //ACTION
+    fse.outputFileSync(
+      `./apis/${this.name}/action.ts`, action.replace(/<name>/g, 
+      pascalCase(this.name))
+    );
+    //HANDLER TEST
+    fse.outputFileSync(
+      `./apis/${this.name}/handler_test.ts`,
+      handler_test.replace(/<name>/g, pascalCase(this.name))
+    );
+    //HANDLER
+    fse.outputFileSync(
+      `./apis/${this.name}/handler.ts`,
+      handler.replace(/<name>/g, pascalCase(this.name))
+    );
+    //REQUEST
+    fse.outputFileSync(
+      `./apis/${this.name}/request.ts`,
+      request.replace(/<name>/g, pascalCase(this.name))
+    );
+    //RESPONSE
+    fse.outputFileSync(
+      `./apis/${this.name}/response.ts`,
+      response.replace(/<name>/g, pascalCase(this.name))
+    );
+    //VALIDATE
+    fse.outputFileSync(
+      `./apis/${this.name}/validate.ts`,
+      validate.replace(/<name>/g, pascalCase(this.name))
+    );
+    //CONFIG
+    fse.outputFileSync(
+      `./apis/${this.name}/config.yml`,
+      config.replace(/<name>/g, this.name)
+    );
   }
 }
