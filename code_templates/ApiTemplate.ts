@@ -123,9 +123,9 @@ const config = `
   handler: ./apis/<name>/handler
   endpoint: /<name>
   method: <method>
-  #UNCOMMENT AUTHORIZER TO ATTACH MIDDLEWARE
-  #EXAMPLE: authorizer: authorizer
-  #authorizer: <authorizer_name>
+  #UNCOMMENT TO ATTACH MIDDLEWARE
+  #EXAMPLE: middleware: middleware
+  #middleware: <middleware_name>
 `;
 
 export class ApiTemplate {

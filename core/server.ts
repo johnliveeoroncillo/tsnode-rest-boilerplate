@@ -56,15 +56,15 @@ loadRoutes().then((routes) => {
         const endpoint = route.endpoint;
         const handler = route.handler;
         const method = METHODS?.[route.method] ?? '';
-        const authorizer = route.authorizer;
+        const middleware = route.middleware;
 
-        // const authorizer = route.authorizer
+        // const middleware = route.middleware
         const { execute } = require(`.${handler}`);
 
         const callbacks = []
-        if (authorizer) {
-            const middleware = require(`../middlewares/${authorizer}`);
-            callbacks.push(middleware.execute);
+        if (middleware) {
+            const module = require(`../middlewares/${middleware}`);
+            callbacks.push(module.execute);
         }
         callbacks.push(execute);
         app[method](endpoint, callbacks);

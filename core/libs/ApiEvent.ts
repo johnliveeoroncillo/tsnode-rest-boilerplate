@@ -18,7 +18,7 @@ export interface Config {
 export interface RouteConfig {
     endpoint: string;
     method: METHODS;
-    authorizer?: string;
+    middleware?: string;
     handler: string;
 }
 export interface HttpResponse {
