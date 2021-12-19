@@ -3,30 +3,11 @@ import path from 'path';
 import fs from 'fs';
 import { Request, Response, Application } from "express";
 import { Response500 } from "./defaults";
+import { Config, HttpResponse } from './libs/ApiEvent';
 
 const mainDir = path.dirname(__dirname).replace(/\\/g, '/');
 const yaml = require('js-yaml');
 const routes: Config[] = [];
-
-export enum METHODS {
-  post = 'post',
-  get = 'get',
-  delete = 'delete',
-  put = 'put',
-  patch = 'patch'
-}
-
-export interface Config {
-  [key: string]: RouteConfig;
-}
-
-export interface RouteConfig {
-  endpoint: string;
-  method: METHODS;
-  authorizer?: string;
-  handler: string;
-}
-
 
 const loadRoutes = (dir: string = ''): Promise<Config[]> => {
   if (!dir) dir = `${path.dirname(__dirname)}/apis`;
@@ -105,23 +86,26 @@ const loadCron = () => {
    
 }
 
-const API_RESPONSE = (response: any, res: Response) => {
-  let code:string = Response500.code.toString();
+const API_RESPONSE = (response: any, res: Response): HttpResponse => {
+  let code:number = Response500.code;
   let new_response:any = {};
 
   try {
     new_response = JSON.parse(JSON.stringify(response));
-    code = new_response?.code ?? '500'
-    code = isNaN(parseInt(code)) ? '500' : code;
+    code = new_response?.code ?? 500
+    code = isNaN(code) ? 500 : code;
     new_response.code = code;
     new_response.message = new_response?.message ?? response.toString();
   }
   catch(e: any) {
       new_response = {code,message:response.toString()};
   }
-  return res.status(parseInt(code)).json(new_response);
+  res.status(code).json(new_response);
+  return {
+      statusCode: code,
+      body: new_response,
+  }
 };
-
 
 
 export { loadCron, generateRoute, loadRoutes, loadMigrations, API_RESPONSE };

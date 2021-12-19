@@ -2,7 +2,8 @@
 import http from "http";
 import express, { Express, IRoute, IRouter, NextFunction, Request, Response, Router } from "express";
 import morgan from "morgan";
-import { loadRoutes, API_RESPONSE, loadCron, Config, METHODS, RouteConfig } from "./core";
+import { loadRoutes, API_RESPONSE, loadCron } from "./core";
+import { Config, METHODS, RouteConfig } from './core/libs/ApiEvent';
 import { Response404 } from './core/defaults';
 import "reflect-metadata";
 import path from "path/posix";

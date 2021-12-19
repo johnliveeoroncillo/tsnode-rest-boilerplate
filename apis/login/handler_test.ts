@@ -30,8 +30,8 @@ test('200: SUCCESS', async () => {
         return json;
     }
 
-    await execute(request, res, nextFunction);
-   
+    const response = await execute(request, res, nextFunction);
+    console.log(response);
 
     // expect(result).toHaveProperty('statusCode');
     // expect(result).toHaveProperty('body');
