@@ -15,8 +15,7 @@ const runMigration = async () => {
   try {
     console.log("RUNNING MIGRATIONS");
     const migration_type = args[0] ?? 'up';
-    const connectionName = "default";
-    const connection: Connection = await Database.getConnection(connectionName);
+    const connection: Connection = await Database.getConnection();
     const databaseName = process.env.DB_NAME;
     //CHECK MIGRATION TABLE
     const response = await connection.manager.query("SHOW TABLES");
@@ -63,8 +62,12 @@ const runMigration = async () => {
     }
     console.log("SUCCESSFULLY MIGRATED");
     connection.close();
-  } catch (e) {
+  } 
+  catch (e) {
     console.error("ERROR", e);
+  }
+  finally {
+    await Database.closeConnection();
   }
 };
 
