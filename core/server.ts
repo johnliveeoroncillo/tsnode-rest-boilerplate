@@ -1,11 +1,14 @@
 /** source/server.ts */
 import http from "http";
-import express, { Express, NextFunction, Request, Response } from "express";
+import express, { Express, IRoute, IRouter, NextFunction, Request, Response, Router } from "express";
 import morgan from "morgan";
-import { loadRoutes, API_RESPONSE, loadCron } from "./core/core";
-import { Response404 } from './core/defaults';
+import { loadRoutes, API_RESPONSE, loadCron, listRoutes } from "./";
+import { Config, METHODS, RouteConfig } from './libs/ApiEvent';
+import { Response404 } from './defaults';
+const { dirname } = require('path');
 import "reflect-metadata";
-import { authorizer } from './middlewares/authorizer';
+import path from "path/posix";
+import { exec } from "child_process";
 const cors = require('cors')
 require("dotenv").config();
 const app: Express = express();
@@ -32,7 +35,7 @@ const corsOptions = {
   withCredentials: true
 }
 app.use((req: Request, res: Response, next: NextFunction) => {
-  let allowedOrigins = ['http://localhost:3000', 'https://onemedicord.herokuapp.com']
+  let allowedOrigins = ['http://localhost:3000']
   let origin:any = req.headers?.origin;
   if (allowedOrigins.includes(origin)) {
     console.log('ALLOWED', origin);
@@ -45,13 +48,30 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 /** Routes */
 loadRoutes().then((routes) => {
   if (routes.length) {
-    const modules: any = [];
-    routes.forEach((element: string) => {
-      console.log("GENERATED", element);
-      modules.push(require(`${element.replace(/\\/g, "/")}`));
-    });
-    // authorizer routes can be change at router.json
-    app.use("/api", authorizer, modules);
+    for(const key in routes) {
+        const api_key: string = Object.keys(routes[key])[0];
+        const api_config: Config = routes[key];
+        const route: RouteConfig = api_config[api_key];
+
+        const endpoint = route.endpoint;
+        const handler = route.handler;
+        const method = METHODS?.[route.method] ?? '';
+        const middleware = route.middleware;
+
+        // const middleware = route.middleware
+        const { execute } = require(`.${handler}`);
+
+        const callbacks = []
+        if (middleware) {
+            const module = require(`../middlewares/${middleware}`);
+            callbacks.push(module.execute);
+        }
+        callbacks.push(execute);
+        app[method](endpoint, callbacks);
+
+        listRoutes(app)
+        // { prefix: '/v1/' };
+    }
     app.use((req: Request, res: Response, next: NextFunction) => {
         API_RESPONSE(Response404, res);
     });
@@ -60,7 +80,7 @@ loadRoutes().then((routes) => {
 
 /** Server */
 const run = async () => {
-  await require("./migrate");
+  await require("../migrate");
   const httpServer = http.createServer(app);
   const PORT: any = process.env.PORT ?? 6060;
   httpServer.listen(PORT, () =>

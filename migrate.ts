@@ -1,6 +1,6 @@
 import { Database } from "./core/database";
 import { Connection } from "typeorm";
-import { loadMigrations } from "./core/core";
+import { loadMigrations } from "./core";
 const path = require("path");
 require("dotenv").config();
 
@@ -15,9 +15,7 @@ const runMigration = async () => {
   try {
     console.log("RUNNING MIGRATIONS");
     const migration_type = args[0] ?? 'up';
-    const connectionName = "default";
-    const database = new Database();
-    const connection: Connection = await database.getConnection(connectionName);
+    const connection: Connection = await Database.getConnection();
     const databaseName = process.env.DB_NAME;
     //CHECK MIGRATION TABLE
     const response = await connection.manager.query("SHOW TABLES");
@@ -64,8 +62,12 @@ const runMigration = async () => {
     }
     console.log("SUCCESSFULLY MIGRATED");
     connection.close();
-  } catch (e) {
+  } 
+  catch (e) {
     console.error("ERROR", e);
+  }
+  finally {
+    await Database.closeConnection();
   }
 };
 

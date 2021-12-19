@@ -1,23 +1,30 @@
-const path = require("path");
-const fs = require("fs");
-const routes: any = [];
+/* eslint-disable @typescript-eslint/no-var-requires */
+import path from 'path';
+import fs from 'fs';
 import { Request, Response, Application } from "express";
 import { Response500 } from "./defaults";
-const mainDir = require("path").dirname(__dirname).replace(/\\/g, '/');
+import { Config, HttpResponse } from './libs/ApiEvent';
 
-const loadRoutes = (dir?: string): Promise<any> => {
-  if (!dir) dir = `${require("path").dirname(__dirname)}/apis`;
+const mainDir = path.dirname(__dirname).replace(/\\/g, '/');
+const yaml = require('js-yaml');
+const routes: Config[] = [];
 
-  const fs = require('fs');
-  const path = require('path');
-    
+const listRoutes = require('express-list-routes');
+
+const loadRoutes = (dir = ''): Promise<Config[]> => {
+  if (!dir) dir = `${path.dirname(__dirname)}/apis`;
+
   return new Promise((resolve, reject) => {
     fs.readdirSync(dir).forEach((file: string) => {
-      const absolute = path.join(dir, file);
+        const absolute = path.join(dir, file);
 
-      if (fs.statSync(absolute).isDirectory()) return loadRoutes(absolute);
-      else return routes.push(absolute);
-    });
+        if (fs.statSync(absolute).isDirectory()) {
+            if (fs.existsSync(absolute)) {
+              const config = getConfig(`${absolute}/config.yml`);
+              if (config) routes.push(config);
+            }
+        }
+    }); 
 
     return resolve(routes);
   });
@@ -38,6 +45,7 @@ const loadMigrations = (): Promise<any> => {
   });
 };
 
+////v1
 const generateRoute = (path: string): string => {
   const split = path.toString().replace(/\\/g, '/').split("/");
   const length = split.length;
@@ -48,12 +56,21 @@ const generateRoute = (path: string): string => {
     const splitUrl = newSplit.join('/');
     url = `/${splitUrl.replace(/_/g, ':').replace(/\.[^.]*$/,'').replace(/[/]index/g, '')}`;
   }
-  console.log('AVAILABLE ROUTES:', url);
   return url;
 };
 
+////v2
+const getConfig = (path: string): Config | undefined => {
+  try {
+      const doc = yaml.load(fs.readFileSync(path, 'utf8'));
+      return doc;
+  } catch (e) {
+    return undefined;
+  }
+}
+
 const loadCron = () => {
-    const dir = `${require("path").dirname(__dirname)}/cron`;
+    const dir = `${path.dirname(__dirname)}/cron`;
     const cron = require('node-cron');
     fs.readdirSync(dir).forEach((file: string) => {
       const absolute = path.join(dir, file);
@@ -69,25 +86,26 @@ const loadCron = () => {
    
 }
 
-const API_RESPONSE = (response: any, res: Response) => {
-  let code:string = Response500.code.toString();
+const API_RESPONSE = (response: any, res: Response): HttpResponse => {
+  let code:number = Response500.code;
   let new_response:any = {};
 
   try {
     new_response = JSON.parse(JSON.stringify(response));
-    code = new_response?.code ?? '500'
-    code = isNaN(parseInt(code)) ? '500' : code;
+    code = new_response?.code ?? 500
+    code = isNaN(code) ? 500 : code;
     new_response.code = code;
     new_response.message = new_response?.message ?? response.toString();
   }
-  catch(e:any) {
-
+  catch(e: any) {
       new_response = {code,message:response.toString()};
   }
-
-  return res.status(parseInt(code)).json(new_response);
+  res.status(code).json(new_response);
+  return {
+      statusCode: code,
+      body: new_response,
+  }
 };
 
 
-
-export { loadCron, generateRoute, loadRoutes, loadMigrations, API_RESPONSE };
+export { loadCron, generateRoute, loadRoutes, loadMigrations, API_RESPONSE, listRoutes };

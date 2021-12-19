@@ -15,8 +15,8 @@ class ParameterError {
     this.message = Response422.message;
     const parsedErrors: any = {};
 
-    if (errors.error?.details?.length) {
-      errors.error?.details?.forEach((element: any) => {
+    if (errors.details?.length) {
+      errors.details?.forEach((element: any) => {
         const path = element.path[0];
         const message = element.message;
         parsedErrors[path] = message;
@@ -51,7 +51,7 @@ class Unauthorized {
 }
 class MissingAuthToken {
   code:number = Response401.code;
-  message:string = 'Missing authentication token';
+  message = 'Missing authentication token';
 }
 
 

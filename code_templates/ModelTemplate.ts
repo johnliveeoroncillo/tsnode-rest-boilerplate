@@ -12,7 +12,7 @@ require('dotenv').config();
 
 const content = `
 import { Entity, Column } from "typeorm";
-import { Model } from "./Model";
+import { Model } from "../core/libs/Model";
 @Entity({
   name: "table_name",
 })
@@ -43,8 +43,7 @@ export class ModelTemplate {
       throw new Error("Model file already existed");
 
       const columns:any = [];
-      const database = new Database();
-      const connection: Connection = await database.getConnection();
+      const connection: Connection = await Database.getConnection();
       //CHECK MIGRATION TABLE
       const response = await connection.manager.query(`SELECT *
                                                     FROM INFORMATION_SCHEMA.COLUMNS
