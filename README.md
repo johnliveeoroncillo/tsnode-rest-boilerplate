@@ -19,42 +19,42 @@ This is a boilerplate to create API using Express + Typescript
 #### Create Model
 
 ```bash
-  ts-node artisan.ts make:model <table_name>
+  npm run make:model <table_name>
 ```
 Create typeorm model.
 
 #### Create Repository
 
 ```bash
-  ts-node artisan.ts make:repository <table_name>
+  npm run make:repository <table_name>
 ```
 Create typeorm repository and model.
 
 #### Create Migration
 
 ```bash
-  ts-node artisan.ts make:migration <table_name>
+  npm run make:migration <table_name>
 ```
 Create mysql migration file.
 
 #### Create API
 
 ```bash
-  ts-node artisan.ts make:api <api_name>
+  npm run make:api <api_name>
 ```
 Create API.
 
 #### Create Service
 
 ```bash
-  ts-node artisan.ts make:service <service_name>
+  npm run make:service <service_name>
 ```
 Create service file.
 
 #### Create Cron
 
 ```bash
-  ts-node artisan.ts make:cron <cron_name>
+  npm run make:cron <cron_name>
 ```
 Create cron file.
 
