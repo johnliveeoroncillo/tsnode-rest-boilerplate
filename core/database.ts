@@ -25,6 +25,7 @@ export class Database {
   // }
 
   static async getConnection(conn = 'default'): Promise<Connection> {
+    console.log(active);
     if (typeof active[conn] === 'undefined') {
         const connectionOptions: ConnectionOptions = {
           name: "default",

@@ -17,7 +17,7 @@ export async function execute(req: Request, res: Response, next: NextFunction): 
         const connection: Connection = await Database.getConnection();  
         const action = new LoginAction(connection);
         const { token } = await action.execute(request);
-
+        
         return API_RESPONSE({
             ...responses.Response200,
             token,
@@ -27,6 +27,7 @@ export async function execute(req: Request, res: Response, next: NextFunction): 
         return API_RESPONSE(e, res);
     }
     finally {
+        console.log('close');
         await Database.closeConnection();
     }
 }
