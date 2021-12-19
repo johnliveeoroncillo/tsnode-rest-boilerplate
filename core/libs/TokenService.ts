@@ -33,7 +33,7 @@ class TokenService {
     }
 
     static getUserData(req: Request): any {
-        return req.headers?.user_data ?? {};
+        return req?.identity ?? {};
     }
 }
 
