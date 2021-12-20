@@ -44,7 +44,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 })
 
 /** Routes */
-loadRoutes().then((routes) => {
+loadRoutes().then(async (routes) => {
   if (routes.length) {
     for(const key in routes) {
         const api_key: string = Object.keys(routes[key])[0];
@@ -57,13 +57,11 @@ loadRoutes().then((routes) => {
         const middleware = route.middleware;
 
         // const middleware = route.middleware
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const { execute } = require(`.${handler}`);
+        const { execute } = await import(`.${handler}`);
 
         const callbacks = []
         if (middleware) {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            const module = require(`../middlewares/${middleware}`);
+            const { module } = await import(`../middlewares/${middleware}`);
             callbacks.push(module.execute);
         }
         callbacks.push(execute);
