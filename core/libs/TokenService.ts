@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 import { Request } from "express";
 import { CustomResponse, Response401 } from "../defaults";
+import { HttpRequest } from '../libs/ApiEvent';
 
 class TokenService {
     static async generateJWT(data: object): Promise<string> {
@@ -32,7 +33,7 @@ class TokenService {
         }
     }
 
-    static getUserData(req: Request): any {
+    static getUserData(req: HttpRequest): any {
         return req?.identity ?? {};
     }
 }

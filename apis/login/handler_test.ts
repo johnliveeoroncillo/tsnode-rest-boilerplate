@@ -1,8 +1,7 @@
 import { execute } from './handler';
 import { LoginRequest } from './request';
-import express, { Request, Response, NextFunction, Router } from "express";
+import { Request } from "express";
 import { TestReponse, nextFunction, HttpRequest } from '../../core/libs/ApiEvent';
-const router = express.Router();
 
 
 test('200: SUCCESS', async () => {
@@ -18,7 +17,7 @@ test('200: SUCCESS', async () => {
         query: {
 
         }
-    } as Request
+    } as HttpRequest
 
 
     const result = await execute(request, TestReponse, nextFunction);
