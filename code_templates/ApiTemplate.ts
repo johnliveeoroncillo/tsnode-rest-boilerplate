@@ -1,8 +1,6 @@
 import fse from "fs-extra";
-import { writeFileSync, existsSync } from "fs";
-import { pascalCase, snakeCase,  } from "case-anything";
-import pluralize from "pluralize";
-import { timestamp } from "../core/utils";
+import { existsSync } from "fs";
+import { pascalCase } from "case-anything";
 
 
 let action = `
