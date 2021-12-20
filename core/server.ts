@@ -34,7 +34,7 @@ const corsOptions = {
 }
 app.use((req: Request, res: Response, next: NextFunction) => {
   const allowedOrigins = origins.split(',');
-  const origin:any = req.headers?.origin;
+  const origin: any = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     console.log('ALLOWED', origin);
     corsOptions["Access-Control-Allow-Origin"] = origin; // restrict it to the required domain
