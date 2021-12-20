@@ -7,6 +7,6 @@ export class Carbon {
     }
 
     static timestamp(): number {
-        return moment().time
+        return 1
     }
 }
