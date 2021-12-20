@@ -34,7 +34,7 @@ const corsOptions = {
 }
 app.use((req: Request, res: Response, next: NextFunction) => {
   const allowedOrigins = origins.split(',');
-  const origin: any = req.headers.origin;
+  const origin: string = req.headers?.origin ?? '';
   if (allowedOrigins.includes(origin)) {
     console.log('ALLOWED', origin);
     corsOptions["Access-Control-Allow-Origin"] = origin; // restrict it to the required domain
@@ -70,7 +70,7 @@ loadRoutes().then(async (routes) => {
         listRoutes(app)
         // { prefix: '/v1/' };
     }
-    app.use((req: Request, res: Response, next: NextFunction) => {
+    app.use((req: Request, res: Response) => {
         API_RESPONSE(Response404, res);
     });
   }
@@ -80,7 +80,7 @@ loadRoutes().then(async (routes) => {
 const run = async () => {
   await require("../migrate");
   const httpServer = http.createServer(app);
-  const PORT: any = process.env.PORT ?? 6060;
+  const PORT: string | number | undefined = process.env.PORT ?? 6060;
   httpServer.listen(PORT, () =>
     console.log(`The server is running on port ${PORT}`)
   );
