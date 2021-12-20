@@ -24,8 +24,6 @@ test('200: SUCCESS', async () => {
     const result = await execute(request, TestReponse, nextFunction);
     const response = result.body;
 
-    console.log(Carbon.timestamp());
-
     expect(result).toHaveProperty('statusCode');
     expect(result).toHaveProperty('body');
     expect(response).toHaveProperty('code');
