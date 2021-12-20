@@ -1,12 +1,12 @@
-const { moment } = require('moment-timezone');
+import moment from 'moment-timezone';
 moment.tz.setDefault('Asia/Manila');
 
 export class Carbon {
-    static date_diff(date1: Date, date2: Date): number {
-        return moment.diff(new Date(date1), new Date(date2));
+    static date_diff(date1: Date | string | undefined, date2: Date | string | undefined, type: any = undefined, precise: boolean = true): number {
+        return moment(date2).diff(date1, type, precise);
     }
 
-    static timestamp(): number {
-        return 1
+    static timestamp(date: Date | string | undefined = undefined): number {
+        return moment(date).unix();
     }
 }
