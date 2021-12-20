@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 moment.tz.setDefault('Asia/Manila');
 
 export class Carbon {
-    static date_diff(date1: Date | string | undefined, date2: Date | string | undefined, type: any = undefined, precise: boolean = true): number {
+    static date_diff(date1: Date | string | undefined, date2: Date | string | undefined, type: any = undefined, precise = true): number {
         return moment(date2).diff(date1, type, precise);
     }
 

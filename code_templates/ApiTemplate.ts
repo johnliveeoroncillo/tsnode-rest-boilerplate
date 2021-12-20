@@ -3,7 +3,7 @@ import { existsSync } from "fs";
 import { pascalCase } from "case-anything";
 
 
-let action = `
+const action = `
 import { Connection } from "typeorm";
 import { <name>Request } from "./request";
 
