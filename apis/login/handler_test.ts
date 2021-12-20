@@ -1,8 +1,6 @@
 import { execute } from './handler';
 import { LoginRequest } from './request';
-import { Request } from "express";
 import { TestReponse, nextFunction, HttpRequest } from '../../core/libs/ApiEvent';
-import { Carbon } from '../../core/libs/Carbon';
 
 
 test('200: SUCCESS', async () => {
