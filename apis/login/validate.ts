@@ -1,11 +1,9 @@
 
-import * as responses from "../../core/defaults";
 import { LoginRequest } from "./request";
 import { Validation } from "../../core/libs/Validation";
-import { Request } from "express";
+import joi from 'joi';
 
 export const Validate = (request: LoginRequest): LoginRequest => {
-    const joi = require("joi");
     const schema = joi
         .object({
             email: joi.string().required(),

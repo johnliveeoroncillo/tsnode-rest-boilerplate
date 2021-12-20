@@ -102,9 +102,9 @@ export class SUCCESS {
 const validate = `
 import { <name>Request } from "./request";
 import { Validation } from "../../core/libs/Validation";
+import joi from 'joi';
 
 export const Validate = (request: <name>Request): <name>Request => {
-    const joi = require("joi");
     const schema = joi
         .object({
             key: joi.string().required(),

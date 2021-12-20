@@ -1,16 +1,13 @@
 /** source/server.ts */
 import http from "http";
-import express, { Express, IRoute, IRouter, NextFunction, Request, Response, Router } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 import { loadRoutes, API_RESPONSE, loadCron, listRoutes } from "./";
 import { Config, METHODS, RouteConfig } from './libs/ApiEvent';
 import { Response404 } from './defaults';
-const { dirname } = require('path');
 import "reflect-metadata";
-import path from "path/posix";
-import { exec } from "child_process";
-const cors = require('cors')
-require("dotenv").config();
+import cors from 'cors';
+import 'dotenv/config';
 const app: Express = express();
 
 loadCron();
@@ -35,8 +32,8 @@ const corsOptions = {
   withCredentials: true
 }
 app.use((req: Request, res: Response, next: NextFunction) => {
-  let allowedOrigins = ['http://localhost:3000']
-  let origin:any = req.headers?.origin;
+  const allowedOrigins = ['http://localhost:3000']
+  const origin:any = req.headers?.origin;
   if (allowedOrigins.includes(origin)) {
     console.log('ALLOWED', origin);
     corsOptions["Access-Control-Allow-Origin"] = origin; // restrict it to the required domain
@@ -59,10 +56,12 @@ loadRoutes().then((routes) => {
         const middleware = route.middleware;
 
         // const middleware = route.middleware
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const { execute } = require(`.${handler}`);
 
         const callbacks = []
         if (middleware) {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             const module = require(`../middlewares/${middleware}`);
             callbacks.push(module.execute);
         }

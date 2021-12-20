@@ -1,7 +1,6 @@
 
 import jwt from 'jsonwebtoken';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config();
 import { CustomResponse, Response401 } from "../defaults";
 import { HttpRequest } from '../libs/ApiEvent';
 
