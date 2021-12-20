@@ -8,6 +8,7 @@ import { Response404 } from './defaults';
 import "reflect-metadata";
 import cors from 'cors';
 import 'dotenv/config';
+const origins = process.env?.ALLOWED_ORIGINS ?? '';
 const app: Express = express();
 
 loadCron();
@@ -32,7 +33,7 @@ const corsOptions = {
   withCredentials: true
 }
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const allowedOrigins = ['http://localhost:3000']
+  const allowedOrigins = origins.split(',');
   const origin:any = req.headers?.origin;
   if (allowedOrigins.includes(origin)) {
     console.log('ALLOWED', origin);
