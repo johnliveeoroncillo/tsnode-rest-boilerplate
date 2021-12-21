@@ -1,5 +1,5 @@
-declare namespace Express {
+declare module express {
     interface Request {
-        identity?: any;
+        identity?: any
     }
 }

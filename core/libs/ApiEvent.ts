@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction, request } from "express";
+import { Request, Response, NextFunction } from "express";
+
 
 interface KeyValue {
     [key: string]: any;
@@ -22,8 +23,8 @@ export interface RouteConfig {
     handler: string;
 }
 export interface HttpResponse {
-    statusCode: number;
-    body: any;
+    code: number;
+    message: any;
 }
 
 export const TestReponse = {} as Response;

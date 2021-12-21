@@ -1,24 +1,24 @@
 
 import { API_RESPONSE } from "../../core";
-import { HttpResponse, HttpRequest } from "../../core/libs/ApiEvent";
+import { HttpRequest, HttpResponse } from "../../core/libs/ApiEvent";
 import { Response } from "express";
 import { Database } from "../../core/database";
 import { Connection } from "typeorm";
 
 import { Response200 } from "./response";
-import { Validate } from "./validate";
-import { LoginAction } from "./action";
+import { ProfileReadAction } from "./action";
 
 export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
     try {
-        const request = Validate(req.body);
-        const connection: Connection = await Database.getConnection();  
-        const action = new LoginAction(connection);
-        const data = await action.execute(request);
+        const id = req?.identity?.id ?? '';
+
+        const connection: Connection = await Database.getConnection();
+        const action = new ProfileReadAction(connection);
+        const data = await action.execute(id);
         
         return API_RESPONSE({
             ...Response200.SUCCESS,
-            ...data,
+            data,
         }, res);
     }
     catch(e) {

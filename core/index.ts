@@ -32,12 +32,12 @@ const loadRoutes = (dir = ''): Promise<Config[]> => {
 
 const loadMigrations = (): Promise<any> => {
   const dir = `${mainDir}/migrations`;
-  const migrations: any = [];
-  return new Promise((resolve, reject) => {
+  const migrations: string[] = [];
+  return new Promise((resolve) => {
     fs.readdirSync(dir).forEach((file: string) => {
       const absolute = path.join(dir, file);
 
-      if(file.includes('sql')) 
+      if(file.includes('ts')) 
         if (!fs.statSync(absolute).isDirectory()) migrations.push(absolute);
     });
 
@@ -102,8 +102,7 @@ const API_RESPONSE = (response: any, res: Response): HttpResponse => {
   }
   res.status(code).json(new_response);
   return {
-      statusCode: code,
-      body: new_response,
+      ...new_response,
   }
 };
 

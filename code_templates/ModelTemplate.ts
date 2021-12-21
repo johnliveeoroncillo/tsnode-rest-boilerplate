@@ -2,12 +2,11 @@ import { writeFileSync, existsSync } from "fs";
 import { pascalCase } from "case-anything";
 import { Database } from "../core/database";
 import { Connection } from "typeorm";
-import { number } from "yargs";
-const exclude:any = ['id','uuid','created_at','updated_at','deleted_at'];
-const numbers:any = ['bit','int','integer','tinyint','smallint','mediumint','bigint','float','double','double precision','dec','decimal','numeric','fixed','year']
-const booleans:any = ['bool','boolean'];
+import 'dotenv/config';
 
-require('dotenv').config();
+const exclude = ['id','uuid','created_at','updated_at','deleted_at'];
+const numbers = ['bit','int','integer','tinyint','smallint','mediumint','bigint','float','double','double precision','dec','decimal','numeric','fixed','year']
+const booleans = ['bool','boolean'];
 
 
 const content = `
@@ -42,16 +41,16 @@ export class ModelTemplate {
     if (existsSync(`./models/${this.filename}`))
       throw new Error("Model file already existed");
 
-      const columns:any = [];
+      const columns: string[] = [];
       const connection: Connection = await Database.getConnection();
       //CHECK MIGRATION TABLE
       const response = await connection.manager.query(`SELECT *
                                                     FROM INFORMATION_SCHEMA.COLUMNS
                                                     WHERE TABLE_SCHEMA = '${process.env.DB_NAME}' AND TABLE_NAME = '${this.table_name}';`);
       if(response.length) {
-          response.forEach((element:any) => {
+          response.forEach((element: { COLUMN_NAME: string; DATA_TYPE: string; CHARACTER_MAXIMUM_LENGTH: null; }) => {
               if(!exclude.includes(element.COLUMN_NAME)) {
-                let type: string = 'string';
+                let type = 'string';
                 if(numbers.includes(element.DATA_TYPE)) type = 'number';
                 else if(booleans.includes(element.DATA_TYPE)) type = 'boolean';
 

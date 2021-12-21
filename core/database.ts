@@ -1,11 +1,9 @@
 import {
   Connection,
-  ConnectionManager,
   ConnectionOptions,
   createConnection,
-  getConnectionManager,
 } from "typeorm";
-
+import 'dotenv/config';
 interface ActiveConnections {
   [key: string]: Connection;
 }
@@ -13,10 +11,10 @@ interface ActiveConnections {
 
 let active: ActiveConnections = {};
 export class Database {
-  private static host = process.env.DB_HOST;
-  private static username = process.env.DB_USERNAME;
-  private static password = process.env.DB_PASSWORD;
-  private static db = process.env.DB_NAME;
+  private static host = process.env?.DB_HOST ?? '';
+  private static username = process.env?.DB_USERNAME ?? '';
+  private static password = process.env?.DB_PASSWORD ?? '';
+  private static db = process.env?.DB_NAME ?? '';
 
   // private connectionManager: ConnectionManager;
 
@@ -25,7 +23,6 @@ export class Database {
   // }
 
   static async getConnection(conn = 'default'): Promise<Connection> {
-    console.log(active);
     if (typeof active[conn] === 'undefined') {
         const connectionOptions: ConnectionOptions = {
           name: conn,

@@ -1,23 +1,12 @@
 
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 import Crypto from 'crypto-js';
-require('dotenv').config();
+import 'dotenv/config';
 
 const vector_key: any = process.env.VECTOR_KEY;
 const secret_key: any = process.env.SECRET_KEY;
 const salt: any = { iv : vector_key };
 
-
-const timestamp = (date: Date): number => {
-    const datum = Date.parse(date.toString());
-    return datum / 1000;
-};
-
-const date_diff = (date1:Date | any , date2:Date | any): number => {
-    let diff =(date2.getTime() - date1.getTime()) / 1000;
-    diff /= 60;
-    return diff;
-}
 
 const cryptPassword = async (password:string): Promise<string> => {
     return bcrypt.hash(password, 10).then((hash:string) =>  {
@@ -50,4 +39,4 @@ const decrypt = (value: string): any => {
     }
 }
   
-export { encrypt, decrypt, timestamp, cryptPassword, comparePassword, date_diff }
+export { encrypt, decrypt, cryptPassword, comparePassword }
