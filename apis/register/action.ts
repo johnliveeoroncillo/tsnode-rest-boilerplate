@@ -9,5 +9,7 @@ export class RegisterAction {
         this.connection = connection;
     }
 
-    async execute(request: RegisterRequest): Promise<void> {}
+    async execute(request: RegisterRequest): Promise<void> {
+        
+    }
 }

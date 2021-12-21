@@ -10,8 +10,8 @@ const up =
 
 
         
-        created_at DATETIME NOT NULL DEFAULT NOW(), 
-        updated_at DATETIME NOT NULL DEFAULT NOW(),
+        created_at DATETIME NOT NULL, 
+        updated_at DATETIME NOT NULL,
         deleted_at DATETIME NULL,
         PRIMARY KEY (id),
         UNIQUE INDEX uuid_UNIQUE (uuid ASC));\`;
