@@ -9,7 +9,7 @@ import { Response200 } from "./response";
 import { Validate } from "./validate";
 import { RegisterAction } from "./action";
 
-export async function execute(req: Request, res: Response): Promise<any> {
+export async function execute(req: Request, res: Response): Promise<HttpResponse> {
     try {
         const request = Validate(req.body);
         const connection: Connection = await Database.getConnection();  
