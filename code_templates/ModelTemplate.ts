@@ -2,6 +2,8 @@ import { writeFileSync, existsSync } from "fs";
 import { pascalCase } from "case-anything";
 import { Database } from "../core/database";
 import { Connection } from "typeorm";
+import 'dotenv/config';
+
 const exclude = ['id','uuid','created_at','updated_at','deleted_at'];
 const numbers = ['bit','int','integer','tinyint','smallint','mediumint','bigint','float','double','double precision','dec','decimal','numeric','fixed','year']
 const booleans = ['bool','boolean'];

@@ -1,9 +1,8 @@
 import { Database } from "./core/database";
 import { Connection } from "typeorm";
 import { loadMigrations } from "./core";
-const path = require("path");
-require("dotenv").config();
-
+import path from "path";
+import 'dotenv/config';
 // ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'admin';
 // flush privileges;
 // caching_sha2_password
@@ -15,13 +14,16 @@ const runMigration = async () => {
   try {
     console.log("RUNNING MIGRATIONS");
     const migration_type = args[0] ?? 'up';
+    const databaseName = process.env?.DB_NAME ?? '';
+
+    console.log('DB', databaseName);
+
     const connection: Connection = await Database.getConnection();
-    const databaseName = process.env.DB_NAME;
     //CHECK MIGRATION TABLE
     const response = await connection.manager.query("SHOW TABLES");
     const column = `Tables_in_${databaseName}`;
     const find_migration = response.find(
-      (el: any) => el[column] === "migrations"
+      (el: { [x: string]: string; }) => el[column] === "migrations"
     );
     if (find_migration === undefined) {
       await connection.manager.query(`CREATE TABLE migrations (
@@ -44,6 +46,7 @@ const runMigration = async () => {
         const element = migrations[i];
         const name = `${element.replace(/\\/g, "/")}`;
         const migration_name = path.basename(name).replace(/\.[^/.]+$/, "");
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const migration_script = require(name);
         const check_migration = await connection.manager.query(
           "SELECT * from migrations WHERE migration = ?",
