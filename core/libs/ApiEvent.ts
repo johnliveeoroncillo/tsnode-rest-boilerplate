@@ -39,11 +39,15 @@ export interface ApiEvent {
     next: NextFunction
 }
 
+interface Identity {
+    id: number;
+}
 export interface HttpRequest extends Request {
-    identity?: any;
+    identity?: Identity;
 } 
 
-export const Authorize = (data: any, request: HttpRequest, next: NextFunction) => {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const Authorize = (data: KeyValue, request: HttpRequest, next: NextFunction) => {
     const user_data = data?.data ?? {};
     request.identity = user_data;
     return next();

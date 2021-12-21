@@ -7,7 +7,7 @@ test('200: SUCCESS', async () => {
         identity: {
             id: 1,
         },
-    } as unknown as HttpRequest
+    } as HttpRequest
 
 
     const result = await execute(request, TestReponse);
