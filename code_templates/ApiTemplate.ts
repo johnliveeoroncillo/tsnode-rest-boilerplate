@@ -38,7 +38,7 @@ export async function execute(req: HttpRequest, res: Response): Promise<HttpResp
         const request = Validate(req.body);
         const connection: Connection = await Database.getConnection();  
         const action = new <name>Action(connection);
-        await action.execute(req);
+        await action.execute(request);
         
         return API_RESPONSE({
             ...Response200.SUCCESS,
@@ -62,8 +62,7 @@ test('200: SUCCESS', async () => {
     const request = {
         identity: {},
         body: <<name>Request>{
-            email: 'John',
-            password: 'test',
+            key: 'value',
         },
         params: {
 

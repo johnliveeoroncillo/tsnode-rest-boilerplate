@@ -1,0 +1,8 @@
+
+login: 
+  handler: ./apis/login/handler
+  endpoint: /login
+  method: post
+  #UNCOMMENT TO ATTACH MIDDLEWARE
+  #EXAMPLE: middleware: middleware
+  #middleware: <middleware_name>
