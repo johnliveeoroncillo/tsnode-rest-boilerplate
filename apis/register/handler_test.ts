@@ -1,15 +1,16 @@
 
 import { execute } from './handler';
-import { LoginRequest } from './request';
+import { RegisterRequest } from './request';
 import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
-import * as faker from 'faker';
 import { UserSeeder } from '../../seeder/UserSeeder';
+import { UsersModel } from '../../models/UsersModel';
+import * as faker from 'faker';
 import { cryptPassword } from '../../core/utils';
 
-test('422: PARAMETER ERROR', async () => {
+test('422: Parameter Error', async () => {
     const request = {
         identity: {},
-        body: <LoginRequest>{
+        body: <RegisterRequest>{
             username: '',
             password: '',
         },
@@ -26,46 +27,23 @@ test('422: PARAMETER ERROR', async () => {
 
     expect(result).toHaveProperty('code');
     expect(result).toHaveProperty('message');
-    expect(result).toHaveProperty('errors');
 
     expect(result.code).toBe(422);
 });
 
-test('404: USERNAME NOT FOUND', async () => {
-    const request = {
-        identity: {},
-        body: <LoginRequest>{
-            username:  faker.internet.userName(),
-            password: 'test',
-        },
-        params: {
-
-        },
-        query: {
-
-        }
-    } as HttpRequest
-
-
-    const result = await execute(request, TestReponse);
-
-    expect(result).toHaveProperty('code');
-    expect(result).toHaveProperty('message');
-
-    expect(result.code).toBe(404);
-});
-
-test('400: PASSWORD ERROR', async () => {
-    const username = faker.internet.userName();
-    const user = await UserSeeder.seedUser({
-        username,
+test('409: Conflict', async () => {
+    const user: UsersModel = await UserSeeder.seedUser({
+        username: faker.internet.userName(),
         password: await cryptPassword(faker.internet.password()),
-    })
+    });
+
+    console.log(user);
+
     const request = {
         identity: {},
-        body: <LoginRequest>{
-            username:  user.username,
-            password: faker.internet.password(),
+        body: <RegisterRequest>{
+            username: user.username,
+            password: user.password,
         },
         params: {
 
@@ -77,20 +55,22 @@ test('400: PASSWORD ERROR', async () => {
 
 
     const result = await execute(request, TestReponse);
+    console.log(result);
 
     expect(result).toHaveProperty('code');
     expect(result).toHaveProperty('message');
 
-    expect(result.code).toBe(400);
+    expect(result.code).toBe(409);
 });
+
 
 
 test('200: SUCCESS', async () => {
     const request = {
         identity: {},
-        body: <LoginRequest>{
-            username: 'test',
-            password: 'test',
+        body: <RegisterRequest>{
+            username: faker.internet.userName(),
+            password: await cryptPassword('test'),
         },
         params: {
 
@@ -105,7 +85,6 @@ test('200: SUCCESS', async () => {
 
     expect(result).toHaveProperty('code');
     expect(result).toHaveProperty('message');
-    expect(result).toHaveProperty('token');
     expect(result).toHaveProperty('data');
 
     expect(result.code).toBe(200);

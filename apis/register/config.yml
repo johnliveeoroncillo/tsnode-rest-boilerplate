@@ -1,7 +1,7 @@
 
-login: 
-  handler: ./apis/login/handler
-  endpoint: /login
+register: 
+  handler: ./apis/register/handler
+  endpoint: /register
   method: post
   #UNCOMMENT TO ATTACH MIDDLEWARE
   #EXAMPLE: middleware: middleware

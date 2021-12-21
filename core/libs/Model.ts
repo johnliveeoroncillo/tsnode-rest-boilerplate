@@ -19,20 +19,19 @@ export class Model extends BaseEntity {
   @PrimaryGeneratedColumn()
   public readonly id!: number;
 
+  // timestamps
   @CreateDateColumn({
-    type: "varchar",
-    length: 50,
+      type: 'varchar',
   })
   public created_at: string;
 
   @UpdateDateColumn({
-    type: "varchar",
-    length: 50,
+      type: 'varchar',
   })
   public updated_at: string;
 
   @DeleteDateColumn({
       type: 'varchar',
   })
-  public deleted_at?: string;
+  public deleted_at?: Date;
 }

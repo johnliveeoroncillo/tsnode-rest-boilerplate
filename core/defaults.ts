@@ -1,15 +1,15 @@
 interface ResponseDefault {
     code: number;
     message: string;
-    data?: object;
-    errors?: object;
+    data?: any;
+    errors?: any;
 }
 
 //422
 class ParameterError {
   code: number;
   message: string;
-  errors: object;
+  errors: any;
   constructor(errors: any) {
     this.code = Response422.code;
     this.message = Response422.message;

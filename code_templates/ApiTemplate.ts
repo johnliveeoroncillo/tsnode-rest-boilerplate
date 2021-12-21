@@ -24,16 +24,16 @@ export interface <name>Request {
 
 const handler = `
 import { API_RESPONSE } from "../../core";
-import { HttpResponse } from "../../core/libs/ApiEvent";
-import { Request, Response, NextFunction } from "express";
+import { HttpResponse, HttpRequest } from "../../core/libs/ApiEvent";
+import { Response } from "express";
 import { Database } from "../../core/database";
 import { Connection } from "typeorm";
 
-import { SUCCESS } from "./response";
+import { Response200 } from "./response";
 import { Validate } from "./validate";
 import { <name>Action } from "./action";
 
-export async function execute(req: Request, res: Response, next: NextFunction): Promise<HttpResponse> {
+export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
     try {
         const request = Validate(req.body);
         const connection: Connection = await Database.getConnection();  
@@ -41,14 +41,13 @@ export async function execute(req: Request, res: Response, next: NextFunction): 
         await action.execute(request);
         
         return API_RESPONSE({
-            ...SUCCESS,
+            ...Response200.SUCCESS,
         }, res);
     }
     catch(e) {
         return API_RESPONSE(e, res);
     }
     finally {
-        console.log('close');
         await Database.closeConnection();
     }
 }
@@ -57,15 +56,13 @@ export async function execute(req: Request, res: Response, next: NextFunction): 
 const handler_test = `
 import { execute } from './handler';
 import { <name>Request } from './request';
-import { Request } from "express";
-import { TestReponse, nextFunction } from '../../core/libs/ApiEvent';
+import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
 
 test('200: SUCCESS', async () => {
     const request = {
         identity: {},
         body: <<name>Request>{
-            email: 'John',
-            password: 'test',
+            key: 'value',
         },
         params: {
 
@@ -73,29 +70,34 @@ test('200: SUCCESS', async () => {
         query: {
 
         }
-    } as Request
+    } as HttpRequest
 
 
-    const result = await execute(request, TestReponse, nextFunction);
-    const response = result.body;
+    const result = await execute(request, TestReponse);
 
-    expect(result).toHaveProperty('statusCode');
-    expect(result).toHaveProperty('body');
-    expect(response).toHaveProperty('code');
-    expect(response).toHaveProperty('message');
+    expect(result).toHaveProperty('code');
+    expect(result).toHaveProperty('message');
+    expect(result).toHaveProperty('data');
 
-    expect(result.statusCode).toBe(200);
-    expect(response.code).toBe(200);
+    expect(result.code).toBe(200);
 });
 `;
 
 const response = `
-/*
-    Your Custom Response */
+import { HttpResponse } from "../../core/libs/ApiEvent";
 
-export class SUCCESS {
-    code = 200;
-    message = 'Success';
+/*
+  Your Custom Response */
+export class Response200 {
+    static SUCCESS: HttpResponse = {
+        code: 200,
+        message: 'Success',
+    }
+}
+
+export class Duplicate {
+    code = 409;
+    message = 'Username already exists';
 }
 `;
 

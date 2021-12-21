@@ -1,7 +1,7 @@
 
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 import Crypto from 'crypto-js';
-require('dotenv').config();
+import 'dotenv/config';
 
 const vector_key: any = process.env.VECTOR_KEY;
 const secret_key: any = process.env.SECRET_KEY;
