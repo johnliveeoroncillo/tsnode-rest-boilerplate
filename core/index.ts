@@ -32,8 +32,8 @@ const loadRoutes = (dir = ''): Promise<Config[]> => {
 
 const loadMigrations = (): Promise<any> => {
   const dir = `${mainDir}/migrations`;
-  const migrations: any = [];
-  return new Promise((resolve, reject) => {
+  const migrations: string[] = [];
+  return new Promise((resolve) => {
     fs.readdirSync(dir).forEach((file: string) => {
       const absolute = path.join(dir, file);
 
