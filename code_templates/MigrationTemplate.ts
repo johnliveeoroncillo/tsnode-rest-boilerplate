@@ -1,7 +1,6 @@
 import { writeFileSync, existsSync } from "fs";
 import { snakeCase } from "case-anything";
-import pluralize from "pluralize";
-import { timestamp } from "../core/utils";
+import { Carbon } from '../core/libs/Carbon'
 
 const content = `
 const up =
@@ -27,7 +26,7 @@ export class MigrationTemplate {
 
   constructor(name: string) {
     this.name = snakeCase(name.trim()); //pluralize(name.trim())
-    this.filename = `${timestamp(new Date())}_${this.name}_table.ts`;
+    this.filename = `${Carbon.timestamp(new Date())}_${this.name}_table.ts`;
   }
 
   generate(): void {

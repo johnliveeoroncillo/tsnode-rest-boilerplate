@@ -1,11 +1,8 @@
 import { writeFileSync, existsSync } from "fs";
-import fse from "fs-extra";
 import { pascalCase } from "case-anything";
-import pluralize from "pluralize";
-import { timestamp } from "../core/utils";
 
 
-let content = `
+const content = `
 class <service_name> {
     
 }
