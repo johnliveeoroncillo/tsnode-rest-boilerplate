@@ -9,7 +9,7 @@ export class ProfileReadAction {
         this.userRepository = connection.getCustomRepository(UsersRepository);
     }
 
-    async execute(id: number): Promise<UsersModel | undefined> {
+    async execute(id: string | number): Promise<UsersModel | undefined> {
         return await this.userRepository.findOne(id);
     }
 }
