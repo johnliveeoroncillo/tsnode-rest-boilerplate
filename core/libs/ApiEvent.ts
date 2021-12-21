@@ -1,6 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-
-
 interface KeyValue {
     [key: string]: any;
 }
@@ -42,7 +40,7 @@ export interface ApiEvent {
 }
 
 export interface HttpRequest extends Request {
-    identity?: KeyValue;
+    identity?: any;
 } 
 
 export const Authorize = (data: any, request: HttpRequest, next: NextFunction) => {
