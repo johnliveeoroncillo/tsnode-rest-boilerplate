@@ -1,4 +1,0 @@
-login: 
-  handler: ./apis/login/handler
-  endpoint: /login
-  method: post

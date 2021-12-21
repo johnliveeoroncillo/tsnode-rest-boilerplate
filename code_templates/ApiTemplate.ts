@@ -24,8 +24,8 @@ export interface <name>Request {
 
 const handler = `
 import { API_RESPONSE } from "../../core";
-import { HttpResponse } from "../../core/libs/ApiEvent";
-import { Request, Response, NextFunction } from "express";
+import { HttpResponse, HttpRequest } from "../../core/libs/ApiEvent";
+import { Response } from "express";
 import { Database } from "../../core/database";
 import { Connection } from "typeorm";
 
@@ -33,12 +33,12 @@ import { Response200 } from "./response";
 import { Validate } from "./validate";
 import { <name>Action } from "./action";
 
-export async function execute(req: Request, res: Response): Promise<HttpResponse> {
+export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
     try {
         const request = Validate(req.body);
         const connection: Connection = await Database.getConnection();  
         const action = new <name>Action(connection);
-        await action.execute(request);
+        await action.execute(req);
         
         return API_RESPONSE({
             ...Response200.SUCCESS,
@@ -85,20 +85,21 @@ test('200: SUCCESS', async () => {
 `;
 
 const response = `
+import { HttpResponse } from "../../core/libs/ApiEvent";
+
 /*
-    Your Custom Response */
+  Your Custom Response */
+export class Response200 {
+    static SUCCESS: HttpResponse = {
+        code: 200,
+        message: 'Success',
+    }
+}
 
-  export class Response200 {
-      static SUCCESS: HttpResponse = {
-          code: 200,
-          message: 'Success',
-      }
-  }
-
-  export class Duplicate {
-      code = 409;
-      message = 'Username already exists';
-  }
+export class Duplicate {
+    code = 409;
+    message = 'Username already exists';
+}
 `;
 
 const validate = `

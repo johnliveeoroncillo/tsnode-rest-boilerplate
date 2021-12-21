@@ -21,7 +21,7 @@ class TokenService {
         return token;
     }
 
-    static async verifyToken(token: string): Promise<unknown> {
+    static async verifyToken(token: string): Promise<any> {
         try {
             const reponse = jwt.verify(token, JWT_TOKEN, (err, decoded) => {
                 if (decoded === undefined)
