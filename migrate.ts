@@ -16,15 +16,15 @@ const runMigration = async () => {
     const migration_type = args[0] ?? 'up';
     const databaseName = process.env?.DB_NAME ?? '';
 
-    console.log('DB', databaseName);
 
     const connection: Connection = await Database.getConnection();
     //CHECK MIGRATION TABLE
     const response = await connection.manager.query("SHOW TABLES");
     const column = `Tables_in_${databaseName}`;
     const find_migration = response.find(
-      (el: { [x: string]: string; }) => el[column] === "migrations"
+      (el: any) => el[column] === "migrations"
     );
+
     if (find_migration === undefined) {
       await connection.manager.query(`CREATE TABLE migrations (
                                                   id INT NOT NULL AUTO_INCREMENT,
@@ -36,6 +36,7 @@ const runMigration = async () => {
     }
 
     const migrations = await loadMigrations();
+    console.log(migrations);
     if (migrations.length) {
       if(migration_type == 'down') {
           console.log('TRUNCATED MIGRATIONS');

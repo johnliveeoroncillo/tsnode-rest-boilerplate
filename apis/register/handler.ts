@@ -14,10 +14,11 @@ export async function execute(req: Request, res: Response, next: NextFunction): 
         const request = Validate(req.body);
         const connection: Connection = await Database.getConnection();  
         const action = new RegisterAction(connection);
-        await action.execute(request);
+        const data = await action.execute(request);
         
         return API_RESPONSE({
             ...SUCCESS,
+            data
         }, res);
     }
     catch(e) {

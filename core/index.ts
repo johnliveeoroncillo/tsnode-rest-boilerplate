@@ -37,7 +37,7 @@ const loadMigrations = (): Promise<any> => {
     fs.readdirSync(dir).forEach((file: string) => {
       const absolute = path.join(dir, file);
 
-      if(file.includes('sql')) 
+      if(file.includes('ts')) 
         if (!fs.statSync(absolute).isDirectory()) migrations.push(absolute);
     });
 

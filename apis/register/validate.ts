@@ -6,7 +6,8 @@ import joi from 'joi';
 export const Validate = (request: RegisterRequest): RegisterRequest => {
     const schema = joi
         .object({
-            key: joi.string().required(),
+            username: joi.string().min(1).required(),
+            password: joi.string().min(1).required(),
         })
         .required();
 

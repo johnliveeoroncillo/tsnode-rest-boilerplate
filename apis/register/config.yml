@@ -2,7 +2,7 @@
 register: 
   handler: ./apis/register/handler
   endpoint: /register
-  method: <method>
+  method: post
   #UNCOMMENT TO ATTACH MIDDLEWARE
   #EXAMPLE: middleware: middleware
   #middleware: <middleware_name>

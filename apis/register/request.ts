@@ -1,4 +1,5 @@
 
 export interface RegisterRequest {
-    key: string;
+    username: string;
+    password: string;
 }
