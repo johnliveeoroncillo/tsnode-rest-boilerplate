@@ -8,10 +8,10 @@ export class UsersRepository extends Repository<UsersModel> {
     }
 
     async getByUsername(username: string): Promise<UsersModel | undefined> {
-        const data = await this.createQueryBuilder('a')
-                        .where('username = :username', { username });
+        const data = this.createQueryBuilder('a')
+                        .where('username = :username', { username })
+                        .getOne();
         
-        if (!data) return undefined;
-        return Object.assign(new UsersModel(), data);
+        return data;
     }
 }

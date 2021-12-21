@@ -7,11 +7,10 @@ import { Duplicate } from "./response";
 import { cryptPassword } from "../../core/utils";
 
 export class RegisterAction {
-    private connection: Connection;
     private userRepository: UsersRepository;
 
     constructor(connection: Connection) {
-        this.connection = connection;
+        this.userRepository = connection.getCustomRepository(UsersRepository);
     }
 
     async execute(request: RegisterRequest): Promise<UsersModel> {
@@ -21,8 +20,8 @@ export class RegisterAction {
         const model = new UsersModel();
         model.username = request.username;
         model.password = await cryptPassword(request.password);
-        const data = await this.userRepository.create(model);
+        await this.userRepository.insert(model);
 
-        return data;
+        return model;
     }
 }

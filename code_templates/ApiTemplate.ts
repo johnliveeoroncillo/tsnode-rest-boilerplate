@@ -29,11 +29,11 @@ import { Request, Response, NextFunction } from "express";
 import { Database } from "../../core/database";
 import { Connection } from "typeorm";
 
-import { SUCCESS } from "./response";
+import { Response200 } from "./response";
 import { Validate } from "./validate";
 import { <name>Action } from "./action";
 
-export async function execute(req: Request, res: Response, next: NextFunction): Promise<HttpResponse> {
+export async function execute(req: Request, res: Response): Promise<HttpResponse> {
     try {
         const request = Validate(req.body);
         const connection: Connection = await Database.getConnection();  
@@ -41,14 +41,13 @@ export async function execute(req: Request, res: Response, next: NextFunction): 
         await action.execute(request);
         
         return API_RESPONSE({
-            ...SUCCESS,
+            ...Response200.SUCCESS,
         }, res);
     }
     catch(e) {
         return API_RESPONSE(e, res);
     }
     finally {
-        console.log('close');
         await Database.closeConnection();
     }
 }
@@ -57,8 +56,7 @@ export async function execute(req: Request, res: Response, next: NextFunction): 
 const handler_test = `
 import { execute } from './handler';
 import { <name>Request } from './request';
-import { Request } from "express";
-import { TestReponse, nextFunction } from '../../core/libs/ApiEvent';
+import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
 
 test('200: SUCCESS', async () => {
     const request = {
@@ -73,10 +71,10 @@ test('200: SUCCESS', async () => {
         query: {
 
         }
-    } as Request
+    } as HttpRequest
 
 
-    const result = await execute(request, TestReponse, nextFunction);
+    const result = await execute(request, TestReponse);
     const response = result.body;
 
     expect(result).toHaveProperty('statusCode');
@@ -93,10 +91,17 @@ const response = `
 /*
     Your Custom Response */
 
-export class SUCCESS {
-    code = 200;
-    message = 'Success';
-}
+  export class Response200 {
+      static SUCCESS: HttpResponse = {
+          code: 200,
+          message: 'Success',
+      }
+  }
+
+  export class Duplicate {
+      code = 409;
+      message = 'Username already exists';
+  }
 `;
 
 const validate = `

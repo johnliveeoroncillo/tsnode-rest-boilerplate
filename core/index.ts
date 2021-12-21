@@ -87,6 +87,7 @@ const loadCron = () => {
 }
 
 const API_RESPONSE = (response: any, res: Response): HttpResponse => {
+  console.log('res',response);
   let code:number = Response500.code;
   let new_response:any = {};
 
@@ -100,10 +101,10 @@ const API_RESPONSE = (response: any, res: Response): HttpResponse => {
   catch(e: any) {
       new_response = {code,message:response.toString()};
   }
+  console.log(code);
   res.status(code).json(new_response);
   return {
-      statusCode: code,
-      body: new_response,
+      ...new_response,
   }
 };
 

@@ -2,9 +2,13 @@
 /*
     Your Custom Response */
 
-export class SUCCESS {
-    code = 200;
-    message = 'Success';
+import { HttpResponse } from "../../core/libs/ApiEvent";
+
+export class Response200 {
+    static SUCCESS: HttpResponse = {
+        code: 200,
+        message: 'Success',
+    }
 }
 
 export class Duplicate {
