@@ -19,14 +19,14 @@ This is a boilerplate to create API using Express + Typescript
 #### Create Model
 
 ```bash
-  npm run make:model <table_name>
+  npm run make:model <model_name> <table_name>
 ```
 Create typeorm model.
 
 #### Create Repository
 
 ```bash
-  npm run make:repository <table_name>
+  npm run make:repository <repository_name> <table_name>
 ```
 Create typeorm repository and model.
 
