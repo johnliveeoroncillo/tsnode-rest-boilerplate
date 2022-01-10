@@ -122,7 +122,7 @@ const config = `
 <name>: 
   handler: ./apis/<name>/handler
   endpoint: /<name>
-  method: <method>
+  method: get
   #UNCOMMENT TO ATTACH MIDDLEWARE
   #EXAMPLE: middleware: middleware
   #middleware: <middleware_name>
