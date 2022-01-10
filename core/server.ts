@@ -66,13 +66,13 @@ loadRoutes().then(async (routes) => {
         }
         callbacks.push(execute);
         app[method](endpoint, callbacks);
-
-        listRoutes(app)
         // { prefix: '/v1/' };
     }
     app.use((req: Request, res: Response) => {
         API_RESPONSE(Response404, res);
     });
+
+    listRoutes(app)
   }
 });
 
