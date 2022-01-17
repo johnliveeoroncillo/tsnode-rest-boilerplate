@@ -23,7 +23,7 @@ export interface RouteConfig {
 }
 export interface HttpResponse {
     code: number;
-    message: any;
+    message: string | boolean | number | undefined;
 }
 
 export const TestReponse = {} as Response;
