@@ -57,9 +57,9 @@ export class ModelTemplate {
 
                 const column = `
   @Column({
-    type: "${element.DATA_TYPE}"${element.CHARACTER_MAXIMUM_LENGTH == null ? '' : `,\n    length: ${element.CHARACTER_MAXIMUM_LENGTH}`}
+    type: "${element.DATA_TYPE}"${element.CHARACTER_MAXIMUM_LENGTH == null || element.DATA_TYPE == 'text' ? '' : `,\n    length: ${element.CHARACTER_MAXIMUM_LENGTH}`}
   })
-  public ${element.COLUMN_NAME}: ${type};
+  ${element.COLUMN_NAME}: ${type};
                 `
                 columns.push(column);
               }

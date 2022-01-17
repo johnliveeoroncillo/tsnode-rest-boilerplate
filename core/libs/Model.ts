@@ -14,24 +14,24 @@ export class Model extends BaseEntity {
       length: 50
   })
   @Generated("uuid")
-  public readonly uuid!: string;
+  protected readonly uuid!: string;
 
   @PrimaryGeneratedColumn()
-  public readonly id!: number;
+  protected readonly id!: number;
 
   // timestamps
   @CreateDateColumn({
       type: 'varchar',
   })
-  public created_at: string;
+  created_at: string;
 
   @UpdateDateColumn({
       type: 'varchar',
   })
-  public updated_at: string;
+  updated_at: string;
 
   @DeleteDateColumn({
       type: 'varchar',
   })
-  public deleted_at?: Date;
+  deleted_at?: Date;
 }
