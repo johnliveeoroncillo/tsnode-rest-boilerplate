@@ -1,4 +1,3 @@
-
 login: 
   handler: ./apis/login/handler
   endpoint: /login

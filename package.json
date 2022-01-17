@@ -13,6 +13,7 @@
     "lint": "eslint --ext .ts apis/ --fix",
     "test": "jest --silent",
     "test:log": "jest",
+    "cron": "ts-node -r dotenv/config -e \"import { loadCron } from './core/'; loadCron();\"",
     "make:model": "ts-node artisan.ts make:model",
     "make:repository": "ts-node artisan.ts make:repository",
     "make:migration": "ts-node artisan.ts make:migration",

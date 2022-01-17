@@ -1,4 +1,3 @@
-
 register: 
   handler: ./apis/register/handler
   endpoint: /register

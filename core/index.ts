@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import { Request, Response, Application } from "express";
 import { Response500 } from "./defaults";
-import { Config, HttpResponse } from './libs/ApiEvent';
+import { Config, HttpResponse, RouteConfig } from './libs/ApiEvent';
 
 const mainDir = path.dirname(__dirname).replace(/\\/g, '/');
 const yaml = require('js-yaml');
@@ -72,15 +72,32 @@ const getConfig = (path: string): Config | undefined => {
 const loadCron = () => {
     const dir = `${path.dirname(__dirname)}/cron`;
     const cron = require('node-cron');
-    fs.readdirSync(dir).forEach((file: string) => {
+    fs.readdirSync(dir).forEach(async (file: string) => {
       const absolute = path.join(dir, file);
 
-      if(file.includes('.ts')) {
-          const { Cron } = require(`${absolute.replace(/\\/g, "/")}`);
-          cron.schedule(Cron.cron, Cron.execute, {
-              scheduled: Cron.auto_start,
-              timezone: Cron.timezone
-          });
+      if (fs.statSync(absolute).isDirectory()) {
+          if (fs.existsSync(absolute)) {
+              const cron_api = getConfig(`${absolute}/config.yml`);
+              if(cron_api) {
+                  const api_key: string = Object.keys(cron_api)[0];
+                  const config: RouteConfig = cron_api[api_key];
+
+                  if(config) {
+                      const enabled: boolean = config?.enabled ?? false;
+                      const handler: string = config?.handler ?? '';
+                      const frequency: string = config?.cron ?? '';
+                      const timezone: string = config?.timezone ?? 'Asia/Manila';
+                      
+                      if(enabled && frequency && timezone && handler) {
+                          const { execute } = await import(`.${handler}`);
+                          cron.schedule(frequency, execute, {
+                              scheduled: enabled,
+                              timezone: timezone
+                          });
+                      }
+                  }
+              }
+          }
       }
     });
    

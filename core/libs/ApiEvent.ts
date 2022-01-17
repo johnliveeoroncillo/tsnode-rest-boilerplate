@@ -20,6 +20,10 @@ export interface RouteConfig {
     middleware?: string;
     handler: string;
     enabled: boolean;
+
+    timezone?: string;
+    autostart?: boolean;
+    cron?: string;
 }
 export interface HttpResponse {
     code: number;
