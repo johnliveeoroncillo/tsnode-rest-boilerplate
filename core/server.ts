@@ -8,7 +8,6 @@ import { Response404 } from './defaults';
 import "reflect-metadata";
 import cors from 'cors';
 import 'dotenv/config';
-const origins = process.env?.ALLOWED_ORIGINS ?? '';
 const app: Express = express();
 
 loadCron();
@@ -33,12 +32,17 @@ const corsOptions = {
   withCredentials: true
 }
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const allowedOrigins = origins.split(',');
-  const origin: string = req.headers?.origin ?? '';
-  if (allowedOrigins.includes(origin)) {
-    console.log('ALLOWED', origin);
-    corsOptions["Access-Control-Allow-Origin"] = origin; // restrict it to the required domain
-  }
+  const origins = process.env?.ALLOWED_ORIGINS ?? '';
+  ////TEMPORARILY REMOVED
+  // const allowedOrigins = origins.split(',');
+  // const origin: string = req.headers?.host ?? '';
+  // console.log(origin, allowedOrigins);
+
+  // if (allowedOrigins.includes(origin)) {
+  //   console.log('ALLOWED', origin);
+  //   corsOptions["Access-Control-Allow-Origin"] = origin; // restrict it to the required domain
+  // }
+  // console.log(corsOptions)
   app.use(cors(corsOptions));
   next();
 })
@@ -52,9 +56,8 @@ loadRoutes().then(async (routes) => {
         const route: RouteConfig = api_config[api_key];
 
         const enabled = route?.enabled ?? false;
-
         if(enabled) {
-            const endpoint = route.endpoint;
+            const endpoint = route.endpoint.replace(/{/g, ':').replace(/}/g, '');
             const handler = route.handler;
             const method = METHODS?.[route.method] ?? '';
             const middleware = route.middleware;
@@ -79,12 +82,12 @@ loadRoutes().then(async (routes) => {
 
 /** Server */
 const run = async () => {
-  await require("../migrate");
-  const httpServer = http.createServer(app);
-  const PORT: string | number | undefined = process.env.PORT ?? 6060;
-  httpServer.listen(PORT, () =>
-    console.log(`The server is running on port ${PORT}`)
-  );
+    await require("../migrate");
+    const httpServer = http.createServer(app);
+    const PORT: string | number | undefined = process.env.PORT ?? 6060;
+    httpServer.listen(PORT, () =>
+      console.log(`The server is running on port ${PORT}`)
+    );
 };
 
 run();
