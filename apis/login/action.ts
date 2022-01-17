@@ -1,11 +1,11 @@
 
 import { Connection } from "typeorm";
 import { TokenService } from "../../core/libs/TokenService";
-import { comparePassword } from "../../core/utils";
 import { UsersModel } from "../../models/UsersModel";
 import { UsersRepository } from "../../repository/UsersRepository";
 import { LoginRequest } from "./request";
 import { NotFound, PasswordError } from "./response";
+import { Bcrypt } from '../../core/libs/Bcrypt';
 
 interface UserReponse {
     token: string;
@@ -23,7 +23,7 @@ export class LoginAction {
         const user = await this.userRepository.getByUsername(request.username);
         if (!user) throw new NotFound();
         
-        if (! await comparePassword(request.password, user.password)) throw new PasswordError();
+        if (! await Bcrypt.compare(request.password, user.password)) throw new PasswordError();
 
         const token = await TokenService.generateJWT(user);
         return {
