@@ -3,10 +3,9 @@ import { pascalCase } from "case-anything";
 
 
 const content = `
-class <service_name> {
+export class <service_name> {
     
 }
-export { <service_name> };
 `;
 
 export class ServiceTemplate {

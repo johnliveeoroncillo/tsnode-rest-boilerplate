@@ -1,14 +1,13 @@
 
 import jwt from 'jsonwebtoken';
 import { CustomResponse, Response401 } from "../defaults";
-import { HttpRequest, TokenData } from '../libs/ApiEvent';
+import { HttpRequest } from '../libs/ApiEvent';
 import 'dotenv/config';
-import { LoginRequest } from '../../apis/login/request';
 
 const JWT_TOKEN = process.env?.JWT_TOKEN ?? '';
 
-class TokenService {
-    static async generateJWT(data: LoginRequest): Promise<string> {
+export class TokenService {
+    static async generateJWT(data: any): Promise<string> {
         const token = jwt.sign({
             data
         }, JWT_TOKEN, { expiresIn: '1d' });
@@ -40,5 +39,3 @@ class TokenService {
         return req?.identity ?? {};
     }
 }
-
-export { TokenService };
