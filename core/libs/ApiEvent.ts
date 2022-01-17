@@ -44,7 +44,6 @@ export interface ApiEvent {
     response: Response,
     next: NextFunction
 }
-
 export interface TokenData {
     data: Identity;
     iat: number;

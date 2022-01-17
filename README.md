@@ -1,7 +1,7 @@
 
 # Typescript Express Rest API Boilerplate
 
-This is a boilerplate to create API using Express + Typescript
+This is a boilerplate to create Rest API using Express + Typescript
 
 
 
@@ -21,42 +21,36 @@ This is a boilerplate to create API using Express + Typescript
 ```bash
   npm run make:model <model_name> <table_name>
 ```
-Create typeorm model.
 
 #### Create Repository
 
 ```bash
   npm run make:repository <repository_name> <table_name>
 ```
-Create typeorm repository and model.
 
 #### Create Migration
 
 ```bash
   npm run make:migration <table_name>
 ```
-Create mysql migration file.
 
 #### Create API
 
 ```bash
   npm run make:api <api_name>
 ```
-Create API.
 
 #### Create Service
 
 ```bash
   npm run make:service <service_name>
 ```
-Create service file.
 
 #### Create Cron
 
 ```bash
   npm run make:cron <cron_name>
 ```
-Create cron file.
 
 
 ## Other API Reference
@@ -94,6 +88,12 @@ Example: npm run test ./apis/login/
 ```
 Example: npm run test:log ./apis/login/
 
+#### Test Cron Job
+
+```bash
+  npm run cron
+```
+
 ## Installation
 
 Requires [Node.js](https://nodejs.org/) v10+ and Typescript to run.
@@ -101,6 +101,7 @@ Install the dependencies and devDependencies and start the server.
 ```sh
 npm i -g node
 npm i -g typescript
+npm i -g ts-node
 ```
 
 ```sh
