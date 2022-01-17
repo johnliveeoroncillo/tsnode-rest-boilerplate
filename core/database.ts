@@ -11,10 +11,12 @@ interface ActiveConnections {
 
 let active: ActiveConnections = {};
 export class Database {
-  private static host = process.env?.DB_HOST ?? '';
-  private static username = process.env?.DB_USERNAME ?? '';
-  private static password = process.env?.DB_PASSWORD ?? '';
-  private static db = process.env?.DB_NAME ?? '';
+  private static host: string = process.env?.DB_HOST ?? '';
+  private static port = Number(process.env?.DB_PORT ?? 3306);
+  private static username: string = process.env?.DB_USERNAME ?? '';
+  private static password: string = process.env?.DB_PASSWORD ?? '';
+  private static db: string = process.env?.DB_NAME ?? '';
+  private static db_logging: boolean = (process.env?.DB_LOGGING ?? false) === 'true';
 
   // private connectionManager: ConnectionManager;
 
@@ -28,12 +30,12 @@ export class Database {
           name: conn,
           type: "mysql",
           host: this.host,
-          port: 3306,
+          port: this.port,
           username: this.username,
           password: this.password,
           database: this.db,
           synchronize: false,
-          logging: true,
+          logging: this.db_logging,
           entities: ["./models/**/*.ts"],
           migrations: ["./migrations/**/*.ts"],
           // subscribers: ['src/subscriber/**/*.js'],

@@ -1,11 +1,12 @@
 
 import jwt from 'jsonwebtoken';
 import { CustomResponse, Response401 } from "../defaults";
-import { HttpRequest } from '../libs/ApiEvent';
+import { HttpRequest, TokenData } from '../libs/ApiEvent';
 import 'dotenv/config';
 import { LoginRequest } from '../../apis/login/request';
 
 const JWT_TOKEN = process.env?.JWT_TOKEN ?? '';
+
 class TokenService {
     static async generateJWT(data: LoginRequest): Promise<string> {
         const token = jwt.sign({
@@ -23,12 +24,12 @@ class TokenService {
 
     static async verifyToken(token: string): Promise<any> {
         try {
-            const reponse = jwt.verify(token, JWT_TOKEN, (err, decoded) => {
+            const response = jwt.verify(token, JWT_TOKEN, (err, decoded) => {
                 if (decoded === undefined)
                     throw new CustomResponse(Response401, err?.message);
                 return decoded;
             });
-            return reponse;
+            return response;
         }
         catch(e: any) {
             throw new CustomResponse(e, e.message);

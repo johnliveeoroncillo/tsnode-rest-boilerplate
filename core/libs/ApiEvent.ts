@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-interface KeyValue {
-    [key: string]: any;
+export interface KeyValue {
+    [key: string]: string | boolean | number | undefined;
 }
 
 export enum METHODS {
@@ -41,15 +41,21 @@ export interface ApiEvent {
     next: NextFunction
 }
 
+export interface TokenData {
+    data: Identity;
+    iat: number;
+    exp: number;
+}
 interface Identity {
     id: number | string;
+    uuid: string;
 }
 export interface HttpRequest extends Request {
     identity?: Identity;
 } 
 
-export const Authorize = (data: KeyValue, request: HttpRequest, next: NextFunction) => {
-    const user_data = data?.data ?? {};
-    request.identity = user_data;
+export const Authorize = (data: TokenData, request: HttpRequest, next: NextFunction):void => {
+    const user_data = data?.data ?? undefined;
+    if (user_data) request.identity = user_data;
     return next();
 };
