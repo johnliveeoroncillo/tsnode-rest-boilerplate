@@ -32,8 +32,8 @@ const corsOptions = {
   withCredentials: true
 }
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const origins = process.env?.ALLOWED_ORIGINS ?? '';
   ////TEMPORARILY REMOVED
+  // const origins = process.env?.ALLOWED_ORIGINS ?? '';
   // const allowedOrigins = origins.split(',');
   // const origin: string = req.headers?.host ?? '';
   // console.log(origin, allowedOrigins);
