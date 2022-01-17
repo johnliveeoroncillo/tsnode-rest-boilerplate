@@ -19,6 +19,7 @@ export interface RouteConfig {
     method: METHODS;
     middleware?: string;
     handler: string;
+    enabled: boolean;
 }
 export interface HttpResponse {
     code: number;

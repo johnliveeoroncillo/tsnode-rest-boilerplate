@@ -47,9 +47,9 @@ export async function execute(req: HttpRequest, res: Response): Promise<HttpResp
     catch(e) {
         return API_RESPONSE(e, res);
     }
-    finally {
-        await Database.closeConnection();
-    }
+    // finally {
+    //     await Database.closeConnection();
+    // }
 }
 `;
 
@@ -95,9 +95,9 @@ export class Response200 {
     }
 }
 
-export class Duplicate {
-    code = 409;
-    message = 'Username already exists';
+export class NotFound {
+    code = 400;
+    message = 'Username not found';
 }
 `;
 
@@ -123,6 +123,7 @@ const config = `
   handler: ./apis/<name>/handler
   endpoint: /<name>
   method: get
+  enabled: true
   #UNCOMMENT TO ATTACH MIDDLEWARE
   #EXAMPLE: middleware: middleware
   #middleware: <middleware_name>

@@ -51,22 +51,23 @@ loadRoutes().then(async (routes) => {
         const api_config: Config = routes[key];
         const route: RouteConfig = api_config[api_key];
 
-        const endpoint = route.endpoint;
-        const handler = route.handler;
-        const method = METHODS?.[route.method] ?? '';
-        const middleware = route.middleware;
+        const enabled = route?.enabled ?? false;
 
-        // const middleware = route.middleware
-        const { execute } = await import(`.${handler}`);
-
-        const callbacks = []
-        if (middleware) {
-            const { execute } = await import(`../middlewares/${middleware}`);
+        if(enabled) {
+            const endpoint = route.endpoint;
+            const handler = route.handler;
+            const method = METHODS?.[route.method] ?? '';
+            const middleware = route.middleware;
+            // const middleware = route.middleware
+            const { execute } = await import(`.${handler}`);
+            const callbacks = []
+            if (middleware) {
+                const { execute } = await import(`../middlewares/${middleware}`);
+                callbacks.push(execute);
+            }
             callbacks.push(execute);
+            app[method](endpoint, callbacks);
         }
-        callbacks.push(execute);
-        app[method](endpoint, callbacks);
-        // { prefix: '/v1/' };
     }
     app.use((req: Request, res: Response) => {
         API_RESPONSE(Response404, res);
