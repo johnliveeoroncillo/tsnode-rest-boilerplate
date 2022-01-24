@@ -1,10 +1,9 @@
 import fse from "fs-extra";
 import { existsSync } from "fs";
-import { pascalCase } from "case-anything";
+import { pascalCase, snakeCase } from "case-anything";
 
 
-const action = `
-import { Connection } from "typeorm";
+const action = `import { Connection } from "typeorm";
 import { <name>Request } from "./request";
 
 export class <name>Action {
@@ -17,13 +16,11 @@ export class <name>Action {
     async execute(request: <name>Request): Promise<void> {}
 }`;
 
-const request = `
-export interface <name>Request {
+const request = `export interface <name>Request {
     key: string;
 }`;
 
-const handler = `
-import { API_RESPONSE } from "../../core";
+const handler = `import { API_RESPONSE } from "../../core";
 import { HttpResponse, HttpRequest } from "../../core/libs/ApiEvent";
 import { Response } from "express";
 import { Database } from "../../core/database";
@@ -47,14 +44,13 @@ export async function execute(req: HttpRequest, res: Response): Promise<HttpResp
     catch(e) {
         return API_RESPONSE(e, res);
     }
-    finally {
-        await Database.closeConnection();
-    }
+    // finally {
+    //     await Database.closeConnection();
+    // }
 }
 `;
 
-const handler_test = `
-import { execute } from './handler';
+const handler_test = `import { execute } from './handler';
 import { <name>Request } from './request';
 import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
 
@@ -83,8 +79,7 @@ test('200: SUCCESS', async () => {
 });
 `;
 
-const response = `
-import { HttpResponse } from "../../core/libs/ApiEvent";
+const response = `import { HttpResponse } from "../../core/libs/ApiEvent";
 
 /*
   Your Custom Response */
@@ -95,14 +90,13 @@ export class Response200 {
     }
 }
 
-export class Duplicate {
-    code = 409;
-    message = 'Username already exists';
+export class NotFound {
+    code = 400;
+    message = 'Username not found';
 }
 `;
 
-const validate = `
-import { <name>Request } from "./request";
+const validate = `import { <name>Request } from "./request";
 import { Validation } from "../../core/libs/Validation";
 import joi from 'joi';
 
@@ -118,11 +112,11 @@ export const Validate = (request: <name>Request): <name>Request => {
 };
 `;
 
-const config = `
-<name>: 
+const config = `<name>: 
   handler: ./apis/<name>/handler
   endpoint: /<name>
   method: get
+  enabled: true
   #UNCOMMENT TO ATTACH MIDDLEWARE
   #EXAMPLE: middleware: middleware
   #middleware: <middleware_name>
@@ -133,7 +127,7 @@ export class ApiTemplate {
   private readonly name: string;
 
   constructor(name: string) {
-    this.name = name.trim(); //pluralize(name.trim())
+    this.name = snakeCase(name.trim()); //pluralize(name.trim())
     this.filename = `${this.name}.ts`;
   }
 

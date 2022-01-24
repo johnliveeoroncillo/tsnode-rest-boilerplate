@@ -9,8 +9,7 @@ const numbers = ['bit','int','integer','tinyint','smallint','mediumint','bigint'
 const booleans = ['bool','boolean'];
 
 
-const content = `
-import { Entity, Column } from "typeorm";
+const content = `import { Entity, Column } from "typeorm";
 import { Model } from "../core/libs/Model";
 @Entity({
   name: "table_name",
@@ -19,13 +18,6 @@ export class <model_name> extends Model {
     <columns>
 }
 `;
-
-// @Column({
-//   type: "varchar",
-//   length: 25,
-// })
-// public upass: string;
-
 export class ModelTemplate {
   private readonly filename: string;
   private readonly name: string;
@@ -57,9 +49,9 @@ export class ModelTemplate {
 
                 const column = `
   @Column({
-    type: "${element.DATA_TYPE}"${element.CHARACTER_MAXIMUM_LENGTH == null ? '' : `,\n    length: ${element.CHARACTER_MAXIMUM_LENGTH}`}
+    type: "${element.DATA_TYPE}"${element.CHARACTER_MAXIMUM_LENGTH == null || element.DATA_TYPE == 'text' ? '' : `,\n    length: ${element.CHARACTER_MAXIMUM_LENGTH}`}
   })
-  public ${element.COLUMN_NAME}: ${type};
+  ${element.COLUMN_NAME}: ${type};
                 `
                 columns.push(column);
               }

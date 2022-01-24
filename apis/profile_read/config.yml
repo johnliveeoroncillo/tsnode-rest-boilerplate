@@ -1,6 +1,6 @@
-
 profile_read: 
   handler: ./apis/profile_read/handler
   endpoint: /profile
   method: get
+  enabled: true
   middleware: authorizer

@@ -2,11 +2,11 @@ import { writeFileSync, existsSync } from "fs";
 import { pascalCase } from "case-anything";
 
 
-const content = `
-class <service_name> {
-    
+const content = `export class <service_name> {
+    constructor() {
+        
+    }
 }
-export { <service_name> };
 `;
 
 export class ServiceTemplate {

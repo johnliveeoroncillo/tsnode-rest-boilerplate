@@ -1,8 +1,7 @@
 import { writeFileSync, existsSync } from "fs";
 import { pascalCase } from "case-anything";
 
-let content = `
-import { EntityRepository, Repository } from "typeorm";
+let content = `import { EntityRepository, Repository } from "typeorm";
 import { model_name } from "../models/model_name";
 @EntityRepository(model_name)
 export class <repository_name> extends Repository<model_name> {
