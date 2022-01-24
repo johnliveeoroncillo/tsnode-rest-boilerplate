@@ -72,6 +72,27 @@ cron_today: (Folder name)
   timezone: 'Asia/Manila' (Timezone)
 ```
 
+## Environment Variables
+```
+#DATABASE CONFIGURATION
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=root
+DB_PASSWORD=
+DB_NAME=database
+DB_LOGGING=true
+
+#JWT CONFIGURATION
+JWT_TOKEN=
+JWT_ADMIN_TOKEN=
+
+#CRYPTO SECRET KEY
+SECRET_KEY=abcdef0123456789abcdef0123456789
+
+#ALLOWED ORIGINS (CORS) - currently unavailable or not working
+ALLOWED_ORIGINS=
+```
+
 ## API Reference
 
 #### Create Model
