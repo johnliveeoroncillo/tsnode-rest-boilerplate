@@ -3,9 +3,8 @@ import { execute } from './handler';
 import { RegisterRequest } from './request';
 import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
 import { UserSeeder } from '../../seeder/UserSeeder';
-import { UsersModel } from '../../models/UsersModel';
 import * as faker from 'faker';
-import { cryptPassword } from '../../core/utils';
+import { Bcrypt } from '../../core/libs/Bcrypt';
 
 test('422: Parameter Error', async () => {
     const request = {
@@ -32,13 +31,7 @@ test('422: Parameter Error', async () => {
 });
 
 test('409: Conflict', async () => {
-    const user: UsersModel = await UserSeeder.seedUser({
-        username: faker.internet.userName(),
-        password: await cryptPassword(faker.internet.password()),
-    });
-
-    console.log(user);
-
+    const user = await UserSeeder.create(1);
     const request = {
         identity: {},
         body: <RegisterRequest>{
@@ -70,7 +63,7 @@ test('200: SUCCESS', async () => {
         identity: {},
         body: <RegisterRequest>{
             username: faker.internet.userName(),
-            password: await cryptPassword('test'),
+            password: await Bcrypt.encrypt('test'),
         },
         params: {
 

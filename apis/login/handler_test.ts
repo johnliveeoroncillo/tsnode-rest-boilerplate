@@ -4,7 +4,6 @@ import { LoginRequest } from './request';
 import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
 import * as faker from 'faker';
 import { UserSeeder } from '../../seeder/UserSeeder';
-import { cryptPassword } from '../../core/utils';
 
 test('422: PARAMETER ERROR', async () => {
     const request = {
@@ -56,11 +55,7 @@ test('404: USERNAME NOT FOUND', async () => {
 });
 
 test('400: PASSWORD ERROR', async () => {
-    const username = faker.internet.userName();
-    const user = await UserSeeder.seedUser({
-        username,
-        password: await cryptPassword(faker.internet.password()),
-    })
+    const user = await UserSeeder.create(1)
     const request = {
         identity: {},
         body: <LoginRequest>{
@@ -86,10 +81,11 @@ test('400: PASSWORD ERROR', async () => {
 
 
 test('200: SUCCESS', async () => {
+    const user = await UserSeeder.create(2)
     const request = {
         identity: {},
         body: <LoginRequest>{
-            username: 'test',
+            username: user.username,
             password: 'test',
         },
         params: {

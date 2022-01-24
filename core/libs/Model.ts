@@ -14,10 +14,10 @@ export class Model extends BaseEntity {
       length: 50
   })
   @Generated("uuid")
-  protected readonly uuid!: string;
+  public readonly uuid!: string;
 
   @PrimaryGeneratedColumn()
-  protected readonly id!: number;
+  public readonly id!: number;
 
   // timestamps
   @CreateDateColumn({

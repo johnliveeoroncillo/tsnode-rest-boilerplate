@@ -1,13 +1,17 @@
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import jwt from 'jsonwebtoken';
 import { CustomResponse, Response401 } from "../defaults";
-import { HttpRequest } from '../libs/ApiEvent';
+import { HttpRequest, Identity } from '../libs/ApiEvent';
 import 'dotenv/config';
 
 const JWT_TOKEN = process.env?.JWT_TOKEN ?? '';
+export interface TokenReponse {
+    token: string;
+    data: Identity;
+}
 
 export class TokenService {
-    static async generateJWT(data: any): Promise<string> {
+    static async generateJWT(data: Identity): Promise<string> {
         const token = jwt.sign({
             data
         }, JWT_TOKEN, { expiresIn: '1d' });

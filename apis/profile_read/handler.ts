@@ -10,11 +10,12 @@ import { ProfileReadAction } from "./action";
 
 export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
     try {
-        const id = req?.identity?.id ?? '';
+        const id = req.identity?.id ?? '';
+        const uuid = req.identity?.uuid ?? '';
 
         const connection: Connection = await Database.getConnection();
         const action = new ProfileReadAction(connection);
-        const data = await action.execute(id);
+        const data = await action.execute(id, uuid);
         
         return API_RESPONSE({
             ...Response200.SUCCESS,

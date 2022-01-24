@@ -49,7 +49,9 @@ export interface TokenData {
     iat: number;
     exp: number;
 }
-interface Identity {
+
+//EDIT INTERFACE TO YOUR DESIRED INDENTITY
+export interface Identity {
     id: number | string;
     uuid: string;
 }
@@ -57,7 +59,7 @@ export interface HttpRequest extends Request {
     identity?: Identity;
 } 
 
-export const Authorize = (data: TokenData, request: HttpRequest, next: NextFunction):void => {
+export const Authorize = (data: TokenData, request: HttpRequest, next: NextFunction): void => {
     const user_data = data?.data ?? undefined;
     if (user_data) request.identity = user_data;
     return next();
