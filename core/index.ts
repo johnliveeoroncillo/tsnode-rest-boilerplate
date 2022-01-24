@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import path from 'path';
 import fs from 'fs';
-import { Request, Response, Application } from "express";
+import { Response } from "express";
 import { Response500 } from "./defaults";
 import { Config, HttpResponse, RouteConfig } from './libs/ApiEvent';
 
@@ -14,7 +16,7 @@ const listRoutes = require('express-list-routes');
 const loadRoutes = (dir = ''): Promise<Config[]> => {
   if (!dir) dir = `${path.dirname(__dirname)}/apis`;
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     fs.readdirSync(dir).forEach((file: string) => {
         const absolute = path.join(dir, file);
 
@@ -69,7 +71,7 @@ const getConfig = (path: string): Config | undefined => {
   }
 }
 
-const loadCron = () => {
+const loadCron = (): void => {
     const dir = `${path.dirname(__dirname)}/cron`;
     const cron = require('node-cron');
     fs.readdirSync(dir).forEach(async (file: string) => {
