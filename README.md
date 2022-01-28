@@ -3,6 +3,7 @@
 - Documentation creator
 - Docker support
 - Client and Admin Authorization
+- Parallel processing or events
 
 
 # Typescript Express Rest API Boilerplate
