@@ -1,3 +1,9 @@
+## Coming soon ...
+
+- Documentation creator
+- Docker support
+- Client and Admin Authorization
+
 
 # Typescript Express Rest API Boilerplate
 
@@ -33,7 +39,7 @@ tsnode-rest-boilerplate
     └─sample-cron (Created from npm run make:cron sample-cron)
         | config.yml (Cron Configuration)
         | handler.ts (1st lifecycle of the CRON)
-└─docs (API Documentation coming soon...)
+└─docs (API Documentations)
 └─middlewares (Middlware of the API)
     | authorizer.ts (Sample middleware for authentication)
 └─migrations (Migration files)
