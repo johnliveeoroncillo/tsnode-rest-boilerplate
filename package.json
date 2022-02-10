@@ -6,7 +6,7 @@
   "main": "./core/server.ts",
   "scripts": {
     "dev": "nodemon ./core/server.ts",
-    "start": "ts-node ./core/server.ts",
+    "start": "eslint --ext .ts apis/ --fix && tsc && node build/core/server",
     "migrate": "ts-node migrate.ts",
     "migrate:refresh": "ts-node migrate.ts down && npm run migrate",
     "req": "npm i -g ts-node",
@@ -64,22 +64,21 @@
     "querystring": "^0.2.1",
     "reflect-metadata": "^0.1.13",
     "ts-node": "^10.3.0",
-    "typescript": "^4.4.4",
     "tsc": "^2.0.3",
     "typeorm": "^0.2.41",
-    "typescript": "^4.4.4",
+    "typescript": "^4.5.5",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.3",
-    "@types/mocha": "^9.0.0",
-    "@types/node": "^16.11.1",
+    "@types/jest": "^27.4.0",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^16.11.23",
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "jest": "^27.4.5",
+    "nodemon": "^2.0.13",
     "prettier": "^2.2.1",
-    "ts-jest": "^27.0.0",
-    "nodemon": "^2.0.13"
+    "ts-jest": "^27.0.0"
   }
 }
