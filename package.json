@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "A node express typescript Rest API Boilerplate",
   "author": "John Livee G. Oroncillo",
-  "main": "./core/server.ts",
   "scripts": {
     "dev": "nodemon ./core/server.ts",
     "start": "eslint --ext .ts apis/ --fix && tsc && node build/core/server",
