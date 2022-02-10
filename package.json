@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon ./core/server.ts",
     "start": "node build/core/server",
-    "build": "tsc",
+    "clean": "rimraf build",
+    "build": "npm run clean && tsc",
     "migrate": "ts-node migrate.ts",
     "migrate:refresh": "ts-node migrate.ts down && npm run migrate",
     "req": "npm i -g ts-node",
@@ -67,9 +68,10 @@
     "prettier": "^2.2.1",
     "querystring": "^0.2.1",
     "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
     "ts-node": "^10.3.0",
-    "tsc": "^2.0.3",
     "typeorm": "^0.2.41",
+    "typescript": "^4.5.5",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
@@ -78,7 +80,6 @@
     "@types/node": "^16.11.23",
     "jest": "^27.4.5",
     "nodemon": "^2.0.13",
-    "ts-jest": "^27.0.0",
-    "typescript": "^4.5.5"
+    "ts-jest": "^27.0.0"
   }
 }
