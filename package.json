@@ -5,7 +5,9 @@
   "author": "John Livee G. Oroncillo",
   "scripts": {
     "dev": "nodemon ./core/server.ts",
-    "start": "eslint --ext .ts apis/ --fix && tsc && node build/core/server",
+    "start": "node build/core/server",
+    "build": "tsc",
+    "postinstall": "npm run build",
     "migrate": "ts-node migrate.ts",
     "migrate:refresh": "ts-node migrate.ts down && npm run migrate",
     "req": "npm i -g ts-node",
