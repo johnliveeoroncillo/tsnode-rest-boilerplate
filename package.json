@@ -7,7 +7,6 @@
     "dev": "nodemon ./core/server.ts",
     "start": "node build/core/server",
     "build": "./node_modules/typescript/bin/tsc",
-    "postinstall": "npm run build",
     "migrate": "ts-node migrate.ts",
     "migrate:refresh": "ts-node migrate.ts down && npm run migrate",
     "req": "npm i -g ts-node",
