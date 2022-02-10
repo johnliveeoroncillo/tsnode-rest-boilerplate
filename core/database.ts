@@ -4,6 +4,9 @@ import {
   createConnection,
 } from "typeorm";
 import 'dotenv/config';
+import path from 'path';
+const ext = path.extname(__filename);
+
 interface ActiveConnections {
   [key: string]: Connection;
 }
@@ -36,8 +39,8 @@ export class Database {
           database: this.db,
           synchronize: false,
           logging: this.db_logging,
-          entities: ["./models/**/*.js"],
-          migrations: ["./migrations/**/*.js"],
+          entities: [`models/**/*.${ext}`],
+          migrations: [`migrations/**/*.${ext}`],
           // subscribers: ['src/subscriber/**/*.js'],
         };
         active[conn] = await createConnection(connectionOptions);
