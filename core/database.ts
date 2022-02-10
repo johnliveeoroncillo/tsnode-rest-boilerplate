@@ -36,8 +36,8 @@ export class Database {
           database: this.db,
           synchronize: false,
           logging: this.db_logging,
-          entities: ["./models/**/*.ts"],
-          migrations: ["./migrations/**/*.ts"],
+          entities: ["./models/**/*.{ts,js}"],
+          migrations: ["./migrations/**/*.{ts,js}"],
           // subscribers: ['src/subscriber/**/*.js'],
         };
         active[conn] = await createConnection(connectionOptions);
