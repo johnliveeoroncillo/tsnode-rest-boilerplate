@@ -5,7 +5,34 @@ https://tsnode-rest-dev.herokuapp.com/
 ### Production
 https://tsnode-rest-prod.herokuapp.com/
 
+#### Login
+```
+Endpoint: /login
+Method: POST
+Request:
+  {
+    username: '',
+    password: ''
+  }
+```
 
+#### Register
+```
+Endpoint: /register
+Method: POST
+Request:
+  {
+    username: '',
+    password: ''
+  }
+```
+
+#### Profile
+```
+Endpoint: /profile
+Authorization: Bearer <TOKEN FROM LOGIN>
+Method: GET
+```
 
 ## Coming soon ...
 
