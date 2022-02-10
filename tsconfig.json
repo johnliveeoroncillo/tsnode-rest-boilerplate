@@ -4,19 +4,22 @@
     "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true,
     "strictPropertyInitialization": false,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "allowJs" : true,
     "module": "commonjs",
     "esModuleInterop": true,
     "outDir": "./build",
     "rootDir": "./",
     "target": "es6",
-    "skipLibCheck": true,
-    "strict": true,
     "lib": [
       "ES2021.String"
     ],
   },
   "include" : [
-    "**/*.ts"   /* Include every ts file in source folder */
+    "**/*.ts", /* Include every ts file in source folder */
+    "**/*.yml"   
   ],
   "exclude" : [
     "node_modules"  /* exclude everything in  node_modules */
