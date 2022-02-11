@@ -1,8 +1,64 @@
+## Demo
+#### Development
+https://tsnode-rest-dev.herokuapp.com/
+
+#### Production
+https://tsnode-rest-prod.herokuapp.com/
+
+#### CLIENT
+#### Login
+```
+Endpoint: /login
+Method: POST
+Request:
+  {
+    username: '',
+    password: ''
+  }
+```
+#### Profile
+```
+Endpoint: /profile
+Authorization: Bearer <TOKEN FROM LOGIN>
+Method: GET
+```
+
+#### ADMIN
+#### Login
+```
+Endpoint: /login/admin
+Method: POST
+Request:
+  {
+    username: '',
+    password: ''
+  }
+```
+#### Profile
+```
+Endpoint: /profile/admin
+Authorization: Bearer <TOKEN FROM LOGIN>
+Method: GET
+```
+
+
+
+#### Register
+```
+Endpoint: /register/admin
+Method: POST
+Request:
+  {
+    username: '',
+    password: '',
+    scope: '' <- ADMIN or CLIENT
+  }
+```
+
 ## Coming soon ...
 
 - Documentation creator
 - Docker support
-- Client and Admin Authorization
 - Parallel processing or events
 
 
@@ -40,6 +96,7 @@ tsnode-rest-boilerplate
     └─sample-cron (Created from npm run make:cron sample-cron)
         | config.yml (Cron Configuration)
         | handler.ts (1st lifecycle of the CRON)
+└─helpers (Helpers folder)
 └─docs (API Documentations)
 └─middlewares (Middlware of the API)
     | authorizer.ts (Sample middleware for authentication)

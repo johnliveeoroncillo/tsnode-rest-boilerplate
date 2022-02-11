@@ -1,20 +1,21 @@
 
-/*
-    Your Custom Response */
-
 import { HttpResponse } from "../../core/libs/ApiEvent";
 
+/*
+  Your Custom Response */
 export class Response200 {
     static SUCCESS: HttpResponse = {
         code: 200,
         message: 'Success',
     }
 }
-export class ScopeNotFound {
+
+export class NotFound {
     code = 404;
-    message = 'User scope not found';
+    message = 'Username not found';
 }
-export class Duplicate {
-    code = 409;
-    message = 'Username already exists';
+
+export class PasswordError {
+    code = 400;
+    message = 'Invalid Username or Password';
 }

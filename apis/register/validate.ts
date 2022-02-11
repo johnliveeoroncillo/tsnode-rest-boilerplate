@@ -8,6 +8,7 @@ export const Validate = (request: RegisterRequest): RegisterRequest => {
         .object({
             username: joi.string().min(1).required(),
             password: joi.string().min(1).required(),
+            scope: joi.string().max(5).required(),
         })
         .required();
 
