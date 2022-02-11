@@ -5,16 +5,25 @@ import { HttpRequest, Identity } from '../libs/ApiEvent';
 import 'dotenv/config';
 
 const JWT_TOKEN = process.env?.JWT_TOKEN ?? '';
+const JWT_ADMIN_TOKEN = process.env?.JWT_ADMIN_TOKEN ?? '';
 export interface TokenReponse {
     token: string;
     data: Identity;
 }
 
 export class TokenService {
-    static async generateJWT(data: Identity): Promise<string> {
+    static async clientJWT(data: Identity): Promise<string> {
+        return await this.generateJWT(data, JWT_TOKEN)
+    }
+
+    static async adminJWT(data: Identity): Promise<string> {
+        return await this.generateJWT(data, JWT_TOKEN)
+    }
+
+    private static async generateJWT(data: Identity, TOKEN: string): Promise<string> {
         const token = jwt.sign({
             data
-        }, JWT_TOKEN, { expiresIn: '1d' });
+        }, TOKEN, { expiresIn: '1d' });
         return token;
     }
 

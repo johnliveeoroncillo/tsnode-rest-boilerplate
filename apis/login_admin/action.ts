@@ -15,12 +15,12 @@ export class LoginAction {
     }
 
     async execute(request: LoginRequest): Promise<TokenReponse> {
-        const user = await this.userRepository.getByUsername(request.username, USER_SCOPE.CLIENT);
+        const user = await this.userRepository.getByUsername(request.username, USER_SCOPE.ADMIN);
         if (!user) throw new NotFound();
         
         if (! await Bcrypt.compare(request.password, user.password)) throw new PasswordError();
 
-        const token = await TokenService.clientJWT({
+        const token = await TokenService.adminJWT({
             id: user.id,
             uuid: user.uuid,
         });

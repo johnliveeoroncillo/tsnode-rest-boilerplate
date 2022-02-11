@@ -5,7 +5,6 @@ import {
 } from "typeorm";
 import 'dotenv/config';
 import path from 'path';
-const ext = path.extname(__filename);
 
 interface ActiveConnections {
   [key: string]: Connection;
@@ -29,6 +28,7 @@ export class Database {
 
   static async getConnection(conn = 'default'): Promise<Connection> {
     if (typeof active[conn] === 'undefined') {
+
         const connectionOptions: ConnectionOptions = {
           name: conn,
           type: "mysql",
@@ -39,8 +39,8 @@ export class Database {
           database: this.db,
           synchronize: false,
           logging: this.db_logging,
-          entities: [`models/**/*.${ext}`],
-          migrations: [`migrations/**/*.${ext}`],
+          entities: [`./models/**/*.${process.env.NODE_ENV === 'production' ? 'js' : 'ts'}`],
+          migrations: [`./migrations/**/*.${process.env.NODE_ENV === 'production' ? 'js' : 'ts'}`],
           // subscribers: ['src/subscriber/**/*.js'],
         };
         active[conn] = await createConnection(connectionOptions);
