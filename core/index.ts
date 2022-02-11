@@ -7,7 +7,6 @@ import { Response } from "express";
 import { Response500 } from "./defaults";
 import { Config, HttpResponse, RouteConfig } from './libs/ApiEvent';
 
-const mainDir = path.dirname(__dirname).replace(/\\/g, '/');
 const yaml = require('js-yaml');
 const routes: Config[] = [];
 
@@ -33,13 +32,15 @@ const loadRoutes = (dir = ''): Promise<Config[]> => {
 };
 
 const loadMigrations = (): Promise<any> => {
-  const dir = `${mainDir}/migrations`;
+  const dir = `${__dirname}/../migrations`;
   const migrations: string[] = [];
+  console.log(dir);
   return new Promise((resolve) => {
     fs.readdirSync(dir).forEach((file: string) => {
+      console.log(file);
       const absolute = path.join(dir, file);
 
-      if(file.includes('ts')) 
+      if(file) 
         if (!fs.statSync(absolute).isDirectory()) migrations.push(absolute);
     });
 
