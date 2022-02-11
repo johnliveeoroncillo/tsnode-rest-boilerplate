@@ -5,6 +5,7 @@ https://tsnode-rest-dev.herokuapp.com/
 #### Production
 https://tsnode-rest-prod.herokuapp.com/
 
+#### CLIENT
 #### Login
 ```
 Endpoint: /login
@@ -15,10 +16,17 @@ Request:
     password: ''
   }
 ```
-
-#### Register
+#### Profile
 ```
-Endpoint: /register
+Endpoint: /profile
+Authorization: Bearer <TOKEN FROM LOGIN>
+Method: GET
+```
+
+#### ADMIN
+#### Login
+```
+Endpoint: /login/admin
 Method: POST
 Request:
   {
@@ -26,12 +34,25 @@ Request:
     password: ''
   }
 ```
-
 #### Profile
 ```
-Endpoint: /profile
+Endpoint: /profile/admin
 Authorization: Bearer <TOKEN FROM LOGIN>
 Method: GET
+```
+
+
+
+#### Register
+```
+Endpoint: /register/admin
+Method: POST
+Request:
+  {
+    username: '',
+    password: '',
+    scope: '' <- ADMIN or CLIENT
+  }
 ```
 
 ## Coming soon ...
