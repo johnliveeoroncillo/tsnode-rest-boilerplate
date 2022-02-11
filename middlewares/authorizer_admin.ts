@@ -7,12 +7,12 @@ import { Authorize, TokenData } from "../core/libs/ApiEvent";
 
 export async function execute(req: Request, res: Response, next:NextFunction):Promise<void> {
     try {
-        console.log('INVOKING CLIENT AUTHORIZER');
+        console.log('INVOKING ADMIN AUTHORIZER');
         const authToken = req.headers?.authorization ?? '';
         const token = authToken.replace(/Bearer/g, '').trim();
         if(token == '') throw new MissingAuthToken();
 
-        const jwt: TokenData = await TokenService.verifyClientToken(token);
+        const jwt: TokenData = await TokenService.verifyAdminToken(token);
         return Authorize(jwt, req, next);
     }
     catch(e) {

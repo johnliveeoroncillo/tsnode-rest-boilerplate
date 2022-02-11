@@ -17,7 +17,7 @@ export class TokenService {
     }
 
     static async adminJWT(data: Identity): Promise<string> {
-        return await this.generateJWT(data, JWT_TOKEN)
+        return await this.generateJWT(data, JWT_ADMIN_TOKEN)
     }
 
     private static async generateJWT(data: Identity, TOKEN: string): Promise<string> {
@@ -27,16 +27,17 @@ export class TokenService {
         return token;
     }
 
-    static async generateRefreshJWT(data: unknown): Promise<string> {
-        const token = jwt.sign({
-            data
-        }, JWT_TOKEN, { expiresIn: '7d' });
-        return token;
+    static async verifyClientToken(token: string): Promise<any> {
+        return this.verifyToken(token, JWT_TOKEN);
     }
 
-    static async verifyToken(token: string): Promise<any> {
+    static async verifyAdminToken(token: string): Promise<any> {
+        return this.verifyToken(token, JWT_ADMIN_TOKEN);
+    }
+
+    private static async verifyToken(token: string, SECRET: string): Promise<any> {
         try {
-            const response = jwt.verify(token, JWT_TOKEN, (err, decoded) => {
+            const response = jwt.verify(token, SECRET, (err, decoded) => {
                 if (decoded === undefined)
                     throw new CustomResponse(Response401, err?.message);
                 return decoded;
