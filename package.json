@@ -5,7 +5,7 @@
   "author": "John Livee G. Oroncillo",
   "scripts": {
     "dev": "nodemon ./core/server.ts",
-    "start": "node build/core/server",
+    "start": "cross-env NODE_ENV=production node build/core/server",
     "clean": "rimraf build",
     "build": "npm run clean && tsc &&  cpx \"**/*.yml\" build",
     "migrate": "ts-node migrate.ts",
@@ -79,6 +79,7 @@
     "@types/mocha": "^9.1.0",
     "@types/node": "^16.11.23",
     "cpx2": "^4.2.0",
+    "cross-env": "^7.0.3",
     "jest": "^27.4.5",
     "nodemon": "^2.0.13",
     "ts-jest": "^27.0.0"
