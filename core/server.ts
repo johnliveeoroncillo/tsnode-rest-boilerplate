@@ -82,7 +82,7 @@ loadRoutes().then(async (routes) => {
 
 /** Server */
 const run = async () => {
-    await require("/../migrate");
+    await require(__dirname + "/../migrate");
     const httpServer = http.createServer(app);
     const PORT: string | number | undefined = process.env.PORT ?? 6060;
     httpServer.listen(PORT, () =>
