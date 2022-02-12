@@ -45,7 +45,7 @@ Method: GET
 
 #### Register
 ```
-Endpoint: /register/admin
+Endpoint: /register
 Method: POST
 Request:
   {
