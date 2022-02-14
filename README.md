@@ -1,73 +1,6 @@
-## Demo
-#### Development
-https://tsnode-rest-dev.herokuapp.com/
-
-#### Production
-https://tsnode-rest-prod.herokuapp.com/
-
-#### CLIENT
-#### Login
-```
-Endpoint: /login
-Method: POST
-Request:
-  {
-    username: '',
-    password: ''
-  }
-```
-#### Profile
-```
-Endpoint: /profile
-Authorization: Bearer <TOKEN FROM LOGIN>
-Method: GET
-```
-
-#### ADMIN
-#### Login
-```
-Endpoint: /login/admin
-Method: POST
-Request:
-  {
-    username: '',
-    password: ''
-  }
-```
-#### Profile
-```
-Endpoint: /profile/admin
-Authorization: Bearer <TOKEN FROM LOGIN>
-Method: GET
-```
-
-
-
-#### Register
-```
-Endpoint: /register
-Method: POST
-Request:
-  {
-    username: '',
-    password: '',
-    scope: '' <- ADMIN or CLIENT
-  }
-```
-
-## Coming soon ...
-
-- Documentation creator
-- Docker support
-- Parallel processing or events
-
-
 # Typescript Express Rest API Boilerplate
 
 This is a boilerplate to create Rest API using Express + Typescript
-
-
-
 
 ## Features
 
@@ -76,6 +9,16 @@ This is a boilerplate to create Rest API using Express + Typescript
 - Support Middleware for Authorization
 - Test API using Jest
 - and many more ..
+
+
+
+## Coming soon ...
+
+- Documentation creator
+- Docker support
+- Parallel processing or events
+
+
 
 ## Folder Structure
 
@@ -155,6 +98,63 @@ SECRET_KEY=abcdef0123456789abcdef0123456789
 
 #ALLOWED ORIGINS (CORS) - currently unavailable or not working
 ALLOWED_ORIGINS=
+```
+
+## Demo
+#### Development
+https://tsnode-rest-dev.herokuapp.com/
+
+#### Production
+https://tsnode-rest-prod.herokuapp.com/
+
+#### CLIENT
+#### Login
+```
+Endpoint: /login
+Method: POST
+Request:
+  {
+    username: '',
+    password: ''
+  }
+```
+#### Profile
+```
+Endpoint: /profile
+Authorization: Bearer <TOKEN FROM LOGIN>
+Method: GET
+```
+
+#### ADMIN
+#### Login
+```
+Endpoint: /login/admin
+Method: POST
+Request:
+  {
+    username: '',
+    password: ''
+  }
+```
+#### Profile
+```
+Endpoint: /profile/admin
+Authorization: Bearer <TOKEN FROM LOGIN>
+Method: GET
+```
+
+
+
+#### Register
+```
+Endpoint: /register
+Method: POST
+Request:
+  {
+    username: '',
+    password: '',
+    scope: '' <- ADMIN or CLIENT
+  }
 ```
 
 ## API Reference
