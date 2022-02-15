@@ -56,7 +56,6 @@ tsnode-rest-boilerplate
 | jest.config.js
 | migrate.ts
 | tsconfig.json
-| Procfile (Used to run custom command in Heroku)
 ```
 
 ## Config Structure
