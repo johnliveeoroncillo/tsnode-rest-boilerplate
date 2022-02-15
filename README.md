@@ -258,6 +258,11 @@ Development
 npm run dev
 ```
 
+Build
+```sh
+npm run build
+```
+
 Production
 ```sh
 npm run start
