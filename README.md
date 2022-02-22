@@ -244,6 +244,11 @@ Request:
 ```bash
   npm run migrate:refresh
 ```
+#### Test Cron Job
+
+```bash
+  npm run cron
+```
 ## Running Tests
 
 To run tests, run the following command
@@ -260,11 +265,7 @@ Example: npm run test ./apis/login/
 ```
 Example: npm run test:log ./apis/login/
 
-#### Test Cron Job
-
-```bash
-  npm run cron
-```
+## Local Docker
 
 #### Start Local MySQL/Redis/Postgres
 
