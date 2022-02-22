@@ -10,7 +10,7 @@ const {
   MYSQL_HOST,
   MYSQL_USERNAME,
   MYSQL_PASSWORD,
-  MYSQL_NAME,
+  MYSQL_DB,
   MYSQL_PORT,
 } = process.env;
 
@@ -21,7 +21,7 @@ async function execute() {
       host: MYSQL_HOST,
       user: MYSQL_USERNAME,
       password: MYSQL_PASSWORD,
-      database: MYSQL_NAME,
+      database: MYSQL_DB,
       port: Number(MYSQL_PORT),
   });
 
