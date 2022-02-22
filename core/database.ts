@@ -11,26 +11,25 @@ interface ActiveConnections {
 
 let active: ActiveConnections = {};
 export class Database {
-  private static host: string = process.env?.DB_HOST ?? '';
-  private static port = Number(process.env?.DB_PORT ?? 3306);
-  private static username: string = process.env?.DB_USERNAME ?? '';
-  private static password: string = process.env?.DB_PASSWORD ?? '';
-  private static db: string = process.env?.DB_NAME ?? '';
-  private static db_type: any = process.env?.DB_TYPE ?? '';
-  private static db_logging: boolean = (process.env?.DB_LOGGING ?? false) === 'true';
+  private static host: string = process.env?.MYSQL_HOST ?? '';
+  private static port = Number(process.env?.MYSQL_PORT ?? 3306);
+  private static username: string = process.env?.MYSQL_USERNAME ?? '';
+  private static password: string = process.env?.MYSQL_PASSWORD ?? '';
+  private static db: string = process.env?.MYSQL_NAME ?? '';
+  private static logging: boolean = (process.env?.MYSQL_LOGGING ?? false) === 'true';
 
   static async getConnection(conn = 'default'): Promise<Connection> {
     if (typeof active[conn] === 'undefined') {
         const connectionOptions: ConnectionOptions = {
           name: conn,
-          type: this.db_type,
+          type: 'mysql',
           host: this.host,
           port: this.port,
           username: this.username,
           password: this.password,
           database: this.db,
           synchronize: false,
-          logging: this.db_logging,
+          logging: this.logging,
           entities: [`${__dirname}/../models/*.{ts,js}`],
         };
         active[conn] = await createConnection(connectionOptions);
