@@ -282,13 +282,14 @@ Example: npm run test:log ./apis/login/
 
 ## Installation
 
-Requires [Node.js](https://nodejs.org/) v10+ and Typescript to run.
+Requires [Node.js](https://nodejs.org/) v10+, Typescript and Docker (optional) to run.
 Install the dependencies and devDependencies and start the server.
 ```sh
 npm i -g node
 npm i -g typescript
 npm i -g ts-node
 ```
+Link to docker: [Docker](hhttps://www.docker.com/)
 
 ```sh
 git clone https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate.git
