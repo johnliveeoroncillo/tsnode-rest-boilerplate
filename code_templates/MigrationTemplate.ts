@@ -26,7 +26,7 @@ export class MigrationTemplate {
 
   constructor(name: string) {
     this.name = snakeCase(name.trim()); //pluralize(name.trim())
-    this.filename = `${Carbon.timestamp(new Date())}_${this.name}_table.ts`;
+    this.filename = `${Carbon.moment().valueOf()}_${this.name}_table.ts`;
   }
 
   generate(): void {

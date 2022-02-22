@@ -1,6 +1,6 @@
 import { writeFileSync, existsSync } from "fs";
 import { pascalCase } from "case-anything";
-import { Database } from "../core/database";
+import { Database } from "../core/databases/Mysql";
 import { Connection } from "typeorm";
 import 'dotenv/config';
 
@@ -38,7 +38,7 @@ export class ModelTemplate {
       //CHECK MIGRATION TABLE
       const response = await connection.manager.query(`SELECT *
                                                     FROM INFORMATION_SCHEMA.COLUMNS
-                                                    WHERE TABLE_SCHEMA = '${process.env.DB_NAME}' AND TABLE_NAME = '${this.table_name}';`);
+                                                    WHERE TABLE_SCHEMA = '${process.env.MYSQL_DB}' AND TABLE_NAME = '${this.table_name}';`);
       if(response.length) {
           response.forEach((element: { COLUMN_NAME: string; DATA_TYPE: string; CHARACTER_MAXIMUM_LENGTH: null; }) => {
               if(!exclude.includes(element.COLUMN_NAME)) {

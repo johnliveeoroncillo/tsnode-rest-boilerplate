@@ -1,73 +1,6 @@
-## Demo
-#### Development
-https://tsnode-rest-dev.herokuapp.com/
-
-#### Production
-https://tsnode-rest-prod.herokuapp.com/
-
-#### CLIENT
-#### Login
-```
-Endpoint: /login
-Method: POST
-Request:
-  {
-    username: '',
-    password: ''
-  }
-```
-#### Profile
-```
-Endpoint: /profile
-Authorization: Bearer <TOKEN FROM LOGIN>
-Method: GET
-```
-
-#### ADMIN
-#### Login
-```
-Endpoint: /login/admin
-Method: POST
-Request:
-  {
-    username: '',
-    password: ''
-  }
-```
-#### Profile
-```
-Endpoint: /profile/admin
-Authorization: Bearer <TOKEN FROM LOGIN>
-Method: GET
-```
-
-
-
-#### Register
-```
-Endpoint: /register/admin
-Method: POST
-Request:
-  {
-    username: '',
-    password: '',
-    scope: '' <- ADMIN or CLIENT
-  }
-```
-
-## Coming soon ...
-
-- Documentation creator
-- Docker support
-- Parallel processing or events
-
-
 # Typescript Express Rest API Boilerplate
 
 This is a boilerplate to create Rest API using Express + Typescript
-
-
-
 
 ## Features
 
@@ -76,6 +9,15 @@ This is a boilerplate to create Rest API using Express + Typescript
 - Support Middleware for Authorization
 - Test API using Jest
 - and many more ..
+
+
+
+## Coming soon ...
+
+- Documentation creator
+- Parallel processing or events
+- Add additional database like mongodb and postgres.
+
 
 ## Folder Structure
 
@@ -110,10 +52,10 @@ tsnode-rest-boilerplate
 | .eslintrc.js
 | .gitignore
 | .prettierrc
+| docker-compose.yml (Docker image files and database configurations)
 | jest.config.js
 | migrate.ts
 | tsconfig.json
-| Procfile (Used to run custom command in Heroku)
 ```
 
 ## Config Structure
@@ -139,12 +81,25 @@ cron_today: (Folder name)
 ## Environment Variables
 ```
 #DATABASE CONFIGURATION
-DB_HOST=localhost
-DB_PORT=3306
-DB_USERNAME=root
-DB_PASSWORD=
-DB_NAME=database
-DB_LOGGING=true
+##MYSQL
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_USERNAME=root
+MYSQL_PASSWORD=admin
+MYSQL_DB=database
+MYSQL_LOGGING=true
+
+##POSTGRES
+POSTGRES_DB=database
+POSTGRES_USERNAME=root
+POSTGRES_PASSWORD=admin
+
+##REDIS
+REDIS_HOST=127.0.0.1
+REDIS_USERNAME=root
+REDIS_PASSWORD=admin
+REDIS_PORT=6379
+REDIS_TTL=3600
 
 #JWT CONFIGURATION
 JWT_TOKEN=
@@ -155,6 +110,80 @@ SECRET_KEY=abcdef0123456789abcdef0123456789
 
 #ALLOWED ORIGINS (CORS) - currently unavailable or not working
 ALLOWED_ORIGINS=
+```
+
+## Demo
+#### Development
+https://tsnode-rest-dev.herokuapp.com/
+
+#### Production
+https://tsnode-rest-prod.herokuapp.com/
+
+### REDIS
+#### Create
+```
+Endpoint: /redis/insert
+Method: POST
+Request:
+  {
+    key: 'my-key',
+    value: ['value1', 'value2']
+  }
+```
+#### Get
+```
+Endpoint: /redis/:key
+Method: GET
+```
+
+### CLIENT
+#### Login
+```
+Endpoint: /login
+Method: POST
+Request:
+  {
+    username: '',
+    password: ''
+  }
+```
+#### Profile
+```
+Endpoint: /profile
+Authorization: Bearer <TOKEN FROM LOGIN>
+Method: GET
+```
+
+### ADMIN
+#### Login
+```
+Endpoint: /login/admin
+Method: POST
+Request:
+  {
+    username: '',
+    password: ''
+  }
+```
+#### Profile
+```
+Endpoint: /profile/admin
+Authorization: Bearer <TOKEN FROM LOGIN>
+Method: GET
+```
+
+
+
+#### Register
+```
+Endpoint: /register
+Method: POST
+Request:
+  {
+    username: '',
+    password: '',
+    scope: '' <- ADMIN or CLIENT
+  }
 ```
 
 ## API Reference
@@ -215,6 +244,11 @@ ALLOWED_ORIGINS=
 ```bash
   npm run migrate:refresh
 ```
+#### Test Cron Job
+
+```bash
+  npm run cron
+```
 ## Running Tests
 
 To run tests, run the following command
@@ -231,10 +265,18 @@ Example: npm run test ./apis/login/
 ```
 Example: npm run test:log ./apis/login/
 
-#### Test Cron Job
+## Local Docker
+
+#### Start Local MySQL/Redis/Postgres
 
 ```bash
-  npm run cron
+  npm run docker:start
+```
+
+#### Stop Local MySQL/Redis/Postgres
+
+```bash
+  npm run docker:stop
 ```
 
 ## Installation
@@ -256,6 +298,11 @@ npm i
 Development
 ```sh
 npm run dev
+```
+
+Build
+```sh
+npm run build
 ```
 
 Production

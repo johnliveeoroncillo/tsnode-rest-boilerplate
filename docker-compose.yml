@@ -1,0 +1,55 @@
+version: '3.3'
+services:
+  postgres:
+    container_name: pgsql_db
+    image: postgres
+    volumes:
+      - ./environment/pgsql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=database
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - 5432:5432
+  mysql:
+    image: mysql:5.7.23
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: database
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3306:3306'
+      # Where our data will be persisted
+    container_name: mysql_db
+    volumes:
+      - ./environment/mysql:/var/lib/mysql
+      # - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      dev:
+  redis:
+    container_name: redis_db
+    image: redis:latest
+    ports:
+      - 6379:6379
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+      - HTTP_USER=root
+      - HTTP_PASSWORD=admin
+    ports:
+      - 8081:8081
+    depends_on:
+      - redis
+networks:
+  dev:
+    driver: bridge
+volumes:
+  redis-data:
+  # dbdata:
+  #   driver: local
