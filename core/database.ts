@@ -16,20 +16,14 @@ export class Database {
   private static username: string = process.env?.DB_USERNAME ?? '';
   private static password: string = process.env?.DB_PASSWORD ?? '';
   private static db: string = process.env?.DB_NAME ?? '';
+  private static db_type: any = process.env?.DB_TYPE ?? '';
   private static db_logging: boolean = (process.env?.DB_LOGGING ?? false) === 'true';
-
-  // private connectionManager: ConnectionManager;
-
-  // constructor() {
-  //   this.connectionManager = getConnectionManager();
-  // }
 
   static async getConnection(conn = 'default'): Promise<Connection> {
     if (typeof active[conn] === 'undefined') {
-      console.log( __dirname )
         const connectionOptions: ConnectionOptions = {
           name: conn,
-          type: "mysql",
+          type: this.db_type,
           host: this.host,
           port: this.port,
           username: this.username,
@@ -39,7 +33,6 @@ export class Database {
           logging: this.db_logging,
           entities: [`${__dirname}/../models/*.{ts,js}`],
           migrations: [`${__dirname}/../migrations/*.{ts,js}`],
-          // subscribers: ['src/subscriber/**/*.js'],
         };
         active[conn] = await createConnection(connectionOptions);
     }
