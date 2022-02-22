@@ -1,4 +1,4 @@
-import { Database } from "../core/database";
+import { Database } from "../core/databases/Mysql";
 import { UsersModel } from "../models/UsersModel";
 import { UsersRepository } from "../repository/UsersRepository";
 import { Bcrypt } from "../core/libs/Bcrypt";

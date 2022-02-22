@@ -23,7 +23,7 @@ const request = `export interface <name>Request {
 const handler = `import { API_RESPONSE } from "../../core";
 import { HttpResponse, HttpRequest } from "../../core/libs/ApiEvent";
 import { Response } from "express";
-import { Database } from "../../core/database";
+import { Database } from "../../../core/database";
 import { Connection } from "typeorm";
 
 import { Response200 } from "./response";
@@ -91,7 +91,7 @@ export class Response200 {
 }
 
 export class NotFound {
-    code = 400;
+    code = 404;
     message = 'Username not found';
 }
 `;

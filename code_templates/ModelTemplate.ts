@@ -1,6 +1,6 @@
 import { writeFileSync, existsSync } from "fs";
 import { pascalCase } from "case-anything";
-import { Database } from "../core/database";
+import { Database } from "../core/databases/Mysql";
 import { Connection } from "typeorm";
 import 'dotenv/config';
 
