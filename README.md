@@ -244,7 +244,7 @@ Request:
 ```bash
   npm run migrate:refresh
 ```
-#### Test Cron Job
+#### Run Cron Job
 
 ```bash
   npm run cron
