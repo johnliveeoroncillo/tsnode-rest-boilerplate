@@ -1,13 +1,10 @@
 import { execute } from './handler';
-import { RedisGetRequest } from './request';
 import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
 
 test('200: SUCCESS', async () => {
     const request = {
         identity: {},
-        body: <RedisGetRequest>{
-            key: 'value',
-        },
+        body: {},
         params: {
 
         },
