@@ -15,7 +15,7 @@ export class Database {
   private static port = Number(process.env?.MYSQL_PORT ?? 3306);
   private static username: string = process.env?.MYSQL_USERNAME ?? '';
   private static password: string = process.env?.MYSQL_PASSWORD ?? '';
-  private static db: string = process.env?.MYSQL_NAME ?? '';
+  private static db: string = process.env?.MYSQL_DB ?? '';
   private static logging: boolean = (process.env?.MYSQL_LOGGING ?? false) === 'true';
 
   static async getConnection(conn = 'default'): Promise<Connection> {
@@ -30,7 +30,7 @@ export class Database {
           database: this.db,
           synchronize: false,
           logging: this.logging,
-          entities: [`${__dirname}/../models/*.{ts,js}`],
+          entities: [`${__dirname}/../../models/*.{ts,js}`],
         };
         active[conn] = await createConnection(connectionOptions);
     }

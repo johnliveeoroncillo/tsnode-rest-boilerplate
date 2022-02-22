@@ -2,7 +2,7 @@
 import { API_RESPONSE } from "../../core";
 import { HttpRequest, HttpResponse } from "../../core/libs/ApiEvent";
 import { Response } from "express";
-import { Database } from "../../core/database";
+import { Database } from "../../core/databases/Mysql";
 import { Connection } from "typeorm";
 
 import { Response200 } from "./response";
