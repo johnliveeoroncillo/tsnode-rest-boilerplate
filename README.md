@@ -52,6 +52,7 @@ tsnode-rest-boilerplate
 | .eslintrc.js
 | .gitignore
 | .prettierrc
+| docker-compose.yml (Docker image files and database configurations)
 | jest.config.js
 | migrate.ts
 | tsconfig.json
@@ -263,6 +264,18 @@ Example: npm run test:log ./apis/login/
 
 ```bash
   npm run cron
+```
+
+#### Start Local MySQL/Redis/Postgres
+
+```bash
+  npm run docker:start
+```
+
+#### Stop Local MySQL/Redis/Postgres
+
+```bash
+  npm run docker:stop
 ```
 
 ## Installation
