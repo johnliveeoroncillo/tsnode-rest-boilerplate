@@ -289,9 +289,9 @@ npm i -g node
 npm i -g typescript
 npm i -g ts-node
 ```
-```sh
+
 Link to docker: [Docker](https://www.docker.com/)
-```
+
 
 ```sh
 git clone https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate.git
