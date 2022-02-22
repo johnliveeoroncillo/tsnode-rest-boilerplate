@@ -118,7 +118,24 @@ https://tsnode-rest-dev.herokuapp.com/
 #### Production
 https://tsnode-rest-prod.herokuapp.com/
 
-#### CLIENT
+### REDIS
+#### Create
+```
+Endpoint: /redis/insert
+Method: POST
+Request:
+  {
+    key: 'my-key',
+    value: ['value1', 'value2']
+  }
+```
+#### Get
+```
+Endpoint: /redis/:key
+Method: GET
+```
+
+### CLIENT
 #### Login
 ```
 Endpoint: /login
@@ -136,7 +153,7 @@ Authorization: Bearer <TOKEN FROM LOGIN>
 Method: GET
 ```
 
-#### ADMIN
+### ADMIN
 #### Login
 ```
 Endpoint: /login/admin
