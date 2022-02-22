@@ -297,17 +297,17 @@ cd tsnode-rest-boilerplate
 npm i
 ```
 
-Development
+#### Development
 ```sh
 npm run dev
 ```
 
-Build
+#### Build
 ```sh
 npm run build
 ```
 
-Production
+#### Production
 ```sh
 npm run start
 ```
