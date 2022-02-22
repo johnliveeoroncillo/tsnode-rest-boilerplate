@@ -15,9 +15,8 @@ This is a boilerplate to create Rest API using Express + Typescript
 ## Coming soon ...
 
 - Documentation creator
-- Docker support
 - Parallel processing or events
-
+- Add additional database like mongodb and postgres.
 
 
 ## Folder Structure
