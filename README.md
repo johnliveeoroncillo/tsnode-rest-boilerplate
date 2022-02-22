@@ -283,14 +283,16 @@ Example: npm run test:log ./apis/login/
 ## Installation
 
 Requires [Node.js](https://nodejs.org/) v10+, Typescript and Docker (optional) to run.
-Install the dependencies and devDependencies and start the server.
+Install the dependencies and devDependencies and start the server.  
+
+
+Link to docker: [Docker](https://www.docker.com/)
+
 ```sh
 npm i -g node
 npm i -g typescript
 npm i -g ts-node
 ```
-
-Link to docker: [Docker](https://www.docker.com/)
 
 
 ```sh
