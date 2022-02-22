@@ -23,7 +23,7 @@ const request = `export interface <name>Request {
 const handler = `import { API_RESPONSE } from "../../core";
 import { HttpResponse, HttpRequest } from "../../core/libs/ApiEvent";
 import { Response } from "express";
-import { Database } from "../../../core/database";
+import { Database } from "../../core/databases/Mysql";
 import { Connection } from "typeorm";
 
 import { Response200 } from "./response";

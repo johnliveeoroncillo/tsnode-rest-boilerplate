@@ -17,6 +17,7 @@ export class UsersModel extends Model {
     length: 250
   })
   password: string;
+                
 
   @Column({
     type: "varchar",
