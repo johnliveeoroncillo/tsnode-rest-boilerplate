@@ -199,6 +199,7 @@ Request:
 ```bash
   npm run make:repository <repository_name> <table_name>
 ```
+This will create model and repository
 
 #### Create Migration
 
