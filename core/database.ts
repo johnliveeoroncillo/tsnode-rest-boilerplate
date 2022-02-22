@@ -32,7 +32,6 @@ export class Database {
           synchronize: false,
           logging: this.db_logging,
           entities: [`${__dirname}/../models/*.{ts,js}`],
-          migrations: [`${__dirname}/../migrations/*.{ts,js}`],
         };
         active[conn] = await createConnection(connectionOptions);
     }

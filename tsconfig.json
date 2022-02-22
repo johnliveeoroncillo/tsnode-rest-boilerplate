@@ -20,7 +20,7 @@
   "include" : [
     "**/*.ts", /* Include every ts file in source folder */
     "**/*.yml"   
-  ],
+, "migrate.js"  ],
   "exclude" : [
     "node_modules"  /* exclude everything in  node_modules */
   ]
