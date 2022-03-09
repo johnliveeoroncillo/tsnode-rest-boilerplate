@@ -17,6 +17,7 @@ This is a boilerplate to create Rest API using Express + Typescript
 - Documentation creator
 - Parallel processing or events
 - Add additional database like mongodb and postgres.
+- Add multiple middlewares in single API endpoint
 
 
 ## Folder Structure
