@@ -66,7 +66,7 @@ export class Events {
     private async listEvents(): Promise<EventList> {
         let paths: EventList = {};
 
-        console.log(LogColor.bg.yellow, LogColor.fg.black, "EVENTS", LogColor.reset); 
+        console.log(LogColor.bg.yellow, LogColor.fg.black, "EVENTS : " +this.options.port, LogColor.reset); 
         fs.readdirSync(event_path).forEach((file: string) => {
             const absolute = path.join(event_path, file);
     
