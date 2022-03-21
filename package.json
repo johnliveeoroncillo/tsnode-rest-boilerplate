@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A node express typescript Rest API Boilerplate",
   "author": "John Livee G. Oroncillo",
+  "engines": {
+    "npm": "7.24.1"
+  },
   "scripts": {
     "docker:start": "docker-compose up -d",
     "docker:stop": "docker-compose stop",
