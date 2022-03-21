@@ -5,15 +5,11 @@ import { EVENTS } from "../../helpers/Enums";
 export class EventAction {
 
     async execute(request: EventRequest): Promise<void> {
-        //OPTION 1
+        //OPTION 1 - Event with response
         // const data = await invokeEventWithResponse(EVENTS.EVENT_TEST, { message: request.message });
         // return data;
 
         //OPTION 2
-        // await invokeEvent(EVENTS.EVENT_TEST, { message: request.message })
-
-        //OPTION 3
-        //YOU CAN REMOVE AWAIT IN invokeEvent
-        invokeEvent(EVENTS.EVENT_TEST, { message: request.message });
+        await invokeEvent(EVENTS.EVENT_TEST, { message: request.message });
     }
 }
