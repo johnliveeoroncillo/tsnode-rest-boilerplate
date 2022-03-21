@@ -73,10 +73,13 @@ export class Events {
             if (fs.statSync(absolute).isDirectory()) {
                 if (fs.existsSync(absolute)) {
                     const config = getConfig(`${absolute}/config.yml`);
-                    config[file].location = absolute;
-                    console.log("", LogColor.fg.yellow, '- '+Object.keys(config)[0], LogColor.reset);
-                    console.log("", LogColor.fg.yellow, '-- '+config[file].handler, LogColor.reset);
-                    paths = Object.assign(paths, config);
+                    const enabled = config?.enabled ?? false;
+                    if(enabled) {
+                        config[file].location = absolute;
+                        console.log("", LogColor.fg.yellow, '- '+Object.keys(config)[0], LogColor.reset);
+                        console.log("", LogColor.fg.yellow, '-- '+config[file].handler, LogColor.reset);
+                        paths = Object.assign(paths, config);
+                    }
                 }
             }
         }); 
