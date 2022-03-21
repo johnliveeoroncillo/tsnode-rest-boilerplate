@@ -9,13 +9,13 @@ This is a boilerplate to create Rest API using Express + Typescript
 - Support Middleware for Authorization
 - Test API using Jest
 - Parallel Processing or Events
+- Create sequence diagram using PlantUML
 - and many more ..
 
 
 
 ## Coming soon ...
 
-- Documentation creator
 - Add additional database like mongodb and postgres.
 - Add multiple middlewares in single API endpoint
 
@@ -268,6 +268,11 @@ This will create model and repository
   npm run make:event <event_name>
 ```
 
+#### Create PlantUML Diagram
+
+```bash
+  npm run make:puml <name>
+```
 
 ## Other API Reference
 
@@ -334,9 +339,28 @@ Example: npm run test:log ./apis/login/
 
 Requires [Node.js](https://nodejs.org/) v10+, Typescript and Docker (optional) to run.
 Install the dependencies and devDependencies and start the server.  
-
-
 Link to docker: [Docker](https://www.docker.com/)
+
+### PlantUML
+1. Download this VSCode Extension
+    Name: PlantUML
+    Id: jebbs.plantuml
+    Description: Rich PlantUML support for Visual Studio Code.
+    Version: 2.17.2
+    Publisher: jebbs
+    VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml
+2. Download JRE for PlantUML Preview in VSCode - https://java.com/en/download/
+
+#### PUML Preview
+1. Open your .puml file in vscode
+2. Press ALT + D
+
+#### Exporting Diagram
+1. Open your .puml file in vscode
+2. Press CTRL + SHIFT + P
+3. Select PlantUML: Export Current Diagram
+4. Select your desired file extension
+
 
 ```sh
 npm i -g node
