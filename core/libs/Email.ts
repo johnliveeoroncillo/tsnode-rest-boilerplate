@@ -1,6 +1,5 @@
-import 'dotenv/config';
 import nodemailer, { TransportOptions } from 'nodemailer';
-
+import { env } from './Env';
 export interface EmailData {
     from: string;
     to: string;
@@ -10,11 +9,11 @@ export interface EmailData {
 }
 
 export class Email {
-    private SMTP_PORT = Number(process.env?.SMTP_PORT ?? 0); 
-    private SMTP_HOST: string = process.env?.SMTP_HOST ?? '';
-    private SMTP_SECURE = Boolean(process.env?.SMTP_SECURE ?? false);
-    private SMTP_USERNAME: string = process.env?.SMTP_USERNAME ?? '';
-    private SMTP_PASSWORD: string = process.env?.SMTP_PASSWORD ?? '';
+    private SMTP_PORT = Number(env('SMTP_PORT', 0)); 
+    private SMTP_HOST: string = env('SMTP_HOST', '');
+    private SMTP_SECURE = Boolean(env('SMTP_SECURE', 'false'));
+    private SMTP_USERNAME: string = env('SMTP_USERNAME', '');
+    private SMTP_PASSWORD: string = env('SMTP_PASSWORD', '');
     private transporter: any;
 
     constructor() {

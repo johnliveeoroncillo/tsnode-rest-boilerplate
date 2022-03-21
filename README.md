@@ -8,6 +8,7 @@ This is a boilerplate to create Rest API using Express + Typescript
 - Auto creation of API Routes.
 - Support Middleware for Authorization
 - Test API using Jest
+- Parallel Processing or Events
 - and many more ..
 
 
@@ -15,8 +16,8 @@ This is a boilerplate to create Rest API using Express + Typescript
 ## Coming soon ...
 
 - Documentation creator
-- Parallel processing or events
 - Add additional database like mongodb and postgres.
+- Add multiple middlewares in single API endpoint
 
 
 ## Folder Structure
@@ -38,6 +39,15 @@ tsnode-rest-boilerplate
     └─sample-cron (Created from npm run make:cron sample-cron)
         | config.yml (Cron Configuration)
         | handler.ts (1st lifecycle of the CRON)
+└─events (Contains Events)
+    └─event_test (Created from npm run make:event event_test)
+        | config.yml (Event Configuration)
+        | handler.ts (1st lifecycle of the event)
+        | action.ts (Action of the event connected to handler)
+        | request.ts (Allowed Body Payload)
+        | response.ts (List of responses of the event)
+        | validate.ts (Payload Validation)
+        | handler_test.ts (Unit Testing)
 └─helpers (Helpers folder)
 └─docs (API Documentations)
 └─middlewares (Middlware of the API)
@@ -78,6 +88,13 @@ cron_today: (Folder name)
   timezone: 'Asia/Manila' (Timezone)
 ```
 
+#### ./events/event_test/config.yml
+```
+event_test: (Folder name) 
+  handler: ./events/event_test/handler (1st lifecycle of the API)
+  enabled: true (Enable/Disable option)
+```
+
 ## Environment Variables
 ```
 #DATABASE CONFIGURATION
@@ -110,6 +127,9 @@ SECRET_KEY=abcdef0123456789abcdef0123456789
 
 #ALLOWED ORIGINS (CORS) - currently unavailable or not working
 ALLOWED_ORIGINS=
+
+#EVENT
+EVENT_HOST=127.0.0.1
 ```
 
 ## Demo
@@ -186,6 +206,23 @@ Request:
   }
 ```
 
+### EVENT USAGE
+#### This function is inspired by AWS Lambda Event which drives the invocation or Lambda polls a queue or data stream and invokes the function in response to activity in the queue or data stream.
+#### This custom event is using "net" package to recreate the AWS Lambda Event functionality. Wherein it executes functions in parallel processing and doesn't affect the current thread of your API.
+
+```bash
+import { EVENTS } from "../../helpers/Enums";
+import { invokeEvent, invokeEventWithResponse } from "../../core/libs/Events";
+
+//OPTION 1 - Event with Response
+const data = await invokeEventWithResponse(EVENTS.EVENT_TEST, { message: request.message });
+return data;
+
+//OPTION 2 - Event without Response
+await invokeEvent(EVENTS.EVENT_TEST, { message: request.message });
+
+```
+
 ## API Reference
 
 #### Create Model
@@ -199,6 +236,7 @@ Request:
 ```bash
   npm run make:repository <repository_name> <table_name>
 ```
+This will create model and repository
 
 #### Create Migration
 
@@ -224,6 +262,12 @@ Request:
   npm run make:cron <cron_name>
 ```
 
+#### Create Event
+
+```bash
+  npm run make:event <event_name>
+```
+
 
 ## Other API Reference
 
@@ -244,11 +288,18 @@ Request:
 ```bash
   npm run migrate:refresh
 ```
-#### Test Cron Job
+#### Run Local Cron Job
 
 ```bash
   npm run cron
 ```
+
+#### Run Local Event
+
+```bash
+  npm run dev:event
+```
+
 ## Running Tests
 
 To run tests, run the following command
@@ -281,13 +332,18 @@ Example: npm run test:log ./apis/login/
 
 ## Installation
 
-Requires [Node.js](https://nodejs.org/) v10+ and Typescript to run.
-Install the dependencies and devDependencies and start the server.
+Requires [Node.js](https://nodejs.org/) v10+, Typescript and Docker (optional) to run.
+Install the dependencies and devDependencies and start the server.  
+
+
+Link to docker: [Docker](https://www.docker.com/)
+
 ```sh
 npm i -g node
 npm i -g typescript
 npm i -g ts-node
 ```
+
 
 ```sh
 git clone https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate.git
@@ -295,17 +351,17 @@ cd tsnode-rest-boilerplate
 npm i
 ```
 
-Development
+#### Development
 ```sh
 npm run dev
 ```
 
-Build
+#### Build
 ```sh
 npm run build
 ```
 
-Production
+#### Production
 ```sh
 npm run start
 ```

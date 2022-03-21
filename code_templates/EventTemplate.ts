@@ -44,9 +44,6 @@ export async function execute(req: HttpRequest, res: Response): Promise<HttpResp
     catch(e) {
         return API_RESPONSE(e, res);
     }
-    // finally {
-    //     await Database.closeConnection();
-    // }
 }
 `;
 
@@ -113,16 +110,11 @@ export const Validate = (request: <name>Request): <name>Request => {
 `;
 
 const config = `<name>: 
-  handler: ./apis/<name>/handler
-  endpoint: /<name>
-  method: get
+  handler: ./events/<name>/handler
   enabled: true
-  #UNCOMMENT TO ATTACH MIDDLEWARE
-  #EXAMPLE: middleware: middleware
-  #middleware: <middleware_name>
 `;
 
-export class ApiTemplate {
+export class EventTemplate {
   private readonly filename: string;
   private readonly name: string;
 
@@ -132,43 +124,43 @@ export class ApiTemplate {
   }
 
   generate(): void {
-    const route = `./apis/${this.name}/${this.filename}`
+    const route = `./events/${this.name}/${this.filename}`
     if (existsSync(route))
       throw new Error("API file already existed");
 
     //ACTION
     fse.outputFileSync(
-      `./apis/${this.name}/action.ts`, action.replace(/<name>/g, 
+      `./events/${this.name}/action.ts`, action.replace(/<name>/g, 
       pascalCase(this.name))
     );
     //HANDLER TEST
     fse.outputFileSync(
-      `./apis/${this.name}/handler_test.ts`,
+      `./events/${this.name}/handler_test.ts`,
       handler_test.replace(/<name>/g, pascalCase(this.name))
     );
     //HANDLER
     fse.outputFileSync(
-      `./apis/${this.name}/handler.ts`,
+      `./events/${this.name}/handler.ts`,
       handler.replace(/<name>/g, pascalCase(this.name))
     );
     //REQUEST
     fse.outputFileSync(
-      `./apis/${this.name}/request.ts`,
+      `./events/${this.name}/request.ts`,
       request.replace(/<name>/g, pascalCase(this.name))
     );
     //RESPONSE
     fse.outputFileSync(
-      `./apis/${this.name}/response.ts`,
+      `./events/${this.name}/response.ts`,
       response.replace(/<name>/g, pascalCase(this.name))
     );
     //VALIDATE
     fse.outputFileSync(
-      `./apis/${this.name}/validate.ts`,
+      `./events/${this.name}/validate.ts`,
       validate.replace(/<name>/g, pascalCase(this.name))
     );
     //CONFIG
     fse.outputFileSync(
-      `./apis/${this.name}/config.yml`,
+      `./events/${this.name}/config.yml`,
       config.replace(/<name>/g, this.name)
     );
   }

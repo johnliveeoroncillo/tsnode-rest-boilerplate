@@ -3,7 +3,7 @@ import {
   ConnectionOptions,
   createConnection,
 } from "typeorm";
-import 'dotenv/config';
+import { env } from '../libs/Env';
 interface ActiveConnections {
   [key: string]: Connection;
 }
@@ -11,12 +11,12 @@ interface ActiveConnections {
 
 let active: ActiveConnections = {};
 export class Database {
-  private static host: string = process.env?.MYSQL_HOST ?? '';
-  private static port = Number(process.env?.MYSQL_PORT ?? 3306);
-  private static username: string = process.env?.MYSQL_USERNAME ?? '';
-  private static password: string = process.env?.MYSQL_PASSWORD ?? '';
-  private static db: string = process.env?.MYSQL_DB ?? '';
-  private static logging: boolean = (process.env?.MYSQL_LOGGING ?? false) === 'true';
+  private static host: string = env('MYSQL_HOST', '');
+  private static port = Number(env('MYSQL_PORT', 3306));
+  private static username: string = env('MYSQL_USERNAME', '');
+  private static password: string = env('MYSQL_PASSWORD', '');
+  private static db: string = env('MYSQL_DB', '');
+  private static logging: boolean = env('MYSQL_LOGGING', 'false') === 'true';
 
   static async getConnection(conn = 'default'): Promise<Connection> {
     if (typeof active[conn] === 'undefined') {

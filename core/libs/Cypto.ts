@@ -1,8 +1,8 @@
 import CryptoJS from "crypto-js";
-import 'dotenv/config';
+import { env } from "./Env";
 
 export class Crypto {
-    private static key = process.env?.SECRET_KEY ?? '';
+    private static key = env('SECRET_KEY', '');
     private static salt:any = CryptoJS.lib.WordArray.random(128/8);
     private static iv = CryptoJS.enc.Hex.parse(this.salt);
     

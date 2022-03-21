@@ -1,6 +1,4 @@
 import bcrypt from 'bcrypt';
-import 'dotenv/config';
-
 export class Bcrypt {
     static async encrypt(plain_text: string, rounds = 10): Promise<string> {
         return bcrypt.hash(plain_text, rounds).then((hash:string) =>  {

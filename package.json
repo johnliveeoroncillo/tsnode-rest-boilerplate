@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "description": "A node express typescript Rest API Boilerplate",
   "author": "John Livee G. Oroncillo",
+  "engines": {
+    "node": "<=14.x.x",
+    "npm": "<=6.x.x"
+  },
   "scripts": {
     "docker:start": "docker-compose up -d",
     "docker:stop": "docker-compose stop",
     "dev": "nodemon ./core/server.ts",
-    "start": "cross-env NODE_ENV=production node build/migrate.js up && node build/core/server",
+    "dev:event": "ts-node -r dotenv/config -e \"import { Events} from './build/core/libs/Events'; const event = new Events(); event.startServer();\" ",
+    "start": "cross-env NODE_ENV=production node build/migrate.js up && cross-env NODE_ENV=production node build/core/server",
     "clean": "rimraf build",
     "build": "npm run clean && tsc &&  cpx \"**/*.yml\" build",
     "migrate": "ts-node migrate.ts up",
@@ -23,6 +28,7 @@
     "make:migration": "ts-node artisan.ts make:migration",
     "make:api": "ts-node artisan.ts make:api",
     "make:service": "ts-node artisan.ts make:service",
+    "make:event": "ts-node artisan.ts make:event",
     "make:cron": "ts-node artisan.ts make:cron"
   },
   "license": "ISC",
@@ -67,6 +73,7 @@
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "mysql-migrations": "^1.0.7",
+    "net": "^1.0.2",
     "node-cron": "^3.0.0",
     "node-libcurl": "^2.3.4",
     "nodemailer": "^6.7.2",
@@ -81,7 +88,7 @@
     "ts-node": "^10.5.0",
     "typeorm": "^0.2.41",
     "typescript": "^4.5.5",
-    "yargs": "^16.2.0"
+    "yargs": "^16.2.0" 
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
