@@ -1,0 +1,18 @@
+@startuml
+
+User ->  API: Enter username and Password
+
+API -> Database: Check username
+
+alt Success
+    Database -> Database: Username is available
+    Database -> Database: Create new user
+    Database -> API: User has been created
+    API -> User: Return success message
+end
+alt Error
+    Database -> API: Username is already taken
+    API -> User: Return error message
+end
+
+@enduml

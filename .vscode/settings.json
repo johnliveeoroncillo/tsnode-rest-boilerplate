@@ -1,3 +1,6 @@
 {
-    "nuxt.isNuxtApp": false
+    "nuxt.isNuxtApp": false,
+    "plantuml.commandArgs": [],
+    "plantuml.diagramsRoot": "docs",
+    "plantuml.exportOutDir": "docs"
 }

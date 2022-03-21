@@ -1,0 +1,18 @@
+@startuml
+
+User ->  API: Enter username and Password
+
+group Validation
+    API -> Database: Check username and password
+
+    alt Success
+        Database -> API: Username and password is correct
+        API -> User: Return access token
+    end
+    alt Error
+        Database -> API: Username or password is incorrect
+        API -> User: Return error message
+    end
+end
+
+@enduml
