@@ -5,6 +5,7 @@ import { ModelTemplate } from './code_templates/ModelTemplate';
 import { RepositoryTemplate } from './code_templates/RepositoryTemplate';
 import { ServiceTemplate } from "./code_templates/ServiceTemplate";
 import { CronTemplate } from "./code_templates/CronTemplate";
+import { EventTemplate } from "./code_templates/EventTemplate";
 
 const commands = yargs(process.argv.slice(2)).options({
   docs: {
@@ -75,6 +76,17 @@ try {
 
           console.log('Service successfully created');
       },
+  );
+
+  commands.command(
+    'make:event <name>',
+    'Create a new event',
+    () => {},
+    (argv: Arguments) => {
+        const template = new EventTemplate(<string>argv.name);
+        template.generate();
+        console.log('Event successfully created');
+    },
   );
 
   commands.command(

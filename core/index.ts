@@ -63,7 +63,7 @@ const generateRoute = (path: string): string => {
 };
 
 ////v2
-const getConfig = (path: string): Config | undefined => {
+export const getConfig = (path: string): Config | undefined | any => {
   try {
       const doc = yaml.load(fs.readFileSync(path, 'utf8'));
       return doc;
@@ -106,7 +106,7 @@ const loadCron = (): void => {
    
 }
 
-const API_RESPONSE = (response: any, res: Response): HttpResponse => {
+const API_RESPONSE = (response: any, res?: Response): HttpResponse => {
   let code:number = Response500.code;
   let new_response:any = {};
 
@@ -120,7 +120,7 @@ const API_RESPONSE = (response: any, res: Response): HttpResponse => {
   catch(e: any) {
       new_response = {code,message:response.toString()};
   }
-  res.status(code).json(new_response);
+  if (res) res.status(code).json(new_response);
   return {
       ...new_response,
   }
