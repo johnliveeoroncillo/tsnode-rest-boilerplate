@@ -151,6 +151,7 @@ const emit = (event_name: string, payload?: string, withResponse = false): Promi
             }
             // console.log('EVENT CLIENT CONNECTED', eventData);
             socket.write(JSON.stringify(eventData));
+            if(!withResponse) resolve();
         })
         
         if(withResponse)
@@ -162,7 +163,6 @@ const emit = (event_name: string, payload?: string, withResponse = false): Promi
     
         socket.on(LISTENERS.close, () => {
             Logger.info('EVENT CLIENT', 'DESTROYED');
-            if(!withResponse) resolve();
         })
     })
 }
