@@ -7,7 +7,8 @@ import { Config, METHODS, RouteConfig } from './libs/ApiEvent';
 import { Response404 } from './defaults';
 import "reflect-metadata";
 import cors from 'cors';
-import 'dotenv/config';
+import { env } from "./libs/Env";
+
 const app: Express = express();
 
 loadCron();
@@ -83,7 +84,7 @@ loadRoutes().then(async (routes) => {
 /** Server */
 const run = async () => {
     const httpServer = http.createServer(app);
-    const PORT: string | number | undefined = process.env.PORT ?? 6060;
+    const PORT: string | number | undefined = env('PORT', 6060);
     httpServer.listen(PORT, () =>
       console.log(`The server is running on port ${PORT}`)
     );
