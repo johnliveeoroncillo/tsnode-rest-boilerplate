@@ -7,6 +7,7 @@ import { getConfig } from "..";
 import { LogColor, Logger } from "./Logger";
 
 const event_path = __dirname + '/../../events';
+const EVENT_PORT = Number(env('PORT', 6060)) + 1;
 interface Options {
     host?: string;
     port?: number;
@@ -51,7 +52,7 @@ export class Response {
 export class Events {
     private defaultOptions: Options = {
         host: env('EVENT_HOST','127.0.0.0'),
-        port: Number(env('PORT', 6060)),
+        port: EVENT_PORT,
     }
     private options: Options;
     private serverEvent: Server;
@@ -141,7 +142,7 @@ const invokeEventWithResponse = async (event_name: string, payload?: any): Promi
 const emit = (event_name: string, payload?: string, withResponse = false): Promise<void> => {
     return new Promise((resolve) => {
         const socket = new Socket();
-        socket.connect(Number(env('PORT', 6060)), env('EVENT_HOST', '127.0.0.1'), function() {
+        socket.connect(EVENT_PORT, env('EVENT_HOST', '127.0.0.1'), function() {
             Logger.info('EVENT CLIENT', 'STARTED');
             const eventData: EventData = {
                 event_name,
