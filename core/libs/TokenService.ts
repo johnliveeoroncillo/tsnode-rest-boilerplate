@@ -2,10 +2,10 @@
 import jwt from 'jsonwebtoken';
 import { CustomResponse, Response401 } from "../defaults";
 import { HttpRequest, Identity } from '../libs/ApiEvent';
-import 'dotenv/config';
+import { env } from './Env';
 
-const JWT_TOKEN = process.env?.JWT_TOKEN ?? '';
-const JWT_ADMIN_TOKEN = process.env?.JWT_ADMIN_TOKEN ?? '';
+const JWT_TOKEN = env('JWT_TOKEN', '');
+const JWT_ADMIN_TOKEN = env('JWT_ADMIN_TOKEN', '');
 export interface TokenReponse {
     token: string;
     data: Identity;

@@ -4,19 +4,19 @@ import { Carbon } from '../core/libs/Carbon'
 
 const content = `
 const up =
-    \`CREATE TABLE <table> ( 
-        id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
-        uuid VARCHAR(50) NOT NULL, 
+    'CREATE TABLE <table> ( ' +
+        '\`id\` INT UNSIGNED NOT NULL AUTO_INCREMENT, ' +
+        '\`uuid\` VARCHAR(50) NOT NULL, ' +
 
 
         
-        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
-        updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        deleted_at DATETIME NULL,
-        PRIMARY KEY (id),
-        UNIQUE INDEX uuid_UNIQUE (uuid ASC));\`;
+        '\`created_at\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , ' +
+        '\`updated_at\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,' +
+        '\`deleted_at\` DATETIME NULL,' +
+        'PRIMARY KEY (\`id\`),' +
+        'UNIQUE INDEX \`uuid_UNIQUE\` (\`uuid\` ASC));';
 
-const down = \`DROP TABLE <table>;\`;
+const down = 'DROP TABLE <table>;';
 
 export = { up, down }`;
 
