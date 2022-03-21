@@ -19,9 +19,11 @@
   },
   "include" : [
     "**/*.ts", /* Include every ts file in source folder */
-    "**/*.yml"   
+    "**/*.yml", 
+    "migrate.js"
   ],
   "exclude" : [
-    "node_modules"  /* exclude everything in  node_modules */
+    "node_modules",
+    "**/*_test.ts"
   ]
 }

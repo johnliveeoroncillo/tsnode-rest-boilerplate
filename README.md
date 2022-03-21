@@ -1,53 +1,6 @@
-## Demo
-#### Development
-https://tsnode-rest-dev.herokuapp.com/
-
-#### Production
-https://tsnode-rest-prod.herokuapp.com/
-
-#### Login
-```
-Endpoint: /login
-Method: POST
-Request:
-  {
-    username: '',
-    password: ''
-  }
-```
-
-#### Register
-```
-Endpoint: /register
-Method: POST
-Request:
-  {
-    username: '',
-    password: ''
-  }
-```
-
-#### Profile
-```
-Endpoint: /profile
-Authorization: Bearer <TOKEN FROM LOGIN>
-Method: GET
-```
-
-## Coming soon ...
-
-- Documentation creator
-- Docker support
-- Client and Admin Authorization
-- Parallel processing or events
-
-
 # Typescript Express Rest API Boilerplate
 
 This is a boilerplate to create Rest API using Express + Typescript
-
-
-
 
 ## Features
 
@@ -55,7 +8,17 @@ This is a boilerplate to create Rest API using Express + Typescript
 - Auto creation of API Routes.
 - Support Middleware for Authorization
 - Test API using Jest
+- Parallel Processing or Events
 - and many more ..
+
+
+
+## Coming soon ...
+
+- Documentation creator
+- Add additional database like mongodb and postgres.
+- Add multiple middlewares in single API endpoint
+
 
 ## Folder Structure
 
@@ -76,6 +39,16 @@ tsnode-rest-boilerplate
     └─sample-cron (Created from npm run make:cron sample-cron)
         | config.yml (Cron Configuration)
         | handler.ts (1st lifecycle of the CRON)
+└─events (Contains Events)
+    └─event_test (Created from npm run make:event event_test)
+        | config.yml (Event Configuration)
+        | handler.ts (1st lifecycle of the event)
+        | action.ts (Action of the event connected to handler)
+        | request.ts (Allowed Body Payload)
+        | response.ts (List of responses of the event)
+        | validate.ts (Payload Validation)
+        | handler_test.ts (Unit Testing)
+└─helpers (Helpers folder)
 └─docs (API Documentations)
 └─middlewares (Middlware of the API)
     | authorizer.ts (Sample middleware for authentication)
@@ -89,10 +62,10 @@ tsnode-rest-boilerplate
 | .eslintrc.js
 | .gitignore
 | .prettierrc
+| docker-compose.yml (Docker image files and database configurations)
 | jest.config.js
 | migrate.ts
 | tsconfig.json
-| Procfile (Used to run custom command in Heroku)
 ```
 
 ## Config Structure
@@ -115,15 +88,35 @@ cron_today: (Folder name)
   timezone: 'Asia/Manila' (Timezone)
 ```
 
+#### ./events/event_test/config.yml
+```
+event_test: (Folder name) 
+  handler: ./events/event_test/handler (1st lifecycle of the API)
+  enabled: true (Enable/Disable option)
+```
+
 ## Environment Variables
 ```
 #DATABASE CONFIGURATION
-DB_HOST=localhost
-DB_PORT=3306
-DB_USERNAME=root
-DB_PASSWORD=
-DB_NAME=database
-DB_LOGGING=true
+##MYSQL
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_USERNAME=root
+MYSQL_PASSWORD=admin
+MYSQL_DB=database
+MYSQL_LOGGING=true
+
+##POSTGRES
+POSTGRES_DB=database
+POSTGRES_USERNAME=root
+POSTGRES_PASSWORD=admin
+
+##REDIS
+REDIS_HOST=127.0.0.1
+REDIS_USERNAME=root
+REDIS_PASSWORD=admin
+REDIS_PORT=6379
+REDIS_TTL=3600
 
 #JWT CONFIGURATION
 JWT_TOKEN=
@@ -134,6 +127,100 @@ SECRET_KEY=abcdef0123456789abcdef0123456789
 
 #ALLOWED ORIGINS (CORS) - currently unavailable or not working
 ALLOWED_ORIGINS=
+
+#EVENT
+EVENT_HOST=127.0.0.1
+```
+
+## Demo
+#### Development
+https://tsnode-rest-dev.herokuapp.com/
+
+#### Production
+https://tsnode-rest-prod.herokuapp.com/
+
+### REDIS
+#### Create
+```
+Endpoint: /redis/insert
+Method: POST
+Request:
+  {
+    key: 'my-key',
+    value: ['value1', 'value2']
+  }
+```
+#### Get
+```
+Endpoint: /redis/:key
+Method: GET
+```
+
+### CLIENT
+#### Login
+```
+Endpoint: /login
+Method: POST
+Request:
+  {
+    username: '',
+    password: ''
+  }
+```
+#### Profile
+```
+Endpoint: /profile
+Authorization: Bearer <TOKEN FROM LOGIN>
+Method: GET
+```
+
+### ADMIN
+#### Login
+```
+Endpoint: /login/admin
+Method: POST
+Request:
+  {
+    username: '',
+    password: ''
+  }
+```
+#### Profile
+```
+Endpoint: /profile/admin
+Authorization: Bearer <TOKEN FROM LOGIN>
+Method: GET
+```
+
+
+
+#### Register
+```
+Endpoint: /register
+Method: POST
+Request:
+  {
+    username: '',
+    password: '',
+    scope: '' <- ADMIN or CLIENT
+  }
+```
+
+### EVENT USAGE
+#### This function is inspired by AWS Lambda Event which drives the invocation or Lambda polls a queue or data stream and invokes the function in response to activity in the queue or data stream.
+#### This custom event is using "net" package to recreate the AWS Lambda Event functionality. Wherein it executes functions in parallel processing and doesn't affect the current thread of your API.
+
+```bash
+import { EVENTS } from "../../helpers/Enums";
+import { invokeEvent, invokeEventWithResponse } from "../../core/libs/Events";
+
+//OPTION 1 - Event with Response
+const data = await invokeEventWithResponse(EVENTS.EVENT_TEST, { message: request.message });
+return data;
+
+//OPTION 2 - Event without Response
+await invokeEvent(EVENTS.EVENT_TEST, { message: request.message });
+
 ```
 
 ## API Reference
@@ -149,6 +236,7 @@ ALLOWED_ORIGINS=
 ```bash
   npm run make:repository <repository_name> <table_name>
 ```
+This will create model and repository
 
 #### Create Migration
 
@@ -174,6 +262,12 @@ ALLOWED_ORIGINS=
   npm run make:cron <cron_name>
 ```
 
+#### Create Event
+
+```bash
+  npm run make:event <event_name>
+```
+
 
 ## Other API Reference
 
@@ -194,6 +288,18 @@ ALLOWED_ORIGINS=
 ```bash
   npm run migrate:refresh
 ```
+#### Run Local Cron Job
+
+```bash
+  npm run cron
+```
+
+#### Run Local Event
+
+```bash
+  npm run dev:event
+```
+
 ## Running Tests
 
 To run tests, run the following command
@@ -210,21 +316,34 @@ Example: npm run test ./apis/login/
 ```
 Example: npm run test:log ./apis/login/
 
-#### Test Cron Job
+## Local Docker
+
+#### Start Local MySQL/Redis/Postgres
 
 ```bash
-  npm run cron
+  npm run docker:start
+```
+
+#### Stop Local MySQL/Redis/Postgres
+
+```bash
+  npm run docker:stop
 ```
 
 ## Installation
 
-Requires [Node.js](https://nodejs.org/) v10+ and Typescript to run.
-Install the dependencies and devDependencies and start the server.
+Requires [Node.js](https://nodejs.org/) v10+, Typescript and Docker (optional) to run.
+Install the dependencies and devDependencies and start the server.  
+
+
+Link to docker: [Docker](https://www.docker.com/)
+
 ```sh
 npm i -g node
 npm i -g typescript
 npm i -g ts-node
 ```
+
 
 ```sh
 git clone https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate.git
@@ -232,12 +351,17 @@ cd tsnode-rest-boilerplate
 npm i
 ```
 
-Development
+#### Development
 ```sh
 npm run dev
 ```
 
-Production
+#### Build
+```sh
+npm run build
+```
+
+#### Production
 ```sh
 npm run start
 ```

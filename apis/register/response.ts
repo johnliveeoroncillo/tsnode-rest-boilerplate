@@ -10,7 +10,10 @@ export class Response200 {
         message: 'Success',
     }
 }
-
+export class ScopeNotFound {
+    code = 404;
+    message = 'User scope not found';
+}
 export class Duplicate {
     code = 409;
     message = 'Username already exists';

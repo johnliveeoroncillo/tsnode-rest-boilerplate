@@ -3,6 +3,10 @@ moment.tz.setDefault('Asia/Manila');
 
 export class Carbon {
 
+    static moment(): moment.Moment {
+        return moment();
+    }
+
     static now(): string {
         return moment().format('YYYY-MM-DD HH:mm:ss')
     }

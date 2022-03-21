@@ -3,10 +3,7 @@ import {
   ConnectionOptions,
   createConnection,
 } from "typeorm";
-import 'dotenv/config';
-import path from 'path';
-const ext = path.extname(__filename);
-
+import { env } from '../libs/Env';
 interface ActiveConnections {
   [key: string]: Connection;
 }
@@ -14,34 +11,26 @@ interface ActiveConnections {
 
 let active: ActiveConnections = {};
 export class Database {
-  private static host: string = process.env?.DB_HOST ?? '';
-  private static port = Number(process.env?.DB_PORT ?? 3306);
-  private static username: string = process.env?.DB_USERNAME ?? '';
-  private static password: string = process.env?.DB_PASSWORD ?? '';
-  private static db: string = process.env?.DB_NAME ?? '';
-  private static db_logging: boolean = (process.env?.DB_LOGGING ?? false) === 'true';
-
-  // private connectionManager: ConnectionManager;
-
-  // constructor() {
-  //   this.connectionManager = getConnectionManager();
-  // }
+  private static host: string = env('MYSQL_HOST', '');
+  private static port = Number(env('MYSQL_PORT', 3306));
+  private static username: string = env('MYSQL_USERNAME', '');
+  private static password: string = env('MYSQL_PASSWORD', '');
+  private static db: string = env('MYSQL_DB', '');
+  private static logging: boolean = env('MYSQL_LOGGING', 'false') === 'true';
 
   static async getConnection(conn = 'default'): Promise<Connection> {
     if (typeof active[conn] === 'undefined') {
         const connectionOptions: ConnectionOptions = {
           name: conn,
-          type: "mysql",
+          type: 'mysql',
           host: this.host,
           port: this.port,
           username: this.username,
           password: this.password,
           database: this.db,
           synchronize: false,
-          logging: this.db_logging,
-          entities: [`models/**/*.${ext}`],
-          migrations: [`migrations/**/*.${ext}`],
-          // subscribers: ['src/subscriber/**/*.js'],
+          logging: this.logging,
+          entities: [`${__dirname}/../../models/*.{ts,js}`],
         };
         active[conn] = await createConnection(connectionOptions);
     }

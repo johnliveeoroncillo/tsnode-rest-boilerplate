@@ -9,13 +9,20 @@ export class UsersModel extends Model {
     type: "varchar",
     length: 100
   })
-  public username: string;
+  username: string;
                 
 
   @Column({
     type: "varchar",
     length: 250
   })
-  public password: string;
+  password: string;
+                
+
+  @Column({
+    type: "varchar",
+    length: 8
+  })
+  scope: string;
                 
 }

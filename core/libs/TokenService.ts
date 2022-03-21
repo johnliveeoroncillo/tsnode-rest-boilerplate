@@ -2,32 +2,42 @@
 import jwt from 'jsonwebtoken';
 import { CustomResponse, Response401 } from "../defaults";
 import { HttpRequest, Identity } from '../libs/ApiEvent';
-import 'dotenv/config';
+import { env } from './Env';
 
-const JWT_TOKEN = process.env?.JWT_TOKEN ?? '';
+const JWT_TOKEN = env('JWT_TOKEN', '');
+const JWT_ADMIN_TOKEN = env('JWT_ADMIN_TOKEN', '');
 export interface TokenReponse {
     token: string;
     data: Identity;
 }
 
 export class TokenService {
-    static async generateJWT(data: Identity): Promise<string> {
+    static async clientJWT(data: Identity): Promise<string> {
+        return await this.generateJWT(data, JWT_TOKEN)
+    }
+
+    static async adminJWT(data: Identity): Promise<string> {
+        return await this.generateJWT(data, JWT_ADMIN_TOKEN)
+    }
+
+    private static async generateJWT(data: Identity, TOKEN: string): Promise<string> {
         const token = jwt.sign({
             data
-        }, JWT_TOKEN, { expiresIn: '1d' });
+        }, TOKEN, { expiresIn: '1d' });
         return token;
     }
 
-    static async generateRefreshJWT(data: unknown): Promise<string> {
-        const token = jwt.sign({
-            data
-        }, JWT_TOKEN, { expiresIn: '7d' });
-        return token;
+    static async verifyClientToken(token: string): Promise<any> {
+        return this.verifyToken(token, JWT_TOKEN);
     }
 
-    static async verifyToken(token: string): Promise<any> {
+    static async verifyAdminToken(token: string): Promise<any> {
+        return this.verifyToken(token, JWT_ADMIN_TOKEN);
+    }
+
+    private static async verifyToken(token: string, SECRET: string): Promise<any> {
         try {
-            const response = jwt.verify(token, JWT_TOKEN, (err, decoded) => {
+            const response = jwt.verify(token, SECRET, (err, decoded) => {
                 if (decoded === undefined)
                     throw new CustomResponse(Response401, err?.message);
                 return decoded;

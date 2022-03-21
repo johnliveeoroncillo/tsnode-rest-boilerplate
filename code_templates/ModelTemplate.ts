@@ -1,8 +1,8 @@
 import { writeFileSync, existsSync } from "fs";
 import { pascalCase } from "case-anything";
-import { Database } from "../core/database";
+import { Database } from "../core/databases/Mysql";
 import { Connection } from "typeorm";
-import 'dotenv/config';
+import { env } from "../core/libs/Env";
 
 const exclude = ['id','uuid','created_at','updated_at','deleted_at'];
 const numbers = ['bit','int','integer','tinyint','smallint','mediumint','bigint','float','double','double precision','dec','decimal','numeric','fixed','year']
@@ -38,7 +38,7 @@ export class ModelTemplate {
       //CHECK MIGRATION TABLE
       const response = await connection.manager.query(`SELECT *
                                                     FROM INFORMATION_SCHEMA.COLUMNS
-                                                    WHERE TABLE_SCHEMA = '${process.env.DB_NAME}' AND TABLE_NAME = '${this.table_name}';`);
+                                                    WHERE TABLE_SCHEMA = '${env('MYSQL_DB')}' AND TABLE_NAME = '${this.table_name}';`);
       if(response.length) {
           response.forEach((element: { COLUMN_NAME: string; DATA_TYPE: string; CHARACTER_MAXIMUM_LENGTH: null; }) => {
               if(!exclude.includes(element.COLUMN_NAME)) {

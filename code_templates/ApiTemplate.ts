@@ -23,7 +23,7 @@ const request = `export interface <name>Request {
 const handler = `import { API_RESPONSE } from "../../core";
 import { HttpResponse, HttpRequest } from "../../core/libs/ApiEvent";
 import { Response } from "express";
-import { Database } from "../../core/database";
+import { Database } from "../../core/databases/Mysql";
 import { Connection } from "typeorm";
 
 import { Response200 } from "./response";
@@ -66,10 +66,10 @@ test('200: SUCCESS', async () => {
         query: {
 
         }
-    } as HttpRequest
+    }
 
 
-    const result = await execute(request, TestReponse);
+    const result = await execute(request as HttpRequest, TestReponse);
 
     expect(result).toHaveProperty('code');
     expect(result).toHaveProperty('message');
@@ -91,7 +91,7 @@ export class Response200 {
 }
 
 export class NotFound {
-    code = 400;
+    code = 404;
     message = 'Username not found';
 }
 `;
