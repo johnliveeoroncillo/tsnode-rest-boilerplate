@@ -1,0 +1,18 @@
+@startuml
+
+User ->  API: Get User Details
+
+group Validation
+    API -> API: Check access token
+
+    alt Success
+        API -> Database: Get user by username
+        Database -> API: Return user details
+        API -> User: Return user details
+    end
+    alt Error
+        API -> User: Unauthorized Access
+    end
+end
+
+@enduml

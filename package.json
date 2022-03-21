@@ -29,7 +29,8 @@
     "make:api": "ts-node artisan.ts make:api",
     "make:service": "ts-node artisan.ts make:service",
     "make:event": "ts-node artisan.ts make:event",
-    "make:cron": "ts-node artisan.ts make:cron"
+    "make:cron": "ts-node artisan.ts make:cron",
+    "make:puml": "ts-node artisan.ts make:puml"
   },
   "license": "ISC",
   "dependencies": {

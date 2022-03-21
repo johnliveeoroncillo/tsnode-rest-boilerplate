@@ -6,6 +6,7 @@ import { RepositoryTemplate } from './code_templates/RepositoryTemplate';
 import { ServiceTemplate } from "./code_templates/ServiceTemplate";
 import { CronTemplate } from "./code_templates/CronTemplate";
 import { EventTemplate } from "./code_templates/EventTemplate";
+import { DocsTemplate } from "./code_templates/DocsTemplate";
 
 const commands = yargs(process.argv.slice(2)).options({
   docs: {
@@ -79,6 +80,18 @@ try {
   );
 
   commands.command(
+    'make:puml <name>',
+    'Create a plantuml doc',
+    () => {},
+    (argv: Arguments) => {
+        const service = new DocsTemplate(<string>argv.name);
+        service.generate();
+
+        console.log('PlantUML Docs successfully created');
+    },
+);
+
+  commands.command(
     'make:event <name>',
     'Create a new event',
     () => {},
@@ -105,8 +118,3 @@ try {
 } catch (e: any) {
     console.error('\x1b[33m%s\x1b[0m', e.message);
 }
-// try {
-
-// } catch (error) {
-//     console.log(error.message);
-// }
