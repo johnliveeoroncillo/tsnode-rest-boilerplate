@@ -219,7 +219,7 @@ const data = await invokeEventWithResponse(EVENTS.EVENT_TEST, { message: request
 return data;
 
 //OPTION 2 - Event without Response
-invokeEvent(EVENTS.EVENT_TEST, { message: request.message });
+await invokeEvent(EVENTS.EVENT_TEST, { message: request.message });
 
 ```
 
