@@ -8,9 +8,13 @@ import { Response404 } from './defaults';
 import "reflect-metadata";
 import cors from 'cors';
 import { env } from "./libs/Env";
+import { Logger } from "./libs/Logger";
+import { Events } from "./libs/Events";
+import { ENV } from "../helpers/Enums";
 
 const app: Express = express();
 
+/** LOAD CRON */
 loadCron();
 
 /** Logging */
@@ -85,9 +89,16 @@ loadRoutes().then(async (routes) => {
 const run = async () => {
     const httpServer = http.createServer(app);
     const PORT: string | number | undefined = env('PORT', 6060);
-    httpServer.listen(PORT, () =>
-      console.log(`The server is running on port ${PORT}`)
-    );
+
+    httpServer.listen(PORT, () => {
+      const environment = env('NODE_ENV', ENV.DEVELOPMENT);
+      Logger.info('ENVIRONMENT', environment)
+      if(environment === ENV.PRODUCTION) {
+          const event = new Events();
+          event.startServer();
+      }
+      Logger.serverStarted(PORT);
+    });
 };
 
 run();
