@@ -1,11 +1,10 @@
-
-import { Connection } from "typeorm";
-import { UsersRepository } from "../../repository/UsersRepository";
-import { RegisterRequest } from "./request";
-import { UsersModel } from "../../models/UsersModel";
-import { Duplicate, ScopeNotFound } from "./response";
-import { Bcrypt } from "../../core/libs/Bcrypt";
-import { USER_SCOPE } from "../../helpers/Enums";
+import { Connection } from 'typeorm';
+import { UsersRepository } from '../../repository/UsersRepository';
+import { RegisterRequest } from './request';
+import { UsersModel } from '../../models/UsersModel';
+import { Duplicate, ScopeNotFound } from './response';
+import { Bcrypt } from '../../core/libs/Bcrypt';
+import { USER_SCOPE } from '../../helpers/Enums';
 
 export class RegisterAction {
     private userRepository: UsersRepository;
@@ -15,7 +14,7 @@ export class RegisterAction {
     }
 
     async execute(request: RegisterRequest): Promise<UsersModel> {
-        if(!USER_SCOPE?.[request.scope as USER_SCOPE]) throw new ScopeNotFound();
+        if (!USER_SCOPE?.[request.scope as USER_SCOPE]) throw new ScopeNotFound();
 
         const user = await this.userRepository.getByUsername(request.username, request.scope as USER_SCOPE);
         if (user) throw new Duplicate();

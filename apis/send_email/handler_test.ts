@@ -9,14 +9,9 @@ test('200: SUCCESS', async () => {
             to: 'johnliveeoroncillo@gmail.com',
             message: 'Test',
         },
-        params: {
-
-        },
-        query: {
-
-        }
-    } as HttpRequest
-
+        params: {},
+        query: {},
+    } as HttpRequest;
 
     const result = await execute(request, TestReponse);
 

@@ -1,5 +1,5 @@
-import { SendEmailRequest } from "./request";
-import { Validation } from "../../core/libs/Validation";
+import { SendEmailRequest } from './request';
+import { Validation } from '../../core/libs/Validation';
 import joi from 'joi';
 
 export const Validate = (request: SendEmailRequest): SendEmailRequest => {

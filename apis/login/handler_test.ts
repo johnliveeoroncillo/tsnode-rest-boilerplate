@@ -1,4 +1,3 @@
-
 import { execute } from './handler';
 import { LoginRequest } from './request';
 import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
@@ -12,14 +11,9 @@ test('422: PARAMETER ERROR', async () => {
             username: '',
             password: '',
         },
-        params: {
-
-        },
-        query: {
-
-        }
-    } as HttpRequest
-
+        params: {},
+        query: {},
+    } as HttpRequest;
 
     const result = await execute(request, TestReponse);
 
@@ -34,17 +28,12 @@ test('404: USERNAME NOT FOUND', async () => {
     const request = {
         identity: {},
         body: <LoginRequest>{
-            username:  faker.internet.userName(),
+            username: faker.internet.userName(),
             password: 'test',
         },
-        params: {
-
-        },
-        query: {
-
-        }
-    } as HttpRequest
-
+        params: {},
+        query: {},
+    } as HttpRequest;
 
     const result = await execute(request, TestReponse);
 
@@ -55,21 +44,16 @@ test('404: USERNAME NOT FOUND', async () => {
 });
 
 test('400: PASSWORD ERROR', async () => {
-    const user = await UserSeeder.create(1)
+    const user = await UserSeeder.create(1);
     const request = {
         identity: {},
         body: <LoginRequest>{
-            username:  user.username,
+            username: user.username,
             password: faker.internet.password(),
         },
-        params: {
-
-        },
-        query: {
-
-        }
-    } as HttpRequest
-
+        params: {},
+        query: {},
+    } as HttpRequest;
 
     const result = await execute(request, TestReponse);
 
@@ -79,23 +63,17 @@ test('400: PASSWORD ERROR', async () => {
     expect(result.code).toBe(400);
 });
 
-
 test('200: SUCCESS', async () => {
-    const user = await UserSeeder.create(2)
+    const user = await UserSeeder.create(2);
     const request = {
         identity: {},
         body: <LoginRequest>{
             username: user.username,
             password: 'test',
         },
-        params: {
-
-        },
-        query: {
-
-        }
-    } as HttpRequest
-
+        params: {},
+        query: {},
+    } as HttpRequest;
 
     const result = await execute(request, TestReponse);
 

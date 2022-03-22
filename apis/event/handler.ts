@@ -1,25 +1,27 @@
-import { API_RESPONSE } from "../../core";
-import { HttpResponse, HttpRequest } from "../../core/libs/ApiEvent";
-import { Response } from "express";
-import { Database } from "../../core/databases/Mysql";
-import { Connection } from "typeorm";
+import { API_RESPONSE } from '../../core';
+import { HttpResponse, HttpRequest } from '../../core/libs/ApiEvent';
+import { Response } from 'express';
+import { Database } from '../../core/databases/Mysql';
+import { Connection } from 'typeorm';
 
-import { Response200 } from "./response";
-import { Validate } from "./validate";
-import { EventAction } from "./action";
+import { Response200 } from './response';
+import { Validate } from './validate';
+import { EventAction } from './action';
 
 export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
     try {
         const request = Validate(req.body);
         const action = new EventAction();
         const data = await action.execute(request);
-        
-        return API_RESPONSE({
-            ...Response200.SUCCESS,
-            data,
-        }, res);
-    }
-    catch(e) {
+
+        return API_RESPONSE(
+            {
+                ...Response200.SUCCESS,
+                data,
+            },
+            res,
+        );
+    } catch (e) {
         return API_RESPONSE(e, res);
     }
     // finally {

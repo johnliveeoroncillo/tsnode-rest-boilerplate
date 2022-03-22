@@ -1,5 +1,5 @@
-import { RedisInsertRequest } from "./request";
-import { Validation } from "../../core/libs/Validation";
+import { RedisInsertRequest } from './request';
+import { Validation } from '../../core/libs/Validation';
 import joi from 'joi';
 
 export const Validate = (request: RedisInsertRequest): RedisInsertRequest => {

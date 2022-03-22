@@ -5,14 +5,9 @@ test('200: SUCCESS', async () => {
     const request = {
         identity: {},
         body: {},
-        params: {
-
-        },
-        query: {
-
-        }
-    } as HttpRequest
-
+        params: {},
+        query: {},
+    } as HttpRequest;
 
     const result = await execute(request, TestReponse);
 

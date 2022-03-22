@@ -268,10 +268,16 @@ This will create model and repository
   npm run make:event <event_name>
 ```
 
-#### Create PlantUML Diagram
+#### Create Documentation
 
 ```bash
-  npm run make:puml <name>
+  npm run make:doc <name>
+```
+
+#### Build Documentation
+
+```bash
+  npm run build:doc
 ```
 
 ## Other API Reference
