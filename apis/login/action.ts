@@ -1,11 +1,10 @@
-
-import { Connection } from "typeorm";
-import { TokenReponse, TokenService } from "../../core/libs/TokenService";
-import { UsersRepository } from "../../repository/UsersRepository";
-import { LoginRequest } from "./request";
-import { NotFound, PasswordError } from "./response";
+import { Connection } from 'typeorm';
+import { TokenReponse, TokenService } from '../../core/libs/TokenService';
+import { UsersRepository } from '../../repository/UsersRepository';
+import { LoginRequest } from './request';
+import { NotFound, PasswordError } from './response';
 import { Bcrypt } from '../../core/libs/Bcrypt';
-import { USER_SCOPE } from "../../helpers/Enums";
+import { USER_SCOPE } from '../../helpers/Enums';
 
 export class LoginAction {
     private userRepository: UsersRepository;
@@ -17,8 +16,8 @@ export class LoginAction {
     async execute(request: LoginRequest): Promise<TokenReponse> {
         const user = await this.userRepository.getByUsername(request.username, USER_SCOPE.CLIENT);
         if (!user) throw new NotFound();
-        
-        if (! await Bcrypt.compare(request.password, user.password)) throw new PasswordError();
+
+        if (!(await Bcrypt.compare(request.password, user.password))) throw new PasswordError();
 
         const token = await TokenService.clientJWT({
             id: user.id,
@@ -28,6 +27,6 @@ export class LoginAction {
         return {
             token,
             data: user,
-        }
+        };
     }
 }

@@ -1,12 +1,11 @@
+import { API_RESPONSE } from '../../core';
+import { HttpRequest, HttpResponse } from '../../core/libs/ApiEvent';
+import { Response } from 'express';
+import { Database } from '../../core/databases/Mysql';
+import { Connection } from 'typeorm';
 
-import { API_RESPONSE } from "../../core";
-import { HttpRequest, HttpResponse } from "../../core/libs/ApiEvent";
-import { Response } from "express";
-import { Database } from "../../core/databases/Mysql";
-import { Connection } from "typeorm";
-
-import { Response200 } from "./response";
-import { ProfileReadAction } from "./action";
+import { Response200 } from './response';
+import { ProfileReadAction } from './action';
 
 export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
     try {
@@ -16,16 +15,17 @@ export async function execute(req: HttpRequest, res: Response): Promise<HttpResp
         const connection: Connection = await Database.getConnection();
         const action = new ProfileReadAction(connection);
         const data = await action.execute(id, uuid);
-        
-        return API_RESPONSE({
-            ...Response200.SUCCESS,
-            data,
-        }, res);
-    }
-    catch(e) {
+
+        return API_RESPONSE(
+            {
+                ...Response200.SUCCESS,
+                data,
+            },
+            res,
+        );
+    } catch (e) {
         return API_RESPONSE(e, res);
-    }
-    finally {
+    } finally {
         await Database.closeConnection();
     }
 }

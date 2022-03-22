@@ -1,6 +1,5 @@
-
-import { RegisterRequest } from "./request";
-import { Validation } from "../../core/libs/Validation";
+import { RegisterRequest } from './request';
+import { Validation } from '../../core/libs/Validation';
 import joi from 'joi';
 
 export const Validate = (request: RegisterRequest): RegisterRequest => {

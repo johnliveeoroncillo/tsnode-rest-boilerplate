@@ -1,6 +1,5 @@
-
-import { LoginRequest } from "./request";
-import { Validation } from "../../core/libs/Validation";
+import { LoginRequest } from './request';
+import { Validation } from '../../core/libs/Validation';
 import joi from 'joi';
 
 export const Validate = (request: LoginRequest): LoginRequest => {
