@@ -21,52 +21,43 @@ const request = `export interface <name>Request {
 }`;
 
 const handler = `import { API_RESPONSE } from "../../core";
-import { HttpResponse, HttpRequest } from "../../core/libs/ApiEvent";
-import { Response } from "express";
+import { HttpResponse } from "../../core/libs/ApiEvent";
 import { Database } from "../../core/databases/Mysql";
 import { Connection } from "typeorm";
 
 import { Response200 } from "./response";
 import { Validate } from "./validate";
 import { <name>Action } from "./action";
+import { <name>Request } from "./request";
 
-export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
+
+export async function execute(event: <name>Request): Promise<HttpResponse> {
     try {
-        const request = Validate(req.body);
+        const request = Validate(event);
         const connection: Connection = await Database.getConnection();  
         const action = new <name>Action(connection);
         await action.execute(request);
         
         return API_RESPONSE({
             ...Response200.SUCCESS,
-        }, res);
+        });
     }
     catch(e) {
-        return API_RESPONSE(e, res);
+        return API_RESPONSE(e);
     }
 }
 `;
 
 const handler_test = `import { execute } from './handler';
 import { <name>Request } from './request';
-import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
 
 test('200: SUCCESS', async () => {
-    const request = {
-        identity: {},
-        body: <<name>Request>{
-            key: 'value',
-        },
-        params: {
-
-        },
-        query: {
-
-        }
+    const request: <name>Request = {
+        key: '',
     }
 
 
-    const result = await execute(request as HttpRequest, TestReponse);
+    const result = await execute(request);
 
     expect(result).toHaveProperty('code');
     expect(result).toHaveProperty('message');
