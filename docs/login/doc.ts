@@ -1,48 +1,16 @@
-## THIS IS A SAMPLE DOC FOR REFERENCE ##
-
-import { ApiBody, ApiConfig, ApiResponse, TYPES, ApiHeader } from '../core/libs/DocsBuilder';
+import { ApiBody, ApiConfig, ApiResponse, TYPES, ApiHeader } from '../../core/libs/DocsBuilder';
 import * as faker from 'faker';
+import { METHODS } from '../../core/libs/ApiEvent';
 
 const config: ApiConfig = {
-    path: '/login/{user_id}',
-    method: 'post',
+    path: '/login',
+    method: METHODS.post,
     title: 'Login',
-    description: 'Api for authentication',
+    description: 'Login',
     group: 'Authentication',
 };
 
-const header: ApiHeader = {
-    headers: [
-        {
-            name: 'Authorization',
-            type: TYPES.STRING,
-            description: 'Authorization token',
-            required: true,
-            examples: [
-                {
-                    name: 'Authorization',
-                    example: {
-                        Authorization: 'Bearer ' + faker.random.alphaNumeric(20),
-                    },
-                },
-            ],
-        },
-    ],
-    parameters: [
-        {
-            name: 'user_id',
-            type: TYPES.STRING,
-            description: 'Parameter for User ID',
-        },
-    ],
-    query: [
-        {
-            name: 'user_id',
-            type: TYPES.STRING,
-            description: 'Parameter for User ID',
-        },
-    ],
-};
+const header: ApiHeader = {};
 
 const body: ApiBody[] = [
     {
@@ -56,38 +24,6 @@ const body: ApiBody[] = [
         type: TYPES.STRING,
         description: 'Password of the user',
         required: true,
-        allowedValues: ['test1', 'test2'],
-    },
-    {
-        name: 'nested',
-        type: TYPES.OBJECT,
-        description: 'Nested objects',
-        items: [
-            {
-                name: 'test1',
-                type: TYPES.OBJECT,
-                description: 'Nested1',
-                items: [
-                    {
-                        name: 'test1-1',
-                        type: TYPES.OBJECT,
-                        description: 'Nested1-1',
-                        items: [
-                            {
-                                name: 'test1-2',
-                                type: TYPES.STRING,
-                                description: 'Nested1-2',
-                            },
-                        ],
-                    },
-                ],
-            },
-            {
-                name: 'test2',
-                type: TYPES.STRING,
-                description: 'Nested2',
-            },
-        ],
     },
 ];
 
@@ -116,6 +52,7 @@ const response: ApiResponse = {
                 example: {
                     code: 200,
                     message: 'Success',
+                    access_token: faker.random.alphaNumeric(25),
                     data: {
                         id: faker.datatype.number({ min: 1, max: 10 }),
                         uuid: faker.datatype.uuid(),
@@ -156,6 +93,20 @@ const response: ApiResponse = {
                         username: 'Username is required',
                         password: 'Password is required',
                     },
+                },
+            },
+            {
+                name: '404 Username not found',
+                example: {
+                    code: 404,
+                    message: 'Username not found',
+                },
+            },
+            {
+                name: '404 Invalid username or password',
+                example: {
+                    code: 400,
+                    message: 'Invalid username or password',
                 },
             },
         ],

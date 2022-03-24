@@ -1,14 +1,13 @@
-## THIS IS A SAMPLE DOC FOR REFERENCE ##
-
-import { ApiBody, ApiConfig, ApiResponse, TYPES, ApiHeader } from '../core/libs/DocsBuilder';
+import { ApiBody, ApiConfig, ApiResponse, TYPES, ApiHeader } from '../../core/libs/DocsBuilder';
 import * as faker from 'faker';
+import { METHODS } from '../../core/libs/ApiEvent';
 
 const config: ApiConfig = {
-    path: '/login/{user_id}',
-    method: 'post',
-    title: 'Login',
-    description: 'Api for authentication',
-    group: 'Authentication',
+    path: '/profile',
+    method: METHODS.get,
+    title: 'Profile',
+    description: 'Profile',
+    group: 'User',
 };
 
 const header: ApiHeader = {
@@ -22,74 +21,15 @@ const header: ApiHeader = {
                 {
                     name: 'Authorization',
                     example: {
-                        Authorization: 'Bearer ' + faker.random.alphaNumeric(20),
+                        Authorization: 'Bearer ey' + faker.random.alphaNumeric(50),
                     },
                 },
             ],
         },
     ],
-    parameters: [
-        {
-            name: 'user_id',
-            type: TYPES.STRING,
-            description: 'Parameter for User ID',
-        },
-    ],
-    query: [
-        {
-            name: 'user_id',
-            type: TYPES.STRING,
-            description: 'Parameter for User ID',
-        },
-    ],
 };
 
-const body: ApiBody[] = [
-    {
-        name: 'username',
-        type: TYPES.STRING,
-        description: 'Username of the user',
-        required: true,
-    },
-    {
-        name: 'password',
-        type: TYPES.STRING,
-        description: 'Password of the user',
-        required: true,
-        allowedValues: ['test1', 'test2'],
-    },
-    {
-        name: 'nested',
-        type: TYPES.OBJECT,
-        description: 'Nested objects',
-        items: [
-            {
-                name: 'test1',
-                type: TYPES.OBJECT,
-                description: 'Nested1',
-                items: [
-                    {
-                        name: 'test1-1',
-                        type: TYPES.OBJECT,
-                        description: 'Nested1-1',
-                        items: [
-                            {
-                                name: 'test1-2',
-                                type: TYPES.STRING,
-                                description: 'Nested1-2',
-                            },
-                        ],
-                    },
-                ],
-            },
-            {
-                name: 'test2',
-                type: TYPES.STRING,
-                description: 'Nested2',
-            },
-        ],
-    },
-];
+const body: ApiBody[] = [];
 
 const response: ApiResponse = {
     success: {
@@ -148,14 +88,10 @@ const response: ApiResponse = {
         ],
         examples: [
             {
-                name: '422 Parameter Error',
+                name: '401 Unauthorized Access',
                 example: {
-                    code: 422,
-                    message: 'Parameter Error',
-                    errors: {
-                        username: 'Username is required',
-                        password: 'Password is required',
-                    },
+                    code: 401,
+                    message: 'Unauthorized Access',
                 },
             },
         ],

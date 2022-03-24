@@ -1,48 +1,16 @@
-## THIS IS A SAMPLE DOC FOR REFERENCE ##
-
-import { ApiBody, ApiConfig, ApiResponse, TYPES, ApiHeader } from '../core/libs/DocsBuilder';
+import { ApiBody, ApiConfig, ApiResponse, TYPES, ApiHeader } from '../../core/libs/DocsBuilder';
 import * as faker from 'faker';
+import { METHODS } from '../../core/libs/ApiEvent';
 
 const config: ApiConfig = {
-    path: '/login/{user_id}',
-    method: 'post',
-    title: 'Login',
-    description: 'Api for authentication',
+    path: '/register',
+    method: METHODS.post,
+    title: 'Register',
+    description: 'Register',
     group: 'Authentication',
 };
 
-const header: ApiHeader = {
-    headers: [
-        {
-            name: 'Authorization',
-            type: TYPES.STRING,
-            description: 'Authorization token',
-            required: true,
-            examples: [
-                {
-                    name: 'Authorization',
-                    example: {
-                        Authorization: 'Bearer ' + faker.random.alphaNumeric(20),
-                    },
-                },
-            ],
-        },
-    ],
-    parameters: [
-        {
-            name: 'user_id',
-            type: TYPES.STRING,
-            description: 'Parameter for User ID',
-        },
-    ],
-    query: [
-        {
-            name: 'user_id',
-            type: TYPES.STRING,
-            description: 'Parameter for User ID',
-        },
-    ],
-};
+const header: ApiHeader = {};
 
 const body: ApiBody[] = [
     {
@@ -56,38 +24,13 @@ const body: ApiBody[] = [
         type: TYPES.STRING,
         description: 'Password of the user',
         required: true,
-        allowedValues: ['test1', 'test2'],
     },
     {
-        name: 'nested',
-        type: TYPES.OBJECT,
-        description: 'Nested objects',
-        items: [
-            {
-                name: 'test1',
-                type: TYPES.OBJECT,
-                description: 'Nested1',
-                items: [
-                    {
-                        name: 'test1-1',
-                        type: TYPES.OBJECT,
-                        description: 'Nested1-1',
-                        items: [
-                            {
-                                name: 'test1-2',
-                                type: TYPES.STRING,
-                                description: 'Nested1-2',
-                            },
-                        ],
-                    },
-                ],
-            },
-            {
-                name: 'test2',
-                type: TYPES.STRING,
-                description: 'Nested2',
-            },
-        ],
+        name: 'scope',
+        type: TYPES.STRING,
+        description: 'User Scope',
+        required: true,
+        allowedValues: ['ADMIN', 'CLIENT'],
     },
 ];
 
@@ -155,7 +98,15 @@ const response: ApiResponse = {
                     errors: {
                         username: 'Username is required',
                         password: 'Password is required',
+                        scope: 'Scope is required',
                     },
+                },
+            },
+            {
+                name: '409 Username already exists',
+                example: {
+                    code: 409,
+                    message: 'Username already exists',
                 },
             },
         ],

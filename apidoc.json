@@ -1,0 +1,10 @@
+{
+    "name": "tsnode-rest-api-boilerplate",
+    "version": "0.1.0",
+    "description": "API Documentation",
+    "title": "API Documentation - tsnode-rest-api-boilerplate",
+    "url" : "",
+    "template": {
+        "showRequiredLabels": true
+    }
+}
