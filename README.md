@@ -290,6 +290,7 @@ This will create model and repository
 ```bash
   npm run build:doc
 ```
+<p>Optional: Edit apidoc.json</p>
 
 ## Other API Reference
 
