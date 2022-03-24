@@ -1,4 +1,3 @@
-
 import { execute } from './handler';
 import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
 import * as faker from 'faker';
@@ -10,8 +9,7 @@ test('401: UNAUTHORIZED', async () => {
             id: 0,
             uuid: faker.datatype.uuid(),
         },
-    } as HttpRequest
-
+    } as HttpRequest;
 
     const result = await execute(request, TestReponse);
     console.log(result);
@@ -29,8 +27,7 @@ test('200: SUCCESS', async () => {
             id: user.id,
             uuid: user.uuid,
         },
-    } as HttpRequest
-
+    } as HttpRequest;
 
     const result = await execute(request, TestReponse);
     console.log(result);

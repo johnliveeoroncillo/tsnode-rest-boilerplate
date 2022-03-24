@@ -1,4 +1,3 @@
-
 import { execute } from './handler';
 import { RegisterRequest } from './request';
 import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
@@ -13,14 +12,9 @@ test('422: Parameter Error', async () => {
             username: '',
             password: '',
         },
-        params: {
-
-        },
-        query: {
-
-        }
-    } as HttpRequest
-
+        params: {},
+        query: {},
+    } as HttpRequest;
 
     const result = await execute(request, TestReponse);
 
@@ -38,14 +32,9 @@ test('409: Conflict', async () => {
             username: user.username,
             password: user.password,
         },
-        params: {
-
-        },
-        query: {
-
-        }
-    } as HttpRequest
-
+        params: {},
+        query: {},
+    } as HttpRequest;
 
     const result = await execute(request, TestReponse);
     console.log(result);
@@ -56,8 +45,6 @@ test('409: Conflict', async () => {
     expect(result.code).toBe(409);
 });
 
-
-
 test('200: SUCCESS', async () => {
     const request = {
         identity: {},
@@ -65,14 +52,9 @@ test('200: SUCCESS', async () => {
             username: faker.internet.userName(),
             password: await Bcrypt.encrypt('test'),
         },
-        params: {
-
-        },
-        query: {
-
-        }
-    } as HttpRequest
-
+        params: {},
+        query: {},
+    } as HttpRequest;
 
     const result = await execute(request, TestReponse);
 

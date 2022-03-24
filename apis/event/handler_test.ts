@@ -6,16 +6,11 @@ test('200: SUCCESS', async () => {
     const request = {
         identity: {},
         body: <EventRequest>{
-            key: 'value',
+            message: 'value',
         },
-        params: {
-
-        },
-        query: {
-
-        }
-    } as HttpRequest
-
+        params: {},
+        query: {},
+    } as HttpRequest;
 
     const result = await execute(request, TestReponse);
 

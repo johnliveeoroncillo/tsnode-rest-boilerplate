@@ -1,6 +1,6 @@
-import { Connection } from "typeorm";
-import { Unauthorized } from "../../core/defaults";
-import { UsersRepository } from "../../repository/UsersRepository";
+import { Connection } from 'typeorm';
+import { Unauthorized } from '../../core/defaults';
+import { UsersRepository } from '../../repository/UsersRepository';
 
 interface User {
     id: number;
@@ -18,7 +18,7 @@ export class ProfileReadAction {
 
     async execute(id: string | number, uuid: string): Promise<User | undefined> {
         const user = await this.userRepository.findOne({ id: Number(id), uuid });
-        if(!user) throw new Unauthorized();
+        if (!user) throw new Unauthorized();
 
         return {
             id: user.id,
