@@ -6,7 +6,7 @@
 
 <p align="center">
   <b>A delightful way building a Node.js RESTful API written in TypeScript. </b></br>
-  <span>Inspired by the awesome AWS Boilerplate of my former techlead.</span></br>
+  <span>Inspired by the awesome AWS Lambda Boilerplate of my former techlead.</span></br>
   <sub>Crafted with ❤️ by jl.</sub>
 </p>
 
