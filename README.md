@@ -1,6 +1,17 @@
-# Typescript Express Rest API Boilerplate
+<p align="center">
+  <img src="https://storage.googleapis.com/jlocodes-static/0_fo_My_EI_p9itich5y_2a6c5bd1cd/0_fo_My_EI_p9itich5y_2a6c5bd1cd.png" alt="w3tec" width="400" />
+</p>
 
-This is a boilerplate to create Rest API using Express + Typescript
+<h1 align="center">Typescript Express Rest API Boilerplate</h1>
+
+<p align="center">
+  <b>A delightful way to building a Node.js RESTful API written in TypeScript. </b></br>
+  <span>Inspired by the awesome AWS Boilerplate of my former techlead.</span></br>
+  <sub>Crafted with ❤️ by jl.</sub>
+</p>
+
+
+
 
 ## Features
 
@@ -10,6 +21,7 @@ This is a boilerplate to create Rest API using Express + Typescript
 - Test API using Jest
 - Parallel Processing or Events
 - Create sequence diagram using PlantUML
+- Create api documentation using apidoc
 - and many more ..
 
 
@@ -18,6 +30,8 @@ This is a boilerplate to create Rest API using Express + Typescript
 
 - Add additional database like mongodb and postgres.
 - Add multiple middlewares in single API endpoint
+- Add API Versioning
+- Support apis subdirectory
 
 
 ## Folder Structure
