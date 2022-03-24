@@ -5,7 +5,7 @@
 <h1 align="center">Typescript Express Rest API Boilerplate</h1>
 
 <p align="center">
-  <b>A delightful way to building a Node.js RESTful API written in TypeScript. </b></br>
+  <b>A delightful way building a Node.js RESTful API written in TypeScript. </b></br>
   <span>Inspired by the awesome AWS Boilerplate of my former techlead.</span></br>
   <sub>Crafted with ❤️ by jl.</sub>
 </p>
