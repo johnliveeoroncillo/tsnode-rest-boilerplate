@@ -26,12 +26,9 @@
 
 
 
-## Coming soon ...
+## Coming Soon / Roadmap
 
-- Add additional database like mongodb and postgres.
-- Add multiple middlewares in single API endpoint
-- Add API Versioning
-- Support apis subdirectory
+https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate/projects/
 
 
 ## Folder Structure
