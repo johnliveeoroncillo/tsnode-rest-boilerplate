@@ -1,7 +1,7 @@
 import { API_RESPONSE } from '../../../../core';
 import { HttpResponse, HttpRequest } from '../../../../core/libs/ApiEvent';
 import { Response } from 'express';
-import { Database } from '../../../../core/databases/Mysql';
+import { Mysql } from '../../../../core/databases/Mysql';
 import { Connection } from 'typeorm';
 
 import { Response200 } from './response';
@@ -11,7 +11,7 @@ import { LoginAction } from './action';
 export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
     try {
         const request = Validate(req.body);
-        const connection: Connection = await Database.getConnection();
+        const connection: Connection = await Mysql.getConnection();
         const action = new LoginAction(connection);
         const data = await action.execute(request);
 
@@ -25,6 +25,6 @@ export async function execute(req: HttpRequest, res: Response): Promise<HttpResp
     } catch (e) {
         return API_RESPONSE(e, res);
     } finally {
-        await Database.closeConnection();
+        await Mysql.closeConnection();
     }
 }

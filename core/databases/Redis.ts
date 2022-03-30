@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const redis = require('predis');
-import { env } from "../libs/Env";
+import { env } from '../libs/Env';
 
 const REDIS_PORT = Number(env('REDIS_PORT', 6379));
 const REDIS_HOST = Number(env('REDIS_HOST', '127.0.0.1'));

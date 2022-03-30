@@ -1,7 +1,7 @@
 import { Schema } from 'joi';
 import { ParameterError } from '../defaults';
 
-export class Validation{
+export class Validation {
     private schema: Schema;
 
     constructor(schema: Schema) {
