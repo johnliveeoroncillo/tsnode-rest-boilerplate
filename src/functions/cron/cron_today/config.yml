@@ -1,5 +1,5 @@
 cron_today: 
   handler: ./src/functions/cron/cron_today/handler
-  enabled: true
+  enabled: false
   cron: '* * * * * *'
   timezone: 'Asia/Manila'

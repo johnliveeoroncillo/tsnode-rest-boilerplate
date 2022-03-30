@@ -6,7 +6,7 @@ import path from 'path';
 import { getConfig } from '..';
 import { LogColor, Logger } from './Logger';
 
-const event_path = __dirname + '/../../events';
+const event_path = __dirname + '/../../src/functions/events';
 const EVENT_PORT = Number(env('PORT', 6060)) + 1; //ADD 1 TO PREVENT PORT CONFLICT
 interface Options {
     host?: string;

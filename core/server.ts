@@ -70,7 +70,7 @@ loadRoutes().then(async (routes) => {
                 const { execute } = await import(`.${handler}`);
                 const callbacks = [];
                 if (middleware) {
-                    const { execute } = await import(`../middlewares/${middleware}`);
+                    const { execute } = await import(`../src/functions/middlewares/${middleware}`);
                     callbacks.push(execute);
                 }
                 callbacks.push(execute);
