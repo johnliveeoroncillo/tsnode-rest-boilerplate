@@ -1,7 +1,7 @@
 import { API_RESPONSE } from '../../../../core';
 import { HttpRequest, HttpResponse } from '../../../../core/libs/ApiEvent';
 import { Response } from 'express';
-import { Database } from '../../../../core/databases/Mysql';
+import { Mysql } from '../../../../core/databases/Mysql';
 import { Connection } from 'typeorm';
 
 import { Response200 } from './response';
@@ -12,7 +12,7 @@ export async function execute(req: HttpRequest, res: Response): Promise<HttpResp
         const id = req.identity?.id ?? '';
         const uuid = req.identity?.uuid ?? '';
 
-        const connection: Connection = await Database.getConnection();
+        const connection: Connection = await Mysql.getConnection();
         const action = new ProfileReadAction(connection);
         const data = await action.execute(id, uuid);
 
@@ -26,6 +26,6 @@ export async function execute(req: HttpRequest, res: Response): Promise<HttpResp
     } catch (e) {
         return API_RESPONSE(e, res);
     } finally {
-        await Database.closeConnection();
+        await Mysql.closeConnection();
     }
 }

@@ -1,6 +1,6 @@
 import { EventRequest } from './request';
-import { invokeEvent, invokeEventWithResponse } from '../../core/libs/Events';
-import { EVENTS } from '../../helpers/Enums';
+import { invokeEvent, invokeEventWithResponse } from '../../../../core/libs/Events';
+import { EVENTS } from '../../../helpers/Enums';
 
 export class EventAction {
     async execute(request: EventRequest): Promise<void> {

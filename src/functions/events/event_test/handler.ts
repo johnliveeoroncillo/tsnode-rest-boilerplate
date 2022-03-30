@@ -1,6 +1,6 @@
 import { API_RESPONSE } from '../../../../core';
 import { HttpResponse, HttpRequest } from '../../../../core/libs/ApiEvent';
-import { Database } from '../../../../core/databases/Mysql';
+import { Mysql } from '../../../../core/databases/Mysql';
 import { Connection } from 'typeorm';
 
 import { Response200 } from './response';
@@ -11,7 +11,7 @@ import { EventTestRequest } from './request';
 export async function execute(event: EventTestRequest): Promise<HttpResponse> {
     try {
         const request = Validate(event);
-        const connection: Connection = await Database.getConnection();
+        const connection: Connection = await Mysql.getConnection();
         const action = new EventTestAction(connection);
         const data = await action.execute(request);
 
@@ -23,6 +23,6 @@ export async function execute(event: EventTestRequest): Promise<HttpResponse> {
         return API_RESPONSE(e);
     }
     // finally {
-    //     await Database.closeConnection();
+    //     await Mysql.closeConnection();
     // }
 }
