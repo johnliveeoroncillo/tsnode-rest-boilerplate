@@ -15,7 +15,7 @@
 
 ## Features
 
-- Integrated MySql and Typeorm
+- Integrated Redis, MySql and Postgres using Typeorm
 - Auto creation of API Routes.
 - Support Middleware for Authorization
 - Test API using Jest
