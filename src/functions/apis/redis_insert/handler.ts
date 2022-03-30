@@ -1,11 +1,11 @@
-import { API_RESPONSE } from '../../core';
-import { HttpResponse, HttpRequest } from '../../core/libs/ApiEvent';
+import { API_RESPONSE } from '../../../../core';
+import { HttpResponse, HttpRequest } from '../../../../core/libs/ApiEvent';
 import { Response } from 'express';
 
 import { Response200 } from './response';
 import { Validate } from './validate';
 import { RedisInsertAction } from './action';
-import { Redis } from '../../core/databases/Redis';
+import { Redis } from '../../../../core/databases/Redis';
 
 export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
     try {

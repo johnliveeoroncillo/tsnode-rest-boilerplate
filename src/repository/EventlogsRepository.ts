@@ -1,5 +1,5 @@
-import { EntityRepository, Repository } from "typeorm";
-import { EventlogsModel } from "../models/EventlogsModel";
+import { EntityRepository, Repository } from 'typeorm';
+import { EventlogsModel } from '../models/EventlogsModel';
 @EntityRepository(EventlogsModel)
 export class EventlogsRepository extends Repository<EventlogsModel> {
     async getAll(): Promise<EventlogsModel[]> {

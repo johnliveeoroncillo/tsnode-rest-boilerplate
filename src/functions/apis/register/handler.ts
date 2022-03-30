@@ -1,7 +1,7 @@
-import { API_RESPONSE } from '../../core';
-import { HttpResponse } from '../../core/libs/ApiEvent';
+import { API_RESPONSE } from '../../../../core';
+import { HttpResponse } from '../../../../core/libs/ApiEvent';
 import { Request, Response } from 'express';
-import { Database } from '../../core/databases/Mysql';
+import { Database } from '../../../../core/databases/Mysql';
 import { Connection } from 'typeorm';
 
 import { Response200 } from './response';

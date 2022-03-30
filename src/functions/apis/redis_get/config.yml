@@ -1,5 +1,5 @@
 redis_get: 
-  handler: ./apis/redis_get/handler
+  handler: ./src/functions/apis/redis_get/handler
   endpoint: /redis/:key
   method: get
   enabled: true

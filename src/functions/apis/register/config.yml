@@ -1,5 +1,5 @@
 register: 
-  handler: ./apis/register/handler
+  handler: ./src/functions/apis/register/handler
   endpoint: /register
   method: post
   enabled: true

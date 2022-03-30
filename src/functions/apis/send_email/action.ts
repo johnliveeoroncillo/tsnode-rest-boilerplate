@@ -1,4 +1,4 @@
-import { Email } from '../../core/libs/Email';
+import { Email } from '../../../../core/libs/Email';
 import { SendEmailRequest } from './request';
 
 export class SendEmailAction {

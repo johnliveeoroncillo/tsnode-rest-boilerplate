@@ -1,5 +1,5 @@
 import { EventRequest } from './request';
-import { Validation } from '../../core/libs/Validation';
+import { Validation } from '../../../../core/libs/Validation';
 import joi from 'joi';
 
 export const Validate = (request: EventRequest): EventRequest => {

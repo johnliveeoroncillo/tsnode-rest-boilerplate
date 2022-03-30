@@ -1,5 +1,5 @@
 login: 
-  handler: ./apis/login/handler
+  handler: ./src/functions/apis/login/handler
   endpoint: /login
   method: post
   enabled: true

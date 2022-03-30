@@ -1,8 +1,8 @@
 import { execute } from './handler';
 import { LoginRequest } from './request';
-import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
+import { TestReponse, HttpRequest } from '../../../../core/libs/ApiEvent';
 import * as faker from 'faker';
-import { UserSeeder } from '../../seeder/UserSeeder';
+import { UserSeeder } from '../../../../seeder/UserSeeder';
 
 test('422: PARAMETER ERROR', async () => {
     const request = {

@@ -1,5 +1,5 @@
 import { execute } from './handler';
-import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
+import { TestReponse, HttpRequest } from '../../../../core/libs/ApiEvent';
 
 test('200: SUCCESS', async () => {
     const request = {

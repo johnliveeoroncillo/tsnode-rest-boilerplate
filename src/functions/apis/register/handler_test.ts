@@ -1,9 +1,9 @@
 import { execute } from './handler';
 import { RegisterRequest } from './request';
-import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
-import { UserSeeder } from '../../seeder/UserSeeder';
+import { TestReponse, HttpRequest } from '../../../../core/libs/ApiEvent';
+import { UserSeeder } from '../../../../seeder/UserSeeder';
 import * as faker from 'faker';
-import { Bcrypt } from '../../core/libs/Bcrypt';
+import { Bcrypt } from '../../../../core/libs/Bcrypt';
 
 test('422: Parameter Error', async () => {
     const request = {

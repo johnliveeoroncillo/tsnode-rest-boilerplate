@@ -1,6 +1,6 @@
 import { Connection } from 'typeorm';
-import { Unauthorized } from '../../core/defaults';
-import { UsersRepository } from '../../repository/UsersRepository';
+import { Unauthorized } from '../../../../core/defaults';
+import { UsersRepository } from '../../../repository/UsersRepository';
 
 interface User {
     id: number;

@@ -1,4 +1,4 @@
-import { Redis } from '../../core/databases/Redis';
+import { Redis } from '../../../../core/databases/Redis';
 import { KeyNotFound } from './response';
 
 export class RedisGetAction {

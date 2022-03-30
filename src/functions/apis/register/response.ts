@@ -1,7 +1,7 @@
 /*
     Your Custom Response */
 
-import { HttpResponse } from '../../core/libs/ApiEvent';
+import { HttpResponse } from '../../../../core/libs/ApiEvent';
 
 export class Response200 {
     static SUCCESS: HttpResponse = {
