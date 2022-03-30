@@ -85,7 +85,7 @@ tsnode-rest-boilerplate
 #### ./apis/sample-api/config.yml
 ```
 sample-api: (Folder name) 
-  handler: ./apis/sample-api/handler (1st lifecycle of the API)
+  handler: ./src/functions/apis/sample-api/handler (1st lifecycle of the API)
   endpoint: /sample-api (API Route)
   method: post (API Method)
   enabled: true (Enable/Disable option)
@@ -95,7 +95,7 @@ sample-api: (Folder name)
 #### ./cron/sample-cron/config.yml
 ```
 cron_today: (Folder name)
-  handler: ./cron/cron_today/handler (1st lifecycle of the CRON)
+  handler: ./src/functions/cron/cron_today/handler (1st lifecycle of the CRON)
   enabled: false (Enable/Disable option)
   cron: '* * * * * *' (Cron frequency)
   timezone: 'Asia/Manila' (Timezone)
@@ -104,7 +104,7 @@ cron_today: (Folder name)
 #### ./events/event_test/config.yml
 ```
 event_test: (Folder name) 
-  handler: ./events/event_test/handler (1st lifecycle of the API)
+  handler: ./src/functions/events/event_test/handler (1st lifecycle of the API)
   enabled: true (Enable/Disable option)
 ```
 
@@ -117,12 +117,16 @@ MYSQL_PORT=3306
 MYSQL_USERNAME=root
 MYSQL_PASSWORD=admin
 MYSQL_DB=database
-MYSQL_LOGGING=true
 
 ##POSTGRES
-POSTGRES_DB=database
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
 POSTGRES_USERNAME=root
 POSTGRES_PASSWORD=admin
+POSTGRES_DB=database
+
+##OTHER DB OPTIONS
+DB_LOGGING=true
 
 ##REDIS
 REDIS_HOST=127.0.0.1
