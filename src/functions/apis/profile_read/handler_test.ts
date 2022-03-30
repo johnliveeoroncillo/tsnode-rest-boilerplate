@@ -1,7 +1,7 @@
 import { execute } from './handler';
-import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
+import { TestReponse, HttpRequest } from '../../../../core/libs/ApiEvent';
 import * as faker from 'faker';
-import { UserSeeder } from '../../seeder/UserSeeder';
+import { UserSeeder } from '../../../../seeder/UserSeeder';
 
 test('401: UNAUTHORIZED', async () => {
     const request = {

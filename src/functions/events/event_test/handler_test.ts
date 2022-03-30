@@ -4,8 +4,7 @@ import { EventTestRequest } from './request';
 test('200: SUCCESS', async () => {
     const request: EventTestRequest = {
         message: 'test',
-    }
-
+    };
 
     const result = await execute(request);
 

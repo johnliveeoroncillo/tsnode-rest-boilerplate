@@ -1,4 +1,4 @@
-import { HttpResponse } from '../../core/libs/ApiEvent';
+import { HttpResponse } from '../../../../core/libs/ApiEvent';
 
 /*
   Your Custom Response */

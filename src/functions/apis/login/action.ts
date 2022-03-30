@@ -1,10 +1,10 @@
 import { Connection } from 'typeorm';
-import { TokenReponse, TokenService } from '../../core/libs/TokenService';
-import { UsersRepository } from '../../repository/UsersRepository';
+import { TokenReponse, TokenService } from '../../../../core/libs/TokenService';
+import { UsersRepository } from '../../../repository/UsersRepository';
 import { LoginRequest } from './request';
 import { NotFound, PasswordError } from './response';
-import { Bcrypt } from '../../core/libs/Bcrypt';
-import { USER_SCOPE } from '../../helpers/Enums';
+import { Bcrypt } from '../../../../core/libs/Bcrypt';
+import { USER_SCOPE } from '../../../helpers/Enums';
 
 export class LoginAction {
     private userRepository: UsersRepository;

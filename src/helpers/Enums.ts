@@ -1,11 +1,11 @@
 export enum ENV {
     PRODUCTION = 'production',
-    DEVELOPMENT = 'development'
+    DEVELOPMENT = 'development',
 }
 
 export enum USER_SCOPE {
-    ADMIN = "ADMIN",
-    CLIENT = "CLIENT",
+    ADMIN = 'ADMIN',
+    CLIENT = 'CLIENT',
 }
 
 export enum EVENTS {

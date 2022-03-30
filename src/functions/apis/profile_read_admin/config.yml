@@ -1,5 +1,5 @@
 profile_read: 
-  handler: ./apis/profile_read/handler
+  handler: ./src/functions/apis/profile_read/handler
   endpoint: /profile/admin
   method: get
   enabled: true

@@ -1,10 +1,10 @@
 import { Connection } from 'typeorm';
-import { UsersRepository } from '../../repository/UsersRepository';
+import { UsersRepository } from '../../../repository/UsersRepository';
 import { RegisterRequest } from './request';
-import { UsersModel } from '../../models/UsersModel';
+import { UsersModel } from '../../../models/UsersModel';
 import { Duplicate, ScopeNotFound } from './response';
-import { Bcrypt } from '../../core/libs/Bcrypt';
-import { USER_SCOPE } from '../../helpers/Enums';
+import { Bcrypt } from '../../../../core/libs/Bcrypt';
+import { USER_SCOPE } from '../../../helpers/Enums';
 
 export class RegisterAction {
     private userRepository: UsersRepository;

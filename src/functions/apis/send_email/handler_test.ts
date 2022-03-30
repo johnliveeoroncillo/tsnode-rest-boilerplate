@@ -1,6 +1,6 @@
 import { execute } from './handler';
 import { SendEmailRequest } from './request';
-import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
+import { TestReponse, HttpRequest } from '../../../../core/libs/ApiEvent';
 
 test('200: SUCCESS', async () => {
     const request = {

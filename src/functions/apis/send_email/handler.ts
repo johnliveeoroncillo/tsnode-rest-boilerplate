@@ -1,5 +1,5 @@
-import { API_RESPONSE } from '../../core';
-import { HttpResponse, HttpRequest } from '../../core/libs/ApiEvent';
+import { API_RESPONSE } from '../../../../core';
+import { HttpResponse, HttpRequest } from '../../../../core/libs/ApiEvent';
 import { Response } from 'express';
 
 import { Response200 } from './response';
