@@ -1,6 +1,6 @@
 {
   "name": "tsnode-test-api",
-  "version": "5.2",
+  "version": "1.0.0", 
   "description": "A node express typescript Rest API Boilerplate",
   "author": "John Livee G. Oroncillo",
   "engines": {
