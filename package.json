@@ -8,7 +8,7 @@
     "docker:stop": "docker-compose stop",
     "dev": "nodemon ./core/server.ts",
     "dev:event": "ts-node -r dotenv/config -e \"import { Events} from './core/libs/Events'; const event = new Events(); event.startServer();\" ",
-    "start": "cross-env NODE_ENV=production node build/migrate.js up && cross-env NODE_ENV=production node build/core/server",
+    "start": "node build/migrate.js up && node build/core/server",
     "clean": "rimraf build",
     "build": "npm run clean && tsc && cpx \"**/*.yml\" build",
     "migrate": "ts-node migrate.ts up",
