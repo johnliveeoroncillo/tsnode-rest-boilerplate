@@ -3,10 +3,6 @@
   "version": "1.0.0", 
   "description": "A node express typescript Rest API Boilerplate",
   "author": "John Livee G. Oroncillo",
-  "engines": {
-    "node": "<=14.x.x",
-    "npm": "<=6.x.x"
-  },
   "scripts": {
     "docker:start": "docker-compose up -d",
     "docker:stop": "docker-compose stop",
@@ -67,7 +63,6 @@
     "predis": "^1.1.3",
     "prettier": "^2.2.1",
     "querystring": "^0.2.1",
-    "redis": "^4.0.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "ts-node": "^10.5.0",
