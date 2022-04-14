@@ -115,8 +115,19 @@ const config = `<key_name>:
   endpoint: /<endpoint>
   method: <method>
   enabled: true
-  #UNCOMMENT TO ATTACH MIDDLEWARE
-  #EXAMPLE: middleware: middleware
+
+  #ADD API VERSION
+  #EXAMPLE OUTPUT: /login to /v1/login
+  #version: 1
+
+  #ADD API PREFIX
+  #EXAMPLE: api
+  #EXAMPLE OUTPUT: /login to /api/login
+  #WORKS WITH VERSION SAMPLE OUTPUT: /api/v1/login
+  #prefix: api
+
+  #ADD MIDDLEWARE
+  #EXAMPLE: middleware: authorizer
   #middleware: <middleware_name>
 `;
 

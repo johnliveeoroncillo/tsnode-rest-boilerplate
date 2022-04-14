@@ -14,22 +14,6 @@ const routes: Config[] = [];
 const listRoutes = require('express-list-routes');
 
 const loadRoutes = (dir = ''): Promise<Config[]> => {
-    // if (!dir) dir = `${__dirname}/../src/functions/apis`;
-
-    // return new Promise((resolve) => {
-    //     fs.readdirSync(dir).forEach((file: string) => {
-    //         const absolute = path.join(dir, file);
-
-    //         if (fs.statSync(absolute).isDirectory()) {
-    //             if (fs.existsSync(absolute)) {
-    //                 const config = getConfig(`${absolute}/config.yml`);
-    //                 if (config) routes.push(config);
-    //             }
-    //         }
-    //     });
-
-    //     return resolve(routes);
-    // });
     return new Promise((resolve) => {
         glob(`${__dirname}/../src/functions/apis/**/*.yml`, (er: any, files: any) => {
             if (files?.length) {

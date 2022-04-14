@@ -66,13 +66,25 @@ loadRoutes().then(async (routes) => {
                 const handler = route.handler;
                 const method = METHODS?.[route.method] ?? '';
                 const middleware = route.middleware;
-                // const middleware = route.middleware
+                const prefix = route?.prefix ?? '';
+                const version = route?.version ?? '';
+
                 const { execute } = await import(`.${handler}`);
                 const callbacks = [];
                 if (middleware) {
                     const { execute } = await import(`../src/functions/middlewares/${middleware}`);
                     callbacks.push(execute);
                 }
+
+                /**
+                 * MODIFY ENDPOINT SETTINGS
+                 */
+                // if (prefix && prefix !== '') endpoint.replace(/<prefix>/g, `/${prefix}`);
+                // else endpoint.replace(/<prefix>/g, '');
+
+                // if (version && version !== '') endpoint.replace(/<version>/g, `/${version}`);
+                // else endpoint.replace(/<version>/g, '');
+
                 callbacks.push(execute);
                 app[method](endpoint, callbacks);
             }
