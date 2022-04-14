@@ -84,7 +84,7 @@ tsnode-rest-boilerplate
 ## Config Structure
 #### ./apis/sample-api/config.yml
 ```
-sample-api: (Folder name) 
+sample-api: (API Key) 
   handler: ./src/functions/apis/sample-api/handler (1st lifecycle of the API)
   endpoint: /sample-api (API Route)
   method: post (API Method)
@@ -94,7 +94,7 @@ sample-api: (Folder name)
 
 #### ./cron/sample-cron/config.yml
 ```
-cron_today: (Folder name)
+cron_today: (Cron Key)
   handler: ./src/functions/cron/cron_today/handler (1st lifecycle of the CRON)
   enabled: false (Enable/Disable option)
   cron: '* * * * * *' (Cron frequency)
@@ -103,7 +103,7 @@ cron_today: (Folder name)
 
 #### ./events/event_test/config.yml
 ```
-event_test: (Folder name) 
+event_test: (Event Key) 
   handler: ./src/functions/events/event_test/handler (1st lifecycle of the API)
   enabled: true (Enable/Disable option)
 ```
@@ -264,8 +264,9 @@ This will create model and repository
 #### Create API
 
 ```bash
-  npm run make:api <api_name>
+  npm run make:api <api_path>
 ```
+Example: npm run make:api admin/login or npm run make:api admin/management/users
 
 #### Create Service
 
