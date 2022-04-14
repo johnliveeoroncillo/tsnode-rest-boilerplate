@@ -1,62 +1,75 @@
-# Typescript Express Rest API Boilerplate
+<p align="center">
+  <img src="https://storage.googleapis.com/jlocodes-static/0_fo_My_EI_p9itich5y_2a6c5bd1cd/0_fo_My_EI_p9itich5y_2a6c5bd1cd.png" alt="w3tec" width="400" />
+</p>
 
-This is a boilerplate to create Rest API using Express + Typescript
+<h1 align="center">Typescript Express Rest API Boilerplate</h1>
+
+<p align="center">
+  <b>A delightful way building a Node.js RESTful API written in TypeScript. </b></br>
+  <span>Inspired by the awesome AWS Lambda Boilerplate of my former techlead.</span></br>
+  <sub>Crafted with ❤️ by <a href="https://jlocodes.com">jL</a>.</sub>
+</p>
+
+
+
 
 ## Features
 
-- Integrated MySql and Typeorm
+- Integrated Redis, MySql and Postgres using Typeorm
 - Auto creation of API Routes.
 - Support Middleware for Authorization
 - Test API using Jest
 - Parallel Processing or Events
 - Create sequence diagram using PlantUML
+- Create api documentation using apidoc
 - and many more ..
 
 
 
-## Coming soon ...
+## Coming Soon / Roadmap
 
-- Add additional database like mongodb and postgres.
-- Add multiple middlewares in single API endpoint
+https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate/projects/
 
 
 ## Folder Structure
 
 ```
 tsnode-rest-boilerplate
-└─apis (Contains API Routes)
-    └─sample-api (Created from npm run make:api sample-api)
-        | config.yml (API Configuration)
-        | handler.ts (1st lifecycle of the API)
-        | action.ts (Action of the API connected to handler)
-        | request.ts (Allowed Body Request)
-        | response.ts (List of responses of the API)
-        | validate.ts (Body Request Validation)
-        | handler_test.ts (Unit Testing)
 └─code_templates (Templates)
 └─core (Main Core of the boilerplate)
-└─cron (Contains Cron Jobs)
-    └─sample-cron (Created from npm run make:cron sample-cron)
-        | config.yml (Cron Configuration)
-        | handler.ts (1st lifecycle of the CRON)
-└─events (Contains Events)
-    └─event_test (Created from npm run make:event event_test)
-        | config.yml (Event Configuration)
-        | handler.ts (1st lifecycle of the event)
-        | action.ts (Action of the event connected to handler)
-        | request.ts (Allowed Body Payload)
-        | response.ts (List of responses of the event)
-        | validate.ts (Payload Validation)
-        | handler_test.ts (Unit Testing)
-└─helpers (Helpers folder)
 └─docs (API Documentations)
-└─middlewares (Middlware of the API)
-    | authorizer.ts (Sample middleware for authentication)
 └─migrations (Migration files)
-└─models (Table Models)
-└─repository (Table Repository)
 └─seeder (Seed fake data to table)
-└─services (Custom Services)
+└─src
+|   └─functions
+|   |   └─apis (Contains API Routes)
+|   |   |   └─sample-api (Created from npm run make:api sample-api)
+|   |   |       | config.yml (API Configuration)
+|   |   |       | handler.ts (1st lifecycle of the API)
+|   |   |       | action.ts (Action of the API connected to handler)
+|   |   |       | request.ts (Allowed Body Request)
+|   |   |       | response.ts (List of responses of the API)
+|   |   |       | validate.ts (Body Request Validation)
+|   |   |       | handler_test.ts (Unit Testing)
+|   |   └─cron (Contains Cron Jobs)
+|   |   |   └─sample-cron (Created from npm run make:cron sample-cron)
+|   |   |       | config.yml (Cron Configuration)
+|   |   |       | handler.ts (1st lifecycle of the CRON)
+|   |   └─events (Contains Events)
+|   |   |   └─event_test (Created from npm run make:event event_test)
+|   |   |       | config.yml (Event Configuration)
+|   |   |       | handler.ts (1st lifecycle of the event)
+|   |   |       | action.ts (Action of the event connected to handler)
+|   |   |       | request.ts (Allowed Body Payload)
+|   |   |       | response.ts (List of responses of the event)
+|   |   |       | validate.ts (Payload Validation)
+|   |   |       | handler_test.ts (Unit Testing)
+|   |   └─middlewares (Middlware of the API)
+|   |   |    | authorizer.ts (Sample middleware for authentication)
+|   |   └─services (Custom Services)
+|   └─helpers (Helpers folder)
+|   └─models (Table Models)
+|   └─repository (Table Repository)
 | .env.example
 | artisan.ts
 | .eslintrc.js
@@ -72,7 +85,7 @@ tsnode-rest-boilerplate
 #### ./apis/sample-api/config.yml
 ```
 sample-api: (Folder name) 
-  handler: ./apis/sample-api/handler (1st lifecycle of the API)
+  handler: ./src/functions/apis/sample-api/handler (1st lifecycle of the API)
   endpoint: /sample-api (API Route)
   method: post (API Method)
   enabled: true (Enable/Disable option)
@@ -82,7 +95,7 @@ sample-api: (Folder name)
 #### ./cron/sample-cron/config.yml
 ```
 cron_today: (Folder name)
-  handler: ./cron/cron_today/handler (1st lifecycle of the CRON)
+  handler: ./src/functions/cron/cron_today/handler (1st lifecycle of the CRON)
   enabled: false (Enable/Disable option)
   cron: '* * * * * *' (Cron frequency)
   timezone: 'Asia/Manila' (Timezone)
@@ -91,7 +104,7 @@ cron_today: (Folder name)
 #### ./events/event_test/config.yml
 ```
 event_test: (Folder name) 
-  handler: ./events/event_test/handler (1st lifecycle of the API)
+  handler: ./src/functions/events/event_test/handler (1st lifecycle of the API)
   enabled: true (Enable/Disable option)
 ```
 
@@ -104,12 +117,16 @@ MYSQL_PORT=3306
 MYSQL_USERNAME=root
 MYSQL_PASSWORD=admin
 MYSQL_DB=database
-MYSQL_LOGGING=true
 
 ##POSTGRES
-POSTGRES_DB=database
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
 POSTGRES_USERNAME=root
 POSTGRES_PASSWORD=admin
+POSTGRES_DB=database
+
+##OTHER DB OPTIONS
+DB_LOGGING=true
 
 ##REDIS
 REDIS_HOST=127.0.0.1
@@ -208,7 +225,7 @@ Request:
 
 ### EVENT USAGE
 #### This function is inspired by AWS Lambda Event which drives the invocation or Lambda polls a queue or data stream and invokes the function in response to activity in the queue or data stream.
-#### This custom event is using "net" package to recreate the AWS Lambda Event functionality. Wherein it executes functions in parallel processing and doesn't affect the current thread of your API.
+#### This custom event is using "net" package to recreate the AWS Lambda Event functionality. Wherein it executes functions in parallel process and doesn't affect the current thread of your API.
 
 ```bash
 import { EVENTS } from "../../helpers/Enums";
@@ -279,6 +296,7 @@ This will create model and repository
 ```bash
   npm run build:doc
 ```
+<p>Optional: Edit apidoc.json</p>
 
 ## Other API Reference
 

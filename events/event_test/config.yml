@@ -1,3 +1,0 @@
-event_test: 
-  handler: ./events/event_test/handler
-  enabled: true

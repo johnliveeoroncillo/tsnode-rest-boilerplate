@@ -1,0 +1,3 @@
+event_test: 
+  handler: ./src/functions/events/event_test/handler
+  enabled: true

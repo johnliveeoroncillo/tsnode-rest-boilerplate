@@ -9,7 +9,7 @@ export interface EmailData {
 }
 
 export class Email {
-    private SMTP_PORT = Number(env('SMTP_PORT', 0)); 
+    private SMTP_PORT = Number(env('SMTP_PORT', 0));
     private SMTP_HOST: string = env('SMTP_HOST', '');
     private SMTP_SECURE = Boolean(env('SMTP_SECURE', 'false'));
     private SMTP_USERNAME: string = env('SMTP_USERNAME', '');
@@ -24,11 +24,11 @@ export class Email {
             auth: {
                 user: this.SMTP_USERNAME,
                 pass: this.SMTP_PASSWORD,
-            }
-        } as TransportOptions)
+            },
+        } as TransportOptions);
     }
 
     async send(data: EmailData): Promise<void> {
-        return await this.transporter.sendMail(data)
+        return await this.transporter.sendMail(data);
     }
 }

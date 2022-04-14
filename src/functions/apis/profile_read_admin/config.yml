@@ -1,0 +1,6 @@
+profile_read: 
+  handler: ./src/functions/apis/profile_read/handler
+  endpoint: /profile/admin
+  method: get
+  enabled: true
+  middleware: authorizer_admin

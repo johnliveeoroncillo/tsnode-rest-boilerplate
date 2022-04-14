@@ -1,0 +1,8 @@
+register: 
+  handler: ./src/functions/apis/register/handler
+  endpoint: /register
+  method: post
+  enabled: true
+  #UNCOMMENT TO ATTACH MIDDLEWARE
+  #EXAMPLE: middleware: middleware
+  #middleware: <middleware_name>

@@ -1,0 +1,8 @@
+event: 
+  handler: ./src/functions/apis/event/handler
+  endpoint: /event
+  method: post
+  enabled: true
+  #UNCOMMENT TO ATTACH MIDDLEWARE
+  #EXAMPLE: middleware: middleware
+  #middleware: <middleware_name>

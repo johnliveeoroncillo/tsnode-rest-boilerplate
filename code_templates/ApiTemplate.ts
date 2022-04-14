@@ -1,10 +1,9 @@
-import fse from "fs-extra";
-import { existsSync } from "fs";
-import { pascalCase, snakeCase } from "case-anything";
+import fse from 'fs-extra';
+import { existsSync } from 'fs';
+import { pascalCase, snakeCase } from 'case-anything';
 
-
-const action = `import { Connection } from "typeorm";
-import { <name>Request } from "./request";
+const action = `import { Connection } from 'typeorm';
+import { <name>Request } from './request';
 
 export class <name>Action {
     private connection: Connection;
@@ -14,45 +13,49 @@ export class <name>Action {
     }
 
     async execute(request: <name>Request): Promise<void> {}
-}`;
+}
+`;
 
 const request = `export interface <name>Request {
     key: string;
-}`;
+}
+`;
 
-const handler = `import { API_RESPONSE } from "../../core";
-import { HttpResponse, HttpRequest } from "../../core/libs/ApiEvent";
-import { Response } from "express";
-import { Database } from "../../core/databases/Mysql";
-import { Connection } from "typeorm";
+const handler = `import { API_RESPONSE } from '../../../../core';
+import { HttpResponse, HttpRequest } from '../../../../core/libs/ApiEvent';
+import { Response } from 'express';
+import { Mysql } from '../../../../core/databases/Mysql';
+import { Connection } from 'typeorm';
 
-import { Response200 } from "./response";
-import { Validate } from "./validate";
-import { <name>Action } from "./action";
+import { Response200 } from './response';
+import { Validate } from './validate';
+import { <name>Action } from './action';
 
 export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
     try {
         const request = Validate(req.body);
-        const connection: Connection = await Database.getConnection();  
+        const connection: Connection = await Mysql.getConnection();
         const action = new <name>Action(connection);
         await action.execute(request);
-        
-        return API_RESPONSE({
-            ...Response200.SUCCESS,
-        }, res);
-    }
-    catch(e) {
+
+        return API_RESPONSE(
+            {
+                ...Response200.SUCCESS,
+            },
+            res,
+        );
+    } catch(e) {
         return API_RESPONSE(e, res);
     }
     // finally {
-    //     await Database.closeConnection();
+    //     await Mysql.closeConnection();
     // }
 }
 `;
 
 const handler_test = `import { execute } from './handler';
 import { <name>Request } from './request';
-import { TestReponse, HttpRequest } from '../../core/libs/ApiEvent';
+import { TestReponse, HttpRequest } from '../../../../core/libs/ApiEvent';
 
 test('200: SUCCESS', async () => {
     const request = {
@@ -60,14 +63,9 @@ test('200: SUCCESS', async () => {
         body: <<name>Request>{
             key: 'value',
         },
-        params: {
-
-        },
-        query: {
-
-        }
-    }
-
+        params: {},
+        query: {},
+    };
 
     const result = await execute(request as HttpRequest, TestReponse);
 
@@ -79,7 +77,7 @@ test('200: SUCCESS', async () => {
 });
 `;
 
-const response = `import { HttpResponse } from "../../core/libs/ApiEvent";
+const response = `import { HttpResponse } from '../../../../core/libs/ApiEvent';
 
 /*
   Your Custom Response */
@@ -87,7 +85,7 @@ export class Response200 {
     static SUCCESS: HttpResponse = {
         code: 200,
         message: 'Success',
-    }
+    };
 }
 
 export class NotFound {
@@ -96,8 +94,8 @@ export class NotFound {
 }
 `;
 
-const validate = `import { <name>Request } from "./request";
-import { Validation } from "../../core/libs/Validation";
+const validate = `import { <name>Request } from './request';
+import { Validation } from '../../../../core/libs/Validation';
 import joi from 'joi';
 
 export const Validate = (request: <name>Request): <name>Request => {
@@ -113,7 +111,7 @@ export const Validate = (request: <name>Request): <name>Request => {
 `;
 
 const config = `<name>: 
-  handler: ./apis/<name>/handler
+  handler: ./src/functions/apis/<name>/handler
   endpoint: /<name>
   method: get
   enabled: true
@@ -123,53 +121,49 @@ const config = `<name>:
 `;
 
 export class ApiTemplate {
-  private readonly filename: string;
-  private readonly name: string;
+    private readonly filename: string;
+    private readonly name: string;
 
-  constructor(name: string) {
-    this.name = snakeCase(name.trim()); //pluralize(name.trim())
-    this.filename = `${this.name}.ts`;
-  }
+    constructor(name: string) {
+        this.name = snakeCase(name.trim()); //pluralize(name.trim())
+        this.filename = `${this.name}.ts`;
+    }
 
-  generate(): void {
-    const route = `./apis/${this.name}/${this.filename}`
-    if (existsSync(route))
-      throw new Error("API file already existed");
+    generate(): void {
+        const route = `./src/functions/apis/${this.name}/${this.filename}`;
+        if (existsSync(route)) throw new Error('API file already existed');
 
-    //ACTION
-    fse.outputFileSync(
-      `./apis/${this.name}/action.ts`, action.replace(/<name>/g, 
-      pascalCase(this.name))
-    );
-    //HANDLER TEST
-    fse.outputFileSync(
-      `./apis/${this.name}/handler_test.ts`,
-      handler_test.replace(/<name>/g, pascalCase(this.name))
-    );
-    //HANDLER
-    fse.outputFileSync(
-      `./apis/${this.name}/handler.ts`,
-      handler.replace(/<name>/g, pascalCase(this.name))
-    );
-    //REQUEST
-    fse.outputFileSync(
-      `./apis/${this.name}/request.ts`,
-      request.replace(/<name>/g, pascalCase(this.name))
-    );
-    //RESPONSE
-    fse.outputFileSync(
-      `./apis/${this.name}/response.ts`,
-      response.replace(/<name>/g, pascalCase(this.name))
-    );
-    //VALIDATE
-    fse.outputFileSync(
-      `./apis/${this.name}/validate.ts`,
-      validate.replace(/<name>/g, pascalCase(this.name))
-    );
-    //CONFIG
-    fse.outputFileSync(
-      `./apis/${this.name}/config.yml`,
-      config.replace(/<name>/g, this.name)
-    );
-  }
+        //ACTION
+        fse.outputFileSync(
+            `./src/functions/apis/${this.name}/action.ts`,
+            action.replace(/<name>/g, pascalCase(this.name)),
+        );
+        //HANDLER TEST
+        fse.outputFileSync(
+            `./src/functions/apis/${this.name}/handler_test.ts`,
+            handler_test.replace(/<name>/g, pascalCase(this.name)),
+        );
+        //HANDLER
+        fse.outputFileSync(
+            `./src/functions/apis/${this.name}/handler.ts`,
+            handler.replace(/<name>/g, pascalCase(this.name)),
+        );
+        //REQUEST
+        fse.outputFileSync(
+            `./src/functions/apis/${this.name}/request.ts`,
+            request.replace(/<name>/g, pascalCase(this.name)),
+        );
+        //RESPONSE
+        fse.outputFileSync(
+            `./src/functions/apis/${this.name}/response.ts`,
+            response.replace(/<name>/g, pascalCase(this.name)),
+        );
+        //VALIDATE
+        fse.outputFileSync(
+            `./src/functions/apis/${this.name}/validate.ts`,
+            validate.replace(/<name>/g, pascalCase(this.name)),
+        );
+        //CONFIG
+        fse.outputFileSync(`./src/functions/apis/${this.name}/config.yml`, config.replace(/<name>/g, this.name));
+    }
 }

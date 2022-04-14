@@ -1,8 +1,0 @@
-redis_get: 
-  handler: ./apis/redis_get/handler
-  endpoint: /redis/:key
-  method: get
-  enabled: true
-  #UNCOMMENT TO ATTACH MIDDLEWARE
-  #EXAMPLE: middleware: middleware
-  #middleware: <middleware_name>
