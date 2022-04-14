@@ -6,6 +6,7 @@ import fs from 'fs';
 import { Response } from 'express';
 import { Response500 } from './defaults';
 import { Config, HttpResponse, RouteConfig } from './libs/ApiEvent';
+import glob from 'glob';
 
 const yaml = require('js-yaml');
 const routes: Config[] = [];
@@ -13,21 +14,33 @@ const routes: Config[] = [];
 const listRoutes = require('express-list-routes');
 
 const loadRoutes = (dir = ''): Promise<Config[]> => {
-    if (!dir) dir = `${__dirname}/../src/functions/apis`;
+    // if (!dir) dir = `${__dirname}/../src/functions/apis`;
 
+    // return new Promise((resolve) => {
+    //     fs.readdirSync(dir).forEach((file: string) => {
+    //         const absolute = path.join(dir, file);
+
+    //         if (fs.statSync(absolute).isDirectory()) {
+    //             if (fs.existsSync(absolute)) {
+    //                 const config = getConfig(`${absolute}/config.yml`);
+    //                 if (config) routes.push(config);
+    //             }
+    //         }
+    //     });
+
+    //     return resolve(routes);
+    // });
     return new Promise((resolve) => {
-        fs.readdirSync(dir).forEach((file: string) => {
-            const absolute = path.join(dir, file);
-
-            if (fs.statSync(absolute).isDirectory()) {
-                if (fs.existsSync(absolute)) {
-                    const config = getConfig(`${absolute}/config.yml`);
+        glob(`${__dirname}/../src/functions/apis/**/*.yml`, (er: any, files: any) => {
+            if (files?.length) {
+                files.forEach(async (file: string) => {
+                    const config = getConfig(file);
                     if (config) routes.push(config);
-                }
+                });
             }
-        });
 
-        return resolve(routes);
+            return resolve(routes);
+        });
     });
 };
 
