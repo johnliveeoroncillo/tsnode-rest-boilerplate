@@ -62,17 +62,32 @@ loadRoutes().then(async (routes) => {
 
             const enabled = route?.enabled ?? false;
             if (enabled) {
-                const endpoint = route.endpoint.replace(/{/g, ':').replace(/}/g, '');
+                let endpoint = route.endpoint.replace(/{/g, ':').replace(/}/g, '');
+                endpoint = `<prefix><version>${endpoint}`;
                 const handler = route.handler;
                 const method = METHODS?.[route.method] ?? '';
                 const middleware = route.middleware;
-                // const middleware = route.middleware
+                const prefix = route?.prefix ?? '';
+                const version = route?.version ?? '';
+
+                Logger.info('Test', route);
+
                 const { execute } = await import(`.${handler}`);
                 const callbacks = [];
                 if (middleware) {
                     const { execute } = await import(`../src/functions/middlewares/${middleware}`);
                     callbacks.push(execute);
                 }
+
+                /**
+                 * MODIFY ENDPOINT SETTINGS
+                 */
+                if (prefix && prefix !== '') endpoint = endpoint.replace(/<prefix>/g, `/${prefix}`);
+                else endpoint = endpoint.replace(/<prefix>/g, '');
+
+                if (version && version !== '') endpoint = endpoint.replace(/<version>/g, `/v${version}`);
+                else endpoint = endpoint.replace(/<version>/g, '');
+
                 callbacks.push(execute);
                 app[method](endpoint, callbacks);
             }

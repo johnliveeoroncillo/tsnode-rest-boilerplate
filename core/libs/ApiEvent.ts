@@ -20,6 +20,8 @@ export interface RouteConfig {
     middleware?: string;
     handler: string;
     enabled: boolean;
+    version?: string;
+    prefix?: string;
 
     timezone?: string;
     autostart?: boolean;
