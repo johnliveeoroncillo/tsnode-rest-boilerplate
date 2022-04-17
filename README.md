@@ -90,7 +90,12 @@ sample-api: (API Key)
   method: post (API Method)
   enabled: true (Enable/Disable option)
   middleware: authorizer (File name of the middleware)
+  version: 1 (Optional: Version of the api)
+  prefix: api (Optional: API prefix)
 ```
+With Version: /v1/sample-api
+With Prefix: /api/sample-api
+With Prefix and Version: /api/v1/sample-api
 
 #### ./cron/sample-cron/config.yml
 ```

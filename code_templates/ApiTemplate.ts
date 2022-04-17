@@ -44,7 +44,7 @@ export async function execute(req: HttpRequest, res: Response): Promise<HttpResp
             },
             res,
         );
-    } catch(e) {
+    } catch (e) {
         return API_RESPONSE(e, res);
     }
     // finally {
