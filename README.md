@@ -93,11 +93,13 @@ sample-api: (API Key)
   version: 1 (Optional: Version of the api)
   prefix: api (Optional: API prefix)
 ```
-With Version: /v1/sample-api
+Enabled Version: /v1/sample-api
 <br/>
-With Prefix: /api/sample-api
+Enabled Prefix: /api/sample-api
 <br/>
-With Prefix and Version: /api/v1/sample-api
+Enabled Prefix and Version: /api/v1/sample-api
+<br/>
+With path parameters: /sample-api/{id}
 
 #### ./cron/sample-cron/config.yml
 ```
