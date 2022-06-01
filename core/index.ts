@@ -73,6 +73,8 @@ export const getConfig = (path: string): Config | undefined | any => {
 
 const loadCron = (): void => {
     const dir = `${__dirname}/../src/functions/cron`;
+    if (!fs.existsSync(dir)) return;
+
     const cron = require('node-cron');
     fs.readdirSync(dir).forEach(async (file: string) => {
         const absolute = path.join(dir, file);

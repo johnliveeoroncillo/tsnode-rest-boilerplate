@@ -1,5 +1,4 @@
-const up =
-    `CREATE TABLE users ( 
+const up = `CREATE TABLE users ( 
         id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
         uuid VARCHAR(50) NOT NULL, 
         username varchar(100) not null,
@@ -12,4 +11,4 @@ const up =
 
 const down = `DROP TABLE users;`;
 
-export = { up, down }
+export = { up, down };

@@ -70,8 +70,6 @@ loadRoutes().then(async (routes) => {
                 const prefix = route?.prefix ?? '';
                 const version = route?.version ?? '';
 
-                Logger.info('Test', route);
-
                 const { execute } = await import(`.${handler}`);
                 const callbacks = [];
                 if (middleware) {
@@ -108,7 +106,7 @@ const run = async () => {
     httpServer.listen(PORT, () => {
         const environment = env('NODE_ENV', ENV.DEVELOPMENT);
         Logger.info('ENVIRONMENT', environment);
-        if (environment === ENV.PRODUCTION) {
+        if (environment === ENV.DEVELOPMENT) {
             const event = new Events();
             event.startServer();
         }
