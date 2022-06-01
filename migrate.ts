@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const mysql = require('mysql');
+import mysql from 'mysql';
 const migrations = require('mysql-migrations');
 import 'dotenv/config';
 // ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'admin';

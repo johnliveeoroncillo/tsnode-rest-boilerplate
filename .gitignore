@@ -3,3 +3,4 @@
 **/build
 **/environment
 package-lock.json
+.vscode

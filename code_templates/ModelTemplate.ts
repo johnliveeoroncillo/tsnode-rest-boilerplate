@@ -63,15 +63,17 @@ export class ModelTemplate {
                     else if (booleans.includes(element.DATA_TYPE)) type = 'boolean';
 
                     const column = `
-  @Column({
-    type: "${element.DATA_TYPE}"${
-                        element.CHARACTER_MAXIMUM_LENGTH == null || element.DATA_TYPE == 'text'
+@Column({
+type: "${element.DATA_TYPE == 'enum' ? 'varchar' : element.DATA_TYPE}"${
+                        element.CHARACTER_MAXIMUM_LENGTH == null ||
+                        element.DATA_TYPE == 'text' ||
+                        element.DATA_TYPE == 'enum'
                             ? ''
                             : `,\n    length: ${element.CHARACTER_MAXIMUM_LENGTH}`
                     }
-  })
-  ${element.COLUMN_NAME}: ${type};
-                `;
+})
+${element.COLUMN_NAME}: ${type};
+            `;
                     columns.push(column);
                 }
             });

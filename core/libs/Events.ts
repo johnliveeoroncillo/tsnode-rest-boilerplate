@@ -66,6 +66,8 @@ export class Events {
     private async listEvents(): Promise<EventList> {
         let paths: EventList = {};
 
+        if (!fs.existsSync(event_path)) return {};
+
         console.log(LogColor.bg.yellow, LogColor.fg.black, 'EVENTS : ' + this.options.port, LogColor.reset);
         fs.readdirSync(event_path).forEach((file: string) => {
             const absolute = path.join(event_path, file);
@@ -89,8 +91,9 @@ export class Events {
 
     async startServer(): Promise<void> {
         // console.log('EVENT STARTING SERVER');
-        this.serverEvent.listen(this.options.port, this.options.host);
         const events: EventList = await this.listEvents();
+
+        this.serverEvent.listen(this.options.port, this.options.host);
         this.on(LISTENERS.connection, function (socket) {
             // console.log('EVENT CLIENT CONNECTED: ' + socket.remoteAddress +':'+ socket.remotePort);
             socket.on(LISTENERS.data, async (socket_data: ArrayBuffer) => {

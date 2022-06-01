@@ -1,4 +1,5 @@
-import { writeFileSync, existsSync } from 'fs';
+import fse from 'fs-extra';
+import { existsSync } from 'fs';
 
 const content = `@startuml
 
@@ -193,7 +194,7 @@ export class DocsTemplate {
 
     generate(): void {
         if (!existsSync(`./docs/${this.name}/${this.name}.puml`))
-            writeFileSync(`./docs/${this.name}/${this.name}.puml`, content);
-        if (!existsSync(`./docs/${this.name}/doc.ts`)) writeFileSync(`./docs/${this.name}/doc.ts`, apidoc);
+            fse.outputFileSync(`./docs/${this.name}/${this.name}.puml`, content);
+        if (!existsSync(`./docs/${this.name}/doc.ts`)) fse.outputFileSync(`./docs/${this.name}/doc.ts`, apidoc);
     }
 }

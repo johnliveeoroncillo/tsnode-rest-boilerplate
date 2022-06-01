@@ -93,9 +93,13 @@ sample-api: (API Key)
   version: 1 (Optional: Version of the api)
   prefix: api (Optional: API prefix)
 ```
-With Version: /v1/sample-api
-With Prefix: /api/sample-api
-With Prefix and Version: /api/v1/sample-api
+Enabled Version: /v1/sample-api
+<br/>
+Enabled Prefix: /api/sample-api
+<br/>
+Enabled Prefix and Version: /api/v1/sample-api
+<br/>
+With path parameters: /sample-api/{id}
 
 #### ./cron/sample-cron/config.yml
 ```
@@ -271,7 +275,9 @@ This will create model and repository
 ```bash
   npm run make:api <api_path>
 ```
-Example: npm run make:api admin/login or npm run make:api admin/management/users
+Example: <br/>
+npm run make:api admin/login <br/>
+npm run make:api admin/management/users
 
 #### Create Service
 
