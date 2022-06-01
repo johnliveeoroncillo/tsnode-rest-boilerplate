@@ -21,12 +21,12 @@ export class Model extends BaseEntity {
 
     // timestamps
     @CreateDateColumn({
-        type: 'varchar',
+        type: 'timestamp',
     })
     created_at: string;
 
     @UpdateDateColumn({
-        type: 'varchar',
+        type: 'timestamp',
     })
     updated_at: string;
 
