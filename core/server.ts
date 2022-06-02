@@ -106,11 +106,10 @@ const run = async () => {
     httpServer.listen(PORT, () => {
         const environment = env('NODE_ENV', ENV.DEVELOPMENT);
         Logger.info('ENVIRONMENT', environment);
-        if (environment === ENV.DEVELOPMENT) {
-            const event = new Events();
-            event.startServer();
-        }
         Logger.serverStarted(PORT);
+
+        const event = new Events();
+        event.startServer();
     });
 };
 
