@@ -28,7 +28,7 @@
 
 ## Coming Soon / Roadmap
 
-https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate/projects/
+[https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate/projects/](https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate/projects/1)
 
 
 ## Folder Structure
