@@ -159,6 +159,8 @@ EVENT_HOST=127.0.0.1
 ```
 
 ## Demo
+### This is only a sample api to explore the boilerplate. You can also create your own API based on your requirements.
+
 #### Development
 https://tsnode-rest-dev.herokuapp.com/
 
