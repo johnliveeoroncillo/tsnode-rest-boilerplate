@@ -108,8 +108,8 @@ const run = async () => {
         Logger.info('ENVIRONMENT', environment);
         Logger.serverStarted(PORT);
 
-        const event = new Events();
-        event.startServer();
+        // const event = new Events();
+        // event.startServer();
     });
 };
 
