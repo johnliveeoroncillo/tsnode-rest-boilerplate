@@ -11,6 +11,66 @@
 </p>
 
 
+## Installation
+
+#### NPX
+```sh
+npx jl-tsnode-express
+```
+
+#### Git 
+```sh
+git clone https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate.git
+```
+
+#### Install Dependencies
+Requires [Node.js](https://nodejs.org/) v10+, Typescript and Docker (optional) to run.
+Install the dependencies and devDependencies and start the server.  
+Link to docker: [Docker](https://www.docker.com/)
+
+```sh
+npm i -g node
+npm i -g typescript
+npm i -g ts-node
+```
+
+#### Development
+```sh
+npm run dev
+```
+
+#### Build
+```sh
+npm run build
+```
+
+#### Production
+```sh
+npm run start
+```
+
+### PlantUML
+1. Download this VSCode Extension
+    Name: PlantUML
+    Id: jebbs.plantuml
+    Description: Rich PlantUML support for Visual Studio Code.
+    Version: 2.17.2
+    Publisher: jebbs
+    VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml
+2. Download JRE for PlantUML Preview in VSCode - https://java.com/en/download/
+
+#### PUML Preview
+1. Open your .puml file in vscode
+2. Press ALT + D
+
+#### Exporting Diagram
+1. Open your .puml file in vscode
+2. Press CTRL + SHIFT + P
+3. Select PlantUML: Export Current Diagram
+4. Select your desired file extension
+
+
+
 
 
 ## Features
@@ -373,60 +433,6 @@ Example: npm run test:log ./apis/login/
   npm run docker:stop
 ```
 
-## Installation
-
-Requires [Node.js](https://nodejs.org/) v10+, Typescript and Docker (optional) to run.
-Install the dependencies and devDependencies and start the server.  
-Link to docker: [Docker](https://www.docker.com/)
-
-### PlantUML
-1. Download this VSCode Extension
-    Name: PlantUML
-    Id: jebbs.plantuml
-    Description: Rich PlantUML support for Visual Studio Code.
-    Version: 2.17.2
-    Publisher: jebbs
-    VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml
-2. Download JRE for PlantUML Preview in VSCode - https://java.com/en/download/
-
-#### PUML Preview
-1. Open your .puml file in vscode
-2. Press ALT + D
-
-#### Exporting Diagram
-1. Open your .puml file in vscode
-2. Press CTRL + SHIFT + P
-3. Select PlantUML: Export Current Diagram
-4. Select your desired file extension
-
-
-```sh
-npm i -g node
-npm i -g typescript
-npm i -g ts-node
-```
-
-
-```sh
-git clone https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate.git
-cd tsnode-rest-boilerplate
-npm i
-```
-
-#### Development
-```sh
-npm run dev
-```
-
-#### Build
-```sh
-npm run build
-```
-
-#### Production
-```sh
-npm run start
-```
 ## Development
 
 Want to contribute? Great! Email me at johnliveeoroncillo@gmail.com
