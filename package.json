@@ -32,6 +32,10 @@
     "delete:doc": "ts-node -r dotenv/config -e \"import { deleteDocs } from './core/libs/DocsBuilder'; deleteDocs();\"",
     "build:doc": "npm run generate:doc && npm run apidoc && npm run delete:doc"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate.git"
+  },
   "license": "ISC",
   "dependencies": {
     "axios": "^0.23.0",
