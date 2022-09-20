@@ -16,4 +16,4 @@ test:
 
   #ADD MIDDLEWARE
   #EXAMPLE: middleware: authorizer
-  #middleware: <middleware_name>
+  middleware: [second_authorizer, authorizer]
