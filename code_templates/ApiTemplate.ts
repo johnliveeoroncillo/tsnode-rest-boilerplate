@@ -96,7 +96,10 @@ export class NotFound {
 
 const validate = `import { <name>Request } from './request';
 import { Validation } from '<dynamic_path>../../../../core/libs/Validation';
-import joi from 'joi';
+import DateExtension from '@joi/date';
+import * as JoiImport from 'joi';
+const joi = JoiImport.extend(DateExtension);
+//SAMPLE: joi.date().format('YYYY-MM-DD')
 
 export const Validate = (request: <name>Request): <name>Request => {
     const schema = joi
