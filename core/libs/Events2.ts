@@ -66,12 +66,12 @@ const emit = async (event_name: string, payload?: string, withResponse = false):
         const event_data = await event.listEvents(event_name);
         if (event_data.enabled && event_data.handler) {
             // const { execute } = await import(`../.${event_data.handler}`);
-            const worker = workerTs(path.resolve(__dirname, './EventWorker.ts'), {})
+            const worker = workerTs(path.resolve(__dirname, './EventWorker.ts'), {});
             worker.postMessage({
                 event: event_data,
                 data: payload,
             });
-            
+
             if (withResponse)
                 worker.on('message', (payload: any) => {
                     resolve(payload);
@@ -92,16 +92,17 @@ const workerTs = (file: string, wkOpts: WorkerOptions) => {
         wkOpts.workerData = {};
     }
     wkOpts.workerData.__filename = file;
-    return new Worker(`
+    return new Worker(
+        `
             const wk = require('worker_threads');
             require('ts-node').register();
             let file = wk.workerData.__filename;
             delete wk.workerData.__filename;
             require(file);
         `,
-        wkOpts
+        wkOpts,
     );
-}
+};
 
 // try {
 //     const { payload, event_name, withResponse } = JSON.parse(data);
