@@ -43,32 +43,13 @@ export class Events2 {
                 config[event_name].location = event_path;
                 console.log('', LogColor.fg.yellow, '- ' + Object.keys(config)[0], LogColor.reset);
                 console.log('', LogColor.fg.yellow, '-- ' + config[event_name].handler, LogColor.reset);
+                console.log('', LogColor.fg.yellow, '-- ' + config[event_name].location, LogColor.reset);
                 paths = config[event_name];
             }
         }
-        // fs.readdirSync(event_path).forEach((file: string) => {
-        //     // const absolute = path.join(this.event_path, file);
-
-        //     // if (fs.statSync(absolute).isDirectory()) {
-        //     // if (fs.existsSync(file)) {
-        //     const config = getConfig(`${event_path}/config.yml`);
-        //     const enabled = config?.enabled ?? false;
-        //     if (enabled) {
-        //         config[file].location = file;
-        //         console.log('', LogColor.fg.yellow, '- ' + Object.keys(config)[0], LogColor.reset);
-        //         console.log('', LogColor.fg.yellow, '-- ' + config[file].handler, LogColor.reset);
-        //         paths = Object.assign(paths, config);
-        //     }
-        //     // }
-        //     // }
-        // });
 
         return paths;
     }
-
-    // private async startServer(): Promise<void> {
-    //     const events: EventList = await this.listEvents();
-    // }
 }
 
 export const invokeEvent = async (event_name: string, payload?: any): Promise<void> => {
