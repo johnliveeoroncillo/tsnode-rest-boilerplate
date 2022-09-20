@@ -132,19 +132,25 @@ const config = `<key_name>:
   method: <method>
   enabled: true
 
-  #ADD API VERSION
-  #EXAMPLE OUTPUT: /login to /v1/login
+  ##ADD API VERSION
+  ##EXAMPLE OUTPUT: /login to /v1/login
   #version: 1
 
-  #ADD API PREFIX
-  #EXAMPLE: api
-  #EXAMPLE OUTPUT: /login to /api/login
-  #WORKS WITH VERSION SAMPLE OUTPUT: /api/v1/login
+  ##ADD API PREFIX
+  ##EXAMPLE: api
+  ##EXAMPLE OUTPUT: /login to /api/login
+  ##WORKS WITH VERSION SAMPLE OUTPUT: /api/v1/login
   #prefix: api
 
-  #ADD MIDDLEWARE
-  #EXAMPLE: middleware: authorizer
+  ##ADD MIDDLEWARE
+  
+  ##SINGLE
+  ##EXAMPLE: middleware: authorizer
   #middleware: <middleware_name>
+
+  ##MULTIPLE
+  ##EXAMPLE: middleware: [authorizer, second_authorizer]
+  #middleware: [<middleware_name1>, <middleware_name2>]
 `;
 
 export class ApiTemplate {
