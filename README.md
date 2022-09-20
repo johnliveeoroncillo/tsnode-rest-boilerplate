@@ -295,12 +295,13 @@ Request:
 ```
 
 ### EVENT USAGE
-#### This function is inspired by AWS Lambda Event which drives the invocation or Lambda polls a queue or data stream and invokes the function in response to activity in the queue or data stream.
-#### This custom event is using "net" package to recreate the AWS Lambda Event functionality. Wherein it executes functions in parallel process and doesn't affect the current thread of your API.
+##### This function is inspired by AWS Lambda Event which drives the invocation or Lambda polls a queue or data stream and invokes the function in response to activity in the queue or data stream.
+##### This custom event is using <span style="text-decoration: line-through">"net"</span> "worker_threads" module to recreate the AWS Lambda Event functionality. Wherein it executes functions in parallel process and doesn't affect the current thread of your API.
 
 ```bash
 import { EVENTS } from "../../helpers/Enums";
-import { invokeEvent, invokeEventWithResponse } from "../../core/libs/Events";
+//NOTE: Events is not maintained and not working properly, so use Events2
+import { invokeEvent, invokeEventWithResponse } from "../../core/libs/Events2";
 
 //OPTION 1 - Event with Response
 const data = await invokeEventWithResponse(EVENTS.EVENT_TEST, { message: request.message });
