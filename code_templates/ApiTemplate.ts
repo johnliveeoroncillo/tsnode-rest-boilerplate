@@ -34,6 +34,19 @@ import { <name>Action } from './action';
 export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
     try {
         const request = Validate(req.body);
+        /**
+         * FOR IMAGE 
+         * if (req.files?.<name>) request.<name> = req.files.<name>;
+         * Object req.files.<name>
+         * name: String
+         * mv: Void
+         * mimetype: String
+         * data: StringBuffer
+         * tempFilePath: string
+         * truncated: Boolean
+         * size: Number
+         * md5: String
+         */
         const connection: Connection = await Mysql.getConnection();
         const action = new <name>Action(connection);
         await action.execute(request);
