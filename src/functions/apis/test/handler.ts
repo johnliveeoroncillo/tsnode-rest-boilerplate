@@ -8,7 +8,6 @@ import { Logger } from '../../../../core/libs/Logger';
 
 export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
     try {
-        
         /**
          * WITHOUT RESPONSE
          */
@@ -19,7 +18,6 @@ export async function execute(req: HttpRequest, res: Response): Promise<HttpResp
          * RESPONSE result undefined
          */
         Logger.info('event', response);
-
 
         // /**
         //  * WITH RESPONSE

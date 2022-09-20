@@ -5,14 +5,14 @@ import axios, { AxiosInstance } from 'axios';
 import path from 'path';
 
 interface FileData {
-    name: string,
-    mimetype: string,
-    data: Buffer,
-    mv: void,
-    tempFilePath: string,
-    truncated: boolean,
-    size: number,
-    md5: string,
+    name: string;
+    mimetype: string;
+    data: Buffer;
+    mv: void;
+    tempFilePath: string;
+    truncated: boolean;
+    size: number;
+    md5: string;
 }
 
 const SMTP_HOST: string = process.env?.SMTP_HOST ?? '';
@@ -71,14 +71,16 @@ export class EmailService {
                 message.attachments.push({
                     filename: file.name,
                     content: file.data,
-                })
+                });
             } else {
-                message.attachments.push(...file.map((data: FileData) => {
-                    return {
-                        filename: data.name,
-                        content: data.data,
-                    }
-                }));
+                message.attachments.push(
+                    ...file.map((data: FileData) => {
+                        return {
+                            filename: data.name,
+                            content: data.data,
+                        };
+                    }),
+                );
             }
         }
 

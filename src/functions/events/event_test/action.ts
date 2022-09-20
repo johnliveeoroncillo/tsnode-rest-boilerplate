@@ -18,19 +18,19 @@ export class EventTestAction {
         //     data.push(log);
         // }
         // return await this.eventLogsRepository.save(data);
-        const client = axios.create({})
+        const client = axios.create({});
         const events: EventlogsModel[] = [];
 
-        await client.get(`https://raw.githubusercontent.com/json-iterator/test-data/master/large-file.json`)
+        await client
+            .get(`https://raw.githubusercontent.com/json-iterator/test-data/master/large-file.json`)
             .then(async (res: any) => {
                 const { data } = res;
                 if (data.length) {
-                    data.forEach( (element: any) => {
+                    data.forEach((element: any) => {
                         const event = new EventlogsModel();
                         event.message = JSON.stringify(element);
                         events.push(event);
                     });
-    
                 }
             })
             .catch((err: any) => {

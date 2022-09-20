@@ -1,5 +1,4 @@
-import { parentPort } from "worker_threads";
-
+import { parentPort } from 'worker_threads';
 
 parentPort?.on('message', async (payload: any) => {
     const { event, data } = payload;
@@ -7,5 +6,3 @@ parentPort?.on('message', async (payload: any) => {
     const response = await execute(data);
     parentPort?.postMessage(response);
 });
-
-
