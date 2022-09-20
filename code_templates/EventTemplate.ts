@@ -23,7 +23,7 @@ const request = `export interface <name>Request {
 
 const handler = `import { API_RESPONSE } from '../../../../core';
 import { HttpResponse } from '../../../../core/libs/ApiEvent';
-import { Database } from '../../../../core/databases/Mysql';
+import { Mysql } from '../../../../core/databases/Mysql';
 import { Connection } from 'typeorm';
 
 import { Response200 } from './response';
@@ -34,12 +34,12 @@ import { <name>Request } from './request';
 export async function execute(event: <name>Request): Promise<HttpResponse> {
     try {
         const request = Validate(event);
-        const connection: Connection = await Database.getConnection();
+        const connection: Connection = await Mysql.getConnection();
         const action = new <name>Action(connection);
         await action.execute(request);
 
         return API_RESPONSE({
-          ...Response200.SUCCESS,
+            ...Response200.SUCCESS,
         });
     } catch (e) {
         return API_RESPONSE(e);

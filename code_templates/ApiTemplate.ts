@@ -34,6 +34,19 @@ import { <name>Action } from './action';
 export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
     try {
         const request = Validate(req.body);
+        /**
+         * FOR IMAGE 
+         * if (req.files?.<name>) request.<name> = req.files.<name>;
+         * Object req.files.<name>
+         * name: String
+         * mv: Void
+         * mimetype: String
+         * data: StringBuffer
+         * tempFilePath: string
+         * truncated: Boolean
+         * size: Number
+         * md5: String
+         */
         const connection: Connection = await Mysql.getConnection();
         const action = new <name>Action(connection);
         await action.execute(request);
@@ -96,7 +109,10 @@ export class NotFound {
 
 const validate = `import { <name>Request } from './request';
 import { Validation } from '<dynamic_path>../../../../core/libs/Validation';
-import joi from 'joi';
+import DateExtension from '@joi/date';
+import * as JoiImport from 'joi';
+const joi = JoiImport.extend(DateExtension);
+//SAMPLE: joi.date().format('YYYY-MM-DD')
 
 export const Validate = (request: <name>Request): <name>Request => {
     const schema = joi
@@ -116,19 +132,25 @@ const config = `<key_name>:
   method: <method>
   enabled: true
 
-  #ADD API VERSION
-  #EXAMPLE OUTPUT: /login to /v1/login
+  ##ADD API VERSION
+  ##EXAMPLE OUTPUT: /login to /v1/login
   #version: 1
 
-  #ADD API PREFIX
-  #EXAMPLE: api
-  #EXAMPLE OUTPUT: /login to /api/login
-  #WORKS WITH VERSION SAMPLE OUTPUT: /api/v1/login
+  ##ADD API PREFIX
+  ##EXAMPLE: api
+  ##EXAMPLE OUTPUT: /login to /api/login
+  ##WORKS WITH VERSION SAMPLE OUTPUT: /api/v1/login
   #prefix: api
 
-  #ADD MIDDLEWARE
-  #EXAMPLE: middleware: authorizer
+  ##ADD MIDDLEWARE
+  
+  ##SINGLE
+  ##EXAMPLE: middleware: authorizer
   #middleware: <middleware_name>
+
+  ##MULTIPLE
+  ##EXAMPLE: middleware: [authorizer, second_authorizer]
+  #middleware: [<middleware_name1>, <middleware_name2>]
 `;
 
 export class ApiTemplate {

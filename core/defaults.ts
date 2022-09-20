@@ -166,6 +166,11 @@ const Response500 = {
     code: 500,
     message: 'Something went wrong',
 };
+//503 SERVICE UNAVAILABLE
+const Response503 = {
+    code: 503,
+    message: 'Service Unavailable',
+};
 
 export {
     NotFound,
@@ -191,4 +196,5 @@ export {
     Response422,
     Response423,
     Response500,
+    Response503,
 };

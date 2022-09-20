@@ -11,6 +11,66 @@
 </p>
 
 
+## Installation
+
+#### NPX
+```sh
+npx jl-tsnode-express
+```
+
+#### Git 
+```sh
+git clone https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate.git
+```
+
+#### Install Dependencies
+Requires [Node.js](https://nodejs.org/) v10+, Typescript and Docker (optional) to run.
+Install the dependencies and devDependencies and start the server.  
+Link to docker: [Docker](https://www.docker.com/)
+
+```sh
+npm i -g node
+npm i -g typescript
+npm i -g ts-node
+```
+
+#### Development
+```sh
+npm run dev
+```
+
+#### Build
+```sh
+npm run build
+```
+
+#### Production
+```sh
+npm run start
+```
+
+### PlantUML
+1. Download this VSCode Extension
+    Name: PlantUML
+    Id: jebbs.plantuml
+    Description: Rich PlantUML support for Visual Studio Code.
+    Version: 2.17.2
+    Publisher: jebbs
+    VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml
+2. Download JRE for PlantUML Preview in VSCode - https://java.com/en/download/
+
+#### PUML Preview
+1. Open your .puml file in vscode
+2. Press ALT + D
+
+#### Exporting Diagram
+1. Open your .puml file in vscode
+2. Press CTRL + SHIFT + P
+3. Select PlantUML: Export Current Diagram
+4. Select your desired file extension
+
+
+
 
 
 ## Features
@@ -28,7 +88,7 @@
 
 ## Coming Soon / Roadmap
 
-https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate/projects/
+[https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate/projects/](https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate/projects/1)
 
 
 ## Folder Structure
@@ -159,6 +219,8 @@ EVENT_HOST=127.0.0.1
 ```
 
 ## Demo
+### This is only a sample api to explore the boilerplate. You can also create your own API based on your requirements.
+
 #### Development
 https://tsnode-rest-dev.herokuapp.com/
 
@@ -233,12 +295,13 @@ Request:
 ```
 
 ### EVENT USAGE
-#### This function is inspired by AWS Lambda Event which drives the invocation or Lambda polls a queue or data stream and invokes the function in response to activity in the queue or data stream.
-#### This custom event is using "net" package to recreate the AWS Lambda Event functionality. Wherein it executes functions in parallel process and doesn't affect the current thread of your API.
+##### This function is inspired by AWS Lambda Event which drives the invocation or Lambda polls a queue or data stream and invokes the function in response to activity in the queue or data stream.
+##### This custom event is using <span style="text-decoration: line-through">"net"</span> "worker_threads" module to recreate the AWS Lambda Event functionality. Wherein it executes functions in parallel process and doesn't affect the current thread of your API.
 
 ```bash
 import { EVENTS } from "../../helpers/Enums";
-import { invokeEvent, invokeEventWithResponse } from "../../core/libs/Events";
+//NOTE: Events is not maintained and not working properly, so use Events2
+import { invokeEvent, invokeEventWithResponse } from "../../core/libs/Events2";
 
 //OPTION 1 - Event with Response
 const data = await invokeEventWithResponse(EVENTS.EVENT_TEST, { message: request.message });
@@ -371,60 +434,6 @@ Example: npm run test:log ./apis/login/
   npm run docker:stop
 ```
 
-## Installation
-
-Requires [Node.js](https://nodejs.org/) v10+, Typescript and Docker (optional) to run.
-Install the dependencies and devDependencies and start the server.  
-Link to docker: [Docker](https://www.docker.com/)
-
-### PlantUML
-1. Download this VSCode Extension
-    Name: PlantUML
-    Id: jebbs.plantuml
-    Description: Rich PlantUML support for Visual Studio Code.
-    Version: 2.17.2
-    Publisher: jebbs
-    VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml
-2. Download JRE for PlantUML Preview in VSCode - https://java.com/en/download/
-
-#### PUML Preview
-1. Open your .puml file in vscode
-2. Press ALT + D
-
-#### Exporting Diagram
-1. Open your .puml file in vscode
-2. Press CTRL + SHIFT + P
-3. Select PlantUML: Export Current Diagram
-4. Select your desired file extension
-
-
-```sh
-npm i -g node
-npm i -g typescript
-npm i -g ts-node
-```
-
-
-```sh
-git clone https://github.com/johnliveeoroncillo/tsnode-rest-boilerplate.git
-cd tsnode-rest-boilerplate
-npm i
-```
-
-#### Development
-```sh
-npm run dev
-```
-
-#### Build
-```sh
-npm run build
-```
-
-#### Production
-```sh
-npm run start
-```
 ## Development
 
 Want to contribute? Great! Email me at johnliveeoroncillo@gmail.com

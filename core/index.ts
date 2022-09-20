@@ -7,11 +7,64 @@ import { Response } from 'express';
 import { Response500 } from './defaults';
 import { Config, HttpResponse, RouteConfig } from './libs/ApiEvent';
 import glob from 'glob';
+import { LogColor } from './libs/Logger';
+const Table = require('cli-table');
+const colors = require('colors/safe');
 
 const yaml = require('js-yaml');
 const routes: Config[] = [];
 
-const listRoutes = require('express-list-routes');
+export interface ApiRecord {
+    config: RouteConfig;
+    api_key: string;
+    middlewares: string[];
+}
+
+
+const listRoutes = (app: ApiRecord[]) => {
+    const table = new Table({
+        head: [colors.red.bold('#'), colors.red.bold('Endpoint'), colors.red.bold('Method'), colors.red.bold('Middlewares')],
+        style: { 'padding-left': 1, 'padding-right': 1 },
+    });
+    for (let i = 0; i < app.length; i++) {
+        const current = app[i];
+        const config = current.config;
+        const middlewares = current.middlewares;
+
+        let method = '';
+        switch(config.method) {
+            case "post":
+                method = colors.blue(config.method);
+                break;
+            case "patch":
+            case "put":
+                method = colors.yellow(config.method);
+                break;
+            case "delete":
+                method = colors.red(config.method);
+                break;
+            case "get":
+                method = colors.green(config.method);
+                break;
+            default:
+                method = colors.grey(config.method);
+        }
+        
+        table.push([
+            i + 1,
+            colors.yellow.bold(config.endpoint),
+            method,
+            colors.magenta(middlewares.join(', ')),
+        ]);
+        // table_data.push({
+        //     'Endpoint': config.endpoint, 
+        //     'Method': config.method,
+        //     'Middlewares': middlewares.join(', ')
+        // });
+    }
+
+    console.log(table.toString());
+}
 
 const loadRoutes = (dir = ''): Promise<Config[]> => {
     return new Promise((resolve) => {
