@@ -61,11 +61,12 @@ loadRoutes().then(async (routes) => {
             const api_config: Config = routes[key];
             const route: RouteConfig = api_config[api_key];
 
-            const index = api_record.push({
-                api_key,
-                config: route,
-                middlewares: [],
-            }) - 1;
+            const index =
+                api_record.push({
+                    api_key,
+                    config: route,
+                    middlewares: [],
+                }) - 1;
 
             const enabled = route?.enabled ?? false;
             if (enabled) {

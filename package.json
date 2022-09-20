@@ -1,6 +1,6 @@
 {
   "name": "tsnode-test-api",
-  "version": "5.2.0",
+  "version": "6.2.1",
   "description": "A node express typescript Rest API Boilerplate",
   "author": "John Livee G. Oroncillo",
   "scripts": {
@@ -14,7 +14,7 @@
     "migrate": "ts-node migrate.ts up",
     "migrate:refresh": "ts-node migrate.ts down && npm run migrate",
     "req": "npm i -g ts-node",
-    "lint": "eslint --ext .ts src/ --fix",
+    "lint": "eslint --ext .ts ./ --fix",
     "test": "jest --silent",
     "test:log": "jest",
     "cron": "ts-node -r dotenv/config -e \"import { loadCron } from './core/'; loadCron();\"",
