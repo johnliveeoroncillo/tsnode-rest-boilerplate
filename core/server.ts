@@ -9,8 +9,13 @@ import 'reflect-metadata';
 import cors from 'cors';
 import { env } from './libs/Env';
 import { Logger } from './libs/Logger';
-import { Events } from './libs/Events';
 import { ENV } from '../src/helpers/Enums';
+import { createWriteStream } from 'fs';
+import { Carbon } from './libs/Carbon';
+import { SocketIO } from './libs/SocketIO';
+
+const httpolyglot = require('httpolyglot');
+const fileUpload = require('express-fileupload');
 
 const app: Express = express();
 
@@ -18,11 +23,21 @@ const app: Express = express();
 loadCron();
 
 /** Logging */
-app.use(morgan('dev'));
+const accessLogStream = createWriteStream(`./logs/${Carbon.format(Carbon.now())}.log`, { flags: 'a' });
+app.use(
+    morgan('combined', {
+        skip: function (req, res) {
+            return res.statusCode < 400;
+        },
+        stream: accessLogStream,
+    }),
+);
 /** Parse the request */
 app.use(express.urlencoded({ extended: false }));
+
 /** Takes care of JSON data */
 app.use(express.json());
+
 /** Remove X-Powered-By */
 app.disable('x-powered-by');
 
@@ -36,21 +51,10 @@ const corsOptions = {
     credentials: true,
     withCredentials: true,
 };
-app.use((req: Request, res: Response, next: NextFunction) => {
-    ////TEMPORARILY REMOVED
-    // const origins = process.env?.ALLOWED_ORIGINS ?? '';
-    // const allowedOrigins = origins.split(',');
-    // const origin: string = req.headers?.host ?? '';
-    // console.log(origin, allowedOrigins);
+app.use(cors(corsOptions));
 
-    // if (allowedOrigins.includes(origin)) {
-    //   console.log('ALLOWED', origin);
-    //   corsOptions["Access-Control-Allow-Origin"] = origin; // restrict it to the required domain
-    // }
-    // console.log(corsOptions)
-    app.use(cors(corsOptions));
-    next();
-});
+/** File upload */
+app.use(fileUpload());
 
 /** Routes */
 loadRoutes().then(async (routes) => {
@@ -117,13 +121,24 @@ loadRoutes().then(async (routes) => {
 
 /** Server */
 const run = async () => {
-    const httpServer = http.createServer(app);
+    const httpServer = httpolyglot.createServer({}, app); //http.createServer(app);
     const PORT: string | number | undefined = env('PORT', 6060);
 
     httpServer.listen(PORT, () => {
         const environment = env('NODE_ENV', ENV.DEVELOPMENT);
         Logger.info('ENVIRONMENT', environment);
         Logger.serverStarted(PORT);
+
+        const io = new SocketIO(httpServer);
+        /** 
+         *  STORE socketio to global variable
+         * 
+         *  SET: app.set('socketio', io);
+         *  GET: app.get('socketio');
+         *          or
+         *       req.app.get('socketio');
+         */
+        app.set('socketio', io);
     });
 };
 
