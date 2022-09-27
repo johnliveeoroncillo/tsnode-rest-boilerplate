@@ -6,6 +6,10 @@ export class Carbon {
         return moment();
     }
 
+    static format(date: string | Date, format = 'YYYY-MM-DD'): string {
+        return moment(date).format(format);
+    }
+
     static now(): string {
         return moment().format('YYYY-MM-DD HH:mm:ss');
     }
