@@ -300,8 +300,7 @@ Request:
 
 ```bash
 import { EVENTS } from "../../helpers/Enums";
-//NOTE: Events is not maintained and not working properly, so use Events2
-import { invokeEvent, invokeEventWithResponse } from "../../core/libs/Events2";
+import { invokeEvent, invokeEventWithResponse } from "../../core/libs/Events";
 
 //OPTION 1 - Event with Response
 const data = await invokeEventWithResponse(EVENTS.EVENT_TEST, { message: request.message });
