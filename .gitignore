@@ -4,3 +4,4 @@
 **/environment
 package-lock.json
 .vscode
+logs/*.log
