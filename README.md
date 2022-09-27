@@ -294,23 +294,6 @@ Request:
   }
 ```
 
-### EVENT USAGE
-##### This function is inspired by AWS Lambda Event which drives the invocation or Lambda polls a queue or data stream and invokes the function in response to activity in the queue or data stream.
-##### This custom event is using <span style="text-decoration: line-through">"net"</span> "worker_threads" module to recreate the AWS Lambda Event functionality. Wherein it executes functions in parallel process and doesn't affect the current thread of your API.
-
-```bash
-import { EVENTS } from "../../helpers/Enums";
-import { invokeEvent, invokeEventWithResponse } from "../../core/libs/Events";
-
-//OPTION 1 - Event with Response
-const data = await invokeEventWithResponse(EVENTS.EVENT_TEST, { message: request.message });
-return data;
-
-//OPTION 2 - Event without Response
-await invokeEvent(EVENTS.EVENT_TEST, { message: request.message });
-
-```
-
 ## API Reference
 
 #### Create Model
@@ -352,11 +335,61 @@ npm run make:api admin/management/users
 ```bash
   npm run make:cron <cron_name>
 ```
+#### Create Socket Event
+
+```bash
+  npm run make:socket <socket_event_name>
+```
+
+```bash
+Sample: ./src/functions/socket/socket_test
+
+## Server Side Usage: ##
+### NOTE: NO NEED FOR "on" LISTENER ON SERVER SIDE! e.g. io.socket.on('socket_test', (payload) => ....)
+### THE FOLDER ITSELF ALREADY LISTENED/INITIALIZED TO SOCKET EVENTS
+/** SEND TO SELF */
+io.socket.emit('socket_test', payload);
+
+/** BROADCAST TO ALL INCLUDING SENDER */
+io.socketio.broadcastAll('socket_test', payload);
+
+/** BROADCAST TO ALL EXCLUDING SENDER */
+io.socket.broadcast.emit('socket_test', payload);
+
+## GLOBAL USAGE ##
+app.get('socketio').broadcastAll('my_event', payload);
+### SEND TO SPECIFIC ID
+app.get('socketio').sendToId(socket_id, 'my_event', payload);
+
+
+## Client Side Usage: ##
+socket.emit('socket_test', payload);
+socket.on('socket_test', (payload) => ...)
+```
+##### Ref: https://socket.io
 
 #### Create Event
 
 ```bash
   npm run make:event <event_name>
+```
+
+
+#### EVENT USAGE
+##### This function is inspired by AWS Lambda Event which drives the invocation or Lambda polls a queue or data stream and invokes the function in response to activity in the queue or data stream.
+##### This custom event is using "worker_threads" module to recreate the AWS Lambda Event functionality. Wherein it executes functions in parallel process and doesn't affect the current thread of your API.
+
+```bash
+import { EVENTS } from "../../helpers/Enums";
+import { invokeEvent, invokeEventWithResponse } from "../../core/libs/Events";
+
+//OPTION 1 - Event with Response
+const data = await invokeEventWithResponse(EVENTS.EVENT_TEST, { message: request.message });
+return data;
+
+//OPTION 2 - Event without Response
+await invokeEvent(EVENTS.EVENT_TEST, { message: request.message });
+
 ```
 
 #### Create Documentation
