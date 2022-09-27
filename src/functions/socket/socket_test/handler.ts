@@ -27,8 +27,9 @@ export async function execute(io: SocketIOData, payload: unknown): Promise<KeyVa
          /** BROADCAST TO ALL EXCLUDING SENDER */
         io.socket.broadcast.emit('test_broadcast', 'test');
 
-        
-        return 'test';
+        /** BROADCAST THE socket_test EVENT TO ALL CLIENTS EXCLUDING SENDER */
+        io.socket.broadcast.emit('socket_test', payload);
+        return true;
     } catch (e: any) {
         throw new Error(e);
     }
