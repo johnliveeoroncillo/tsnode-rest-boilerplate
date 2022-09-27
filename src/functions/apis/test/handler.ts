@@ -2,7 +2,7 @@ import { API_RESPONSE } from '../../../../core';
 import { HttpResponse, HttpRequest } from '../../../../core/libs/ApiEvent';
 import { Response } from 'express';
 import { Response200 } from './response';
-import { invokeEvent, invokeEventWithResponse } from '../../../../core/libs/Events2';
+import { invokeEvent, invokeEventWithResponse } from '../../../../core/libs/Events';
 import { EVENTS } from '../../../helpers/Enums';
 import { Logger } from '../../../../core/libs/Logger';
 
