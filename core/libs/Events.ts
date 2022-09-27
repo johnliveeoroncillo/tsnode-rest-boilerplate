@@ -1,28 +1,9 @@
-import { createServer, Socket, Server } from 'net';
-import { TextDecoder } from 'util';
-import { env } from './Env';
 import fs from 'fs';
-import path from 'path';
-import { getConfig } from '..';
+import path, { resolve } from 'path';
 import { LogColor, Logger } from './Logger';
-
-const event_path = __dirname + '/../../src/functions/events';
-const EVENT_PORT = Number(env('PORT', 6060)) + 1; //ADD 1 TO PREVENT PORT CONFLICT
-interface Options {
-    host?: string;
-    port?: number;
-}
-
-enum LISTENERS {
-    connection = 'connection',
-    data = 'data',
-    close = 'close',
-}
-
-interface responseOptions {
-    code: number;
-    message: string;
-}
+import { getConfig } from '..';
+import { Worker, WorkerOptions } from 'worker_threads';
+import { Request } from 'express';
 
 interface EventList {
     [key: string]: EventListConfig;
@@ -40,135 +21,85 @@ interface EventData {
     withResponse: boolean;
 }
 
-export class Response {
-    code: number;
-    message: string;
-    constructor(options: responseOptions) {
-        this.code = options.code;
-        this.message = options.message;
-    }
-}
+class Events {
+    private event_path: string;
+    private worker: Worker;
+    private request: Request | undefined;
 
-export class Events {
-    private defaultOptions: Options = {
-        host: env('EVENT_HOST', '127.0.0.0'),
-        port: EVENT_PORT,
-    };
-    private options: Options;
-    private serverEvent: Server;
-
-    constructor(options?: Options) {
-        // console.log('EVENT ACTIVATED');
-        this.options = { ...this.defaultOptions, ...options };
-        this.serverEvent = createServer();
+    constructor(request?: Request) {
+        this.event_path = __dirname + '/../../src/functions/events';
+        this.request = request;
     }
 
-    private async listEvents(): Promise<EventList> {
+    async listEvents(event_name: string): Promise<EventList> {
         let paths: EventList = {};
-
+        const event_path = path.join(this.event_path, event_name);
         if (!fs.existsSync(event_path)) return {};
-
-        console.log(LogColor.bg.yellow, LogColor.fg.black, 'EVENTS : ' + this.options.port, LogColor.reset);
-        fs.readdirSync(event_path).forEach((file: string) => {
-            const absolute = path.join(event_path, file);
-
-            if (fs.statSync(absolute).isDirectory()) {
-                if (fs.existsSync(absolute)) {
-                    const config = getConfig(`${absolute}/config.yml`);
-                    const enabled = config?.enabled ?? false;
-                    if (enabled) {
-                        config[file].location = absolute;
-                        console.log('', LogColor.fg.yellow, '- ' + Object.keys(config)[0], LogColor.reset);
-                        console.log('', LogColor.fg.yellow, '-- ' + config[file].handler, LogColor.reset);
-                        paths = Object.assign(paths, config);
-                    }
-                }
+        console.log(LogColor.bg.yellow, LogColor.fg.black, 'EVENTS: ', LogColor.reset);
+        if (fs.existsSync(event_path + '/config.yml')) {
+            const config = getConfig(`${event_path}/config.yml`);
+            const enabled = config[event_name].enabled ?? false;
+            if (enabled) {
+                config[event_name].location = event_path;
+                console.log('', LogColor.fg.yellow, '- ' + Object.keys(config)[0], LogColor.reset);
+                console.log('', LogColor.fg.yellow, '-- ' + config[event_name].handler, LogColor.reset);
+                console.log('', LogColor.fg.yellow, '-- ' + config[event_name].location, LogColor.reset);
+                paths = config[event_name];
             }
-        });
+        }
 
         return paths;
     }
-
-    async startServer(): Promise<void> {
-        // console.log('EVENT STARTING SERVER');
-        const events: EventList = await this.listEvents();
-
-        this.serverEvent.listen(this.options.port, this.options.host);
-        this.on(LISTENERS.connection, function (socket) {
-            // console.log('EVENT CLIENT CONNECTED: ' + socket.remoteAddress +':'+ socket.remotePort);
-            socket.on(LISTENERS.data, async (socket_data: ArrayBuffer) => {
-                const data = decode(socket_data);
-
-                try {
-                    const { payload, event_name, withResponse } = JSON.parse(data);
-                    const event = events[event_name];
-                    if (!event) return socket.write(JSON.stringify({ code: 404, message: 'Event not found' }));
-
-                    const { execute } = await import(`../.${event.handler}`);
-                    const response = await execute(payload);
-                    if (withResponse) socket.write(JSON.stringify(response));
-                    socket.destroy();
-                } catch (err: any) {
-                    socket.write(JSON.stringify({ code: 500, message: err?.message }));
-                }
-                console.log('EVENT SERVER RECEIVED', data);
-            });
-        });
-    }
-
-    get eventOptions(): Options {
-        return this.options;
-    }
-
-    on(listeners: LISTENERS, callback: (data: any) => any): void {
-        this.serverEvent.on(listeners, callback);
-    }
-
-    stopServer(): void {
-        // console.log('EVENT STOPPING SERVER');
-        this.serverEvent.close();
-    }
 }
 
-const decode = (data: ArrayBuffer): string => {
-    const enc = new TextDecoder('utf-8');
-    const arr = new Uint8Array(data);
-    return enc.decode(arr);
-};
-
-const invokeEvent = async (event_name: string, payload?: any): Promise<void> => {
+export const invokeEvent = async (event_name: string, payload?: any): Promise<void> => {
     return await emit(event_name, payload);
 };
 
-const invokeEventWithResponse = async (event_name: string, payload?: any): Promise<void> => {
+export const invokeEventWithResponse = async (event_name: string, payload?: any): Promise<void> => {
     return await emit(event_name, payload, true);
 };
 
-const emit = (event_name: string, payload?: string, withResponse = false): Promise<void> => {
-    return new Promise((resolve) => {
-        const socket = new Socket();
-        socket.connect(EVENT_PORT, env('EVENT_HOST', '127.0.0.1'), function () {
-            Logger.info('EVENT CLIENT', 'STARTED');
-            const eventData: EventData = {
-                event_name,
-                payload,
-                withResponse,
-            };
-            // console.log('EVENT CLIENT CONNECTED', eventData);
-            socket.write(JSON.stringify(eventData));
-            if (!withResponse) resolve();
-        });
-
-        if (withResponse)
-            socket.on(LISTENERS.data, (server_data) => {
-                const data = decode(server_data);
-                Logger.info('EVENT CLIENT RECEIVED', data);
-                resolve(JSON.parse(data));
+const emit = async (event_name: string, payload?: string, withResponse = false): Promise<void> => {
+    return new Promise(async (resolve, reject) => {
+        const event = new Events();
+        const event_data = await event.listEvents(event_name);
+        if (event_data.enabled && event_data.handler) {
+            // const { execute } = await import(`../.${event_data.handler}`);
+            const worker = workerTs(path.resolve(__dirname, './EventWorker.ts'), {});
+            worker.postMessage({
+                event: event_data,
+                data: payload,
             });
 
-        socket.on(LISTENERS.close, () => {
-            Logger.info('EVENT CLIENT', 'DESTROYED');
-        });
+            if (withResponse)
+                worker.on('message', (payload: any) => {
+                    resolve(payload);
+                });
+            else resolve(undefined);
+
+            worker.on('error', (payload: any) => {
+                reject(payload);
+            });
+            // const response = await execute(payload);
+        }
     });
 };
-export { invokeEvent, invokeEventWithResponse };
+
+const workerTs = (file: string, wkOpts: WorkerOptions) => {
+    wkOpts.eval = true;
+    if (!wkOpts.workerData) {
+        wkOpts.workerData = {};
+    }
+    wkOpts.workerData.__filename = file;
+    return new Worker(
+        `
+            const wk = require('worker_threads');
+            require('ts-node').register();
+            let file = wk.workerData.__filename;
+            delete wk.workerData.__filename;
+            require(file);
+        `,
+        wkOpts,
+    );
+};
