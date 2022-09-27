@@ -7,6 +7,7 @@ import { ServiceTemplate } from './code_templates/ServiceTemplate';
 import { CronTemplate } from './code_templates/CronTemplate';
 import { EventTemplate } from './code_templates/EventTemplate';
 import { DocsTemplate } from './code_templates/DocsTemplate';
+import { SocketTemplate } from './code_templates/SocketTemplate';
 
 const commands = yargs(process.argv.slice(2)).options({
     docs: {
@@ -99,6 +100,17 @@ try {
             const template = new EventTemplate(<string>argv.name);
             template.generate();
             console.log('Event successfully created');
+        },
+    );
+
+    commands.command(
+        'make:socket <name>',
+        'Create a new socket event',
+        () => {},
+        (argv: Arguments) => {
+            const template = new SocketTemplate(<string>argv.name);
+            template.generate();
+            console.log('Socket event successfully created');
         },
     );
 
