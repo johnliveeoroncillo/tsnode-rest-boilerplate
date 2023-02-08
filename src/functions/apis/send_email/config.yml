@@ -1,8 +1,0 @@
-send_email: 
-  handler: ./src/functions/apis/send_email/handler
-  endpoint: /send_email
-  method: post
-  enabled: true
-  #UNCOMMENT TO ATTACH MIDDLEWARE
-  #EXAMPLE: middleware: middleware
-  #middleware: <middleware_name>

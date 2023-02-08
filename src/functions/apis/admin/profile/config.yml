@@ -1,6 +1,0 @@
-admin_profile: 
-  handler: ./src/functions/apis/admin/profile/handler
-  endpoint: /profile/admin
-  method: get
-  enabled: true
-  middleware: authorizer_admin
