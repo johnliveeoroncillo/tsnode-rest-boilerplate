@@ -1,4 +1,5 @@
 import { Connection, ConnectionOptions, createConnection } from 'typeorm';
+import { logMessage } from '..';
 import { env } from './Env';
 interface ActiveConnections {
     [key: string]: Connection;

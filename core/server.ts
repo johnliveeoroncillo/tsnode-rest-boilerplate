@@ -26,15 +26,8 @@ const app: Express = express();
 loadCron();
 
 /** Logging */
-const accessLogStream = createWriteStream(`./logs/${Carbon.format(Carbon.now())}.log`, { flags: 'a' });
-app.use(
-    morgan('combined', {
-        skip: function (req, res) {
-            return res.statusCode < 400;
-        },
-        stream: accessLogStream,
-    }),
-);
+app.use(morgan('dev'));
+
 /** Parse the request */
 app.use(express.urlencoded({ extended: false }));
 

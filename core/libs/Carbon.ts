@@ -10,8 +10,8 @@ export class Carbon {
         return moment(date).format(format);
     }
 
-    static now(): string {
-        return moment().format('YYYY-MM-DD HH:mm:ss');
+    static now(format = 'YYYY-MM-DD HH:mm:ss'): string {
+        return moment().format(format);
     }
 
     static date_diff(
