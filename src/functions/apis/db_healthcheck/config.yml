@@ -1,6 +1,6 @@
-healthcheck: 
-  handler: ./src/functions/apis/healthcheck/handler
-  endpoint: /healthcheck
+db_healthcheck: 
+  handler: ./src/functions/apis/db_healthcheck/handler
+  endpoint: /db-healthcheck
   method: get
   enabled: true
 

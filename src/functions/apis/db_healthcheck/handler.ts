@@ -8,11 +8,12 @@ import { HealthcheckAction } from './action';
 export async function execute(req: HttpRequest, res: Response): Promise<HttpResponse> {
     try {
         const action = new HealthcheckAction();
-        await action.execute();
+        const data = await action.execute(req);
 
         return API_RESPONSE(
             {
                 ...Response200.SUCCESS,
+                data,
             },
             res,
         );
