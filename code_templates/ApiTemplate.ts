@@ -35,7 +35,7 @@ export async function execute(req: HttpRequest, res: Response): Promise<HttpResp
     try {
         const request = Validate(req.body);
         /**
-         * FOR IMAGE 
+         * FOR IMAGE
          * if (req.files?.<name>) request.<name> = req.files.<name>;
          * Object req.files.<name>
          * name: String

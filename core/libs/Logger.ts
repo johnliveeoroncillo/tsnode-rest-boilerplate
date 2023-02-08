@@ -32,16 +32,16 @@ export const LogColor = {
 };
 
 export class Logger {
-    static info(name: any, payload: any) {
-        console.log(LogColor.bg.blue, LogColor.fg.white, 'INFO', LogColor.reset, name, payload);
+    static info(name: any, ...payload: any) {
+        console.log(LogColor.bg.blue, LogColor.fg.white, 'INFO', LogColor.reset, name, ...payload);
     }
 
-    static warning(name: any, payload: any) {
-        console.log(LogColor.bg.yellow, LogColor.fg.white, 'WARNING', LogColor.reset, name, payload);
+    static warning(name: any, ...payload: any) {
+        console.log(LogColor.bg.yellow, LogColor.fg.white, 'WARNING', LogColor.reset, name, ...payload);
     }
 
-    static error(name: any, payload: any) {
-        console.log(LogColor.bg.red, LogColor.fg.white, 'ERROR', LogColor.reset, name, payload);
+    static error(name: any, ...payload: any) {
+        console.log(LogColor.bg.red, LogColor.fg.white, 'ERROR', LogColor.reset, name, ...payload);
     }
 
     static serverStarted(port: string) {

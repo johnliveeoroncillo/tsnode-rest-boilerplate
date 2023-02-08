@@ -39,6 +39,7 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@joi/date": "^2.1.0",
     "axios": "^0.23.0",
     "bcrypt": "^5.0.1",
     "case-anything": "^1.1.5",

@@ -13,8 +13,11 @@ import { ENV } from '../src/helpers/Enums';
 import { createWriteStream } from 'fs';
 import { Carbon } from './libs/Carbon';
 import { SocketIO } from './libs/SocketIO';
+import { Events } from './libs/Events';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const httpolyglot = require('httpolyglot');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const fileUpload = require('express-fileupload');
 
 const app: Express = express();
@@ -129,16 +132,20 @@ const run = async () => {
         Logger.info('ENVIRONMENT', environment);
         Logger.serverStarted(PORT);
 
-        const io = new SocketIO(httpServer);
-        /** 
+        /**
          *  STORE socketio to global variable
-         * 
+         *
          *  SET: app.set('socketio', io);
          *  GET: app.get('socketio');
          *          or
          *       req.app.get('socketio');
          */
+        const io = new SocketIO(httpServer);
         app.set('socketio', io);
+        io.listSockets();
+
+        const event = new Events(undefined, io);
+        event.startServer(httpServer);
     });
 };
 
