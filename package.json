@@ -72,7 +72,7 @@
     "path": "^0.12.7",
     "pg": "^8.9.0",
     "pluralize": "^8.0.0",
-    "predis": "^1.1.3",
+    "predis": "^1.1.4",
     "prettier": "^2.2.1",
     "querystring": "^0.2.1",
     "reflect-metadata": "^0.1.13",
