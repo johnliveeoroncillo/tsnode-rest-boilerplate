@@ -1,5 +1,4 @@
 import {
-    PrimaryGeneratedColumn,
     Column,
     BaseEntity,
     CreateDateColumn,
@@ -9,7 +8,8 @@ import {
     ObjectIdColumn,
 } from 'typeorm';
 import { ObjectId } from 'mongodb';
-export class Model extends BaseEntity {
+
+export class MongoModel extends BaseEntity {
     @Column({
         type: 'varchar',
         length: 50,
@@ -17,9 +17,8 @@ export class Model extends BaseEntity {
     @Generated('uuid')
     public readonly uuid!: string;
 
-    @PrimaryGeneratedColumn()
     @ObjectIdColumn()
-    public readonly id!: number | ObjectId;
+    id: ObjectId;
 
     // timestamps
     @CreateDateColumn({
@@ -35,5 +34,5 @@ export class Model extends BaseEntity {
     @DeleteDateColumn({
         type: 'varchar',
     })
-    deleted_at?: Date;
+    deleted_at?: string;
 }

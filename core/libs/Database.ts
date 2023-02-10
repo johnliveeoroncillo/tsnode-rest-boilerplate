@@ -8,6 +8,7 @@ interface ActiveConnections {
 export enum Dialect {
     mysql = 'mysql',
     postgres = 'postgres',
+    mongodb = 'mongodb',
 }
 
 let active: ActiveConnections = {};
