@@ -8,7 +8,7 @@ const joi = JoiImport.extend(DateExtension);
 export const Validate = (request: SampleMongoCreateRequest): SampleMongoCreateRequest => {
     const schema = joi
         .object({
-            key: joi.string().required(),
+            name: joi.string().required(),
         })
         .required();
 

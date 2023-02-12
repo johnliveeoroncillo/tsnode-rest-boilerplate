@@ -1,3 +1,3 @@
 export interface SampleMongoCreateRequest {
-    key: string;
+    name: string;
 }

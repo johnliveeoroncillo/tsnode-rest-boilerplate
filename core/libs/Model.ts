@@ -6,9 +6,7 @@ import {
     UpdateDateColumn,
     DeleteDateColumn,
     Generated,
-    ObjectIdColumn,
 } from 'typeorm';
-import { ObjectId } from 'mongodb';
 export class Model extends BaseEntity {
     @Column({
         type: 'varchar',
@@ -18,8 +16,7 @@ export class Model extends BaseEntity {
     public readonly uuid!: string;
 
     @PrimaryGeneratedColumn()
-    @ObjectIdColumn()
-    public readonly id!: number | ObjectId;
+    public readonly id!: number;
 
     // timestamps
     @CreateDateColumn({

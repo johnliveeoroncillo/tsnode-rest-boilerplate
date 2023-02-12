@@ -6,7 +6,7 @@ test('200: SUCCESS', async () => {
     const request = {
         identity: {},
         body: <SampleMongoCreateRequest>{
-            key: 'value',
+            name: 'test1',
         },
         params: {},
         query: {},

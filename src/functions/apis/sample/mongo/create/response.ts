@@ -5,11 +5,6 @@ import { HttpResponse } from '../../../../../../core/libs/ApiEvent';
 export class Response200 {
     static SUCCESS: HttpResponse = {
         code: 200,
-        message: 'Success',
+        message: 'Mongo successfully created',
     };
-}
-
-export class NotFound {
-    code = 404;
-    message = 'Username not found';
 }
