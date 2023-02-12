@@ -1,20 +1,21 @@
 import { Connection } from 'typeorm';
-import { v4 } from 'uuid';
 import { SampleMongoModel } from '../../../../../models/SampleMongoModel';
 import { SampleMongoRepository } from '../../../../../repository/SampleMongoRepository';
-import { SampleMongoCreateRequest } from './request';
+import { SampleMongoUpdateRequest } from './request';
+import { NotFound } from './response';
 
-export class SampleMongoCreateAction {
+export class SampleMongoUpdateAction {
     private sampleMongoRepository: SampleMongoRepository;
 
     constructor(connection: Connection) {
         this.sampleMongoRepository = connection.getCustomRepository(SampleMongoRepository);
     }
 
-    async execute(request: SampleMongoCreateRequest): Promise<SampleMongoModel> {
-        const data = new SampleMongoModel();
+    async execute(request: SampleMongoUpdateRequest, id: string): Promise<SampleMongoModel | undefined> {
+        const data = await this.sampleMongoRepository.findCollection(id);
+        if (!data) throw new NotFound();
         data.name = request.name;
 
-        return await this.sampleMongoRepository.save(data);
+        return await this.sampleMongoRepository.updateByIdAndReturn(id, data);
     }
 }

@@ -2,10 +2,6 @@ import { ObjectId } from 'mongodb';
 import { DeepPartial, ObjectLiteral, Repository, SaveOptions } from 'typeorm';
 import { Carbon } from '../../core/libs/Carbon';
 
-interface IId {
-    id: ObjectId;
-}
-
 export class MongoBaseRepository<T extends ObjectLiteral> extends Repository<T> {
     //Your generic methods here
     async findCollections(): Promise<T[]> {
@@ -21,8 +17,9 @@ export class MongoBaseRepository<T extends ObjectLiteral> extends Repository<T> 
             withDeleted: true,
         });
         if (!response || !response.length) return undefined;
-        const data = response.pop();
+        const data: any = response.pop();
         if (data?.deleted_at) return undefined;
+        if (data) data.id = id;
         return data;
     }
     async softDeleteCollection(_id: string): Promise<void> {
@@ -32,9 +29,9 @@ export class MongoBaseRepository<T extends ObjectLiteral> extends Repository<T> 
             await this.updateByIdAndReturn(_id, { deleted_at: Carbon.timestamp() });
         }
     }
-
-    async updateByIdAndReturn(id: any, partialEntity: DeepPartial<any>, options?: SaveOptions) {
+    async updateByIdAndReturn(id: any, partialEntity: DeepPartial<any>, options?: SaveOptions): Promise<T | undefined> {
         await this.update(id, partialEntity);
-        return await this.findCollection(id);
+        const response: any = await this.findCollection(id);
+        return response;
     }
 }

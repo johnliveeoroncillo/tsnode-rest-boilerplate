@@ -6,19 +6,18 @@ import {
     DeleteDateColumn,
     Generated,
     ObjectIdColumn,
+    ObjectID,
+    BeforeInsert,
+    PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ObjectId } from 'mongodb';
-
+import { v4 } from 'uuid';
 export class MongoModel extends BaseEntity {
-    @Column({
-        type: 'varchar',
-        length: 50,
-    })
+    @Column()
     @Generated('uuid')
-    public readonly uuid!: string;
+    uuid: string;
 
     @ObjectIdColumn()
-    id: ObjectId;
+    _id: ObjectID;
 
     // timestamps
     @CreateDateColumn({

@@ -1,20 +1,15 @@
 import { Connection } from 'typeorm';
-import { v4 } from 'uuid';
 import { SampleMongoModel } from '../../../../../models/SampleMongoModel';
 import { SampleMongoRepository } from '../../../../../repository/SampleMongoRepository';
-import { SampleMongoCreateRequest } from './request';
 
-export class SampleMongoCreateAction {
+export class SampleMongoGetAction {
     private sampleMongoRepository: SampleMongoRepository;
 
     constructor(connection: Connection) {
         this.sampleMongoRepository = connection.getCustomRepository(SampleMongoRepository);
     }
 
-    async execute(request: SampleMongoCreateRequest): Promise<SampleMongoModel> {
-        const data = new SampleMongoModel();
-        data.name = request.name;
-
-        return await this.sampleMongoRepository.save(data);
+    async execute(): Promise<SampleMongoModel[]> {
+        return await this.sampleMongoRepository.findCollections();
     }
 }

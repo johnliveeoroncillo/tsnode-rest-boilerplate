@@ -27,6 +27,7 @@ export class Database {
             const connectionOptions: ConnectionOptions = {
                 name: conn,
                 type: this.dialect,
+                url: env('MONGO_URL', ''),
                 host: this.host,
                 port: this.port,
                 username: this.username,
