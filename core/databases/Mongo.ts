@@ -8,4 +8,5 @@ export class Mongo extends Database {
     protected static password: string = env('MONGO_PASSWORD', '');
     protected static db: string = env('MONGO_DB', '');
     protected static dialect = Dialect.mongodb;
+    protected static url = env('MONGO_URL', '');
 }

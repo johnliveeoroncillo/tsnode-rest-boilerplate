@@ -1,9 +1,9 @@
-import { Connection } from 'typeorm';
+import { Connection, ObjectID } from 'typeorm';
 import { Unauthorized } from '../../../../../../core/defaults';
 import { UsersRepository } from '../../../../../repository/UsersRepository';
 
 interface User {
-    id: number;
+    id: number | string | ObjectID;
     uuid: string;
     username: string;
     created_at: string;
@@ -16,7 +16,7 @@ export class ProfileReadAction {
         this.userRepository = connection.getCustomRepository(UsersRepository);
     }
 
-    async execute(id: string | number, uuid: string): Promise<User | undefined> {
+    async execute(id: string | number | ObjectID, uuid: string): Promise<User | undefined> {
         const user = await this.userRepository.findOne({ id: Number(id), uuid });
         if (!user) throw new Unauthorized();
 

@@ -1,3 +1,4 @@
+import { Mongo } from '../../../../core/databases/Mongo';
 import { Mysql } from '../../../../core/databases/Mysql';
 import { Postgres } from '../../../../core/databases/Postgres';
 import { Redis } from '../../../../core/databases/Redis';
@@ -23,6 +24,11 @@ export class HealthcheckAction {
             },
             {
                 name: 'POSTGRESQL',
+                up: false,
+                icon: '❌',
+            },
+            {
+                name: 'MONGODB',
                 up: false,
                 icon: '❌',
             },
@@ -64,6 +70,18 @@ export class HealthcheckAction {
                 console.error(err);
             });
         await Postgres.closeConnection();
+
+        /**
+         * CHECK POSTGRE
+         */
+        await Mongo.getConnection()
+            .then(() => {
+                details = this.updateToTrue('MONGODB', details);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        await Mongo.closeConnection();
 
         return details;
     }

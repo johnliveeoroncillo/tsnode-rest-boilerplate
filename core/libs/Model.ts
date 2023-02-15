@@ -6,6 +6,8 @@ import {
     UpdateDateColumn,
     DeleteDateColumn,
     Generated,
+    ObjectIdColumn,
+    ObjectID,
 } from 'typeorm';
 export class Model extends BaseEntity {
     @Column({
@@ -16,7 +18,7 @@ export class Model extends BaseEntity {
     public readonly uuid!: string;
 
     @PrimaryGeneratedColumn()
-    public readonly id!: number;
+    public readonly id!: number | string | ObjectID;
 
     // timestamps
     @CreateDateColumn({

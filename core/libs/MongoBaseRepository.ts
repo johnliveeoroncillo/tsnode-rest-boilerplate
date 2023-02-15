@@ -31,7 +31,6 @@ export class MongoBaseRepository<T extends ObjectLiteral> extends Repository<T> 
     }
     async updateByIdAndReturn(id: any, partialEntity: DeepPartial<any>, options?: SaveOptions): Promise<T | undefined> {
         await this.update(id, partialEntity);
-        const response: any = await this.findCollection(id);
-        return response;
+        return await this.findCollection(id);
     }
 }
