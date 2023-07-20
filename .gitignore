@@ -5,3 +5,5 @@
 .vscode
 logs/*.log
 coverage
+.devcontainer
+.vscode
