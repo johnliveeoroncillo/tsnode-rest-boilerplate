@@ -1,6 +1,5 @@
 /** source/server.ts */
-import http from 'http';
-import express, { Express, NextFunction, Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express';
 import morgan from 'morgan';
 import { loadRoutes, API_RESPONSE, loadCron, listRoutes, ApiRecord } from './';
 import { Config, METHODS, RouteConfig } from './libs/ApiEvent';
@@ -9,8 +8,14 @@ import 'reflect-metadata';
 import cors from 'cors';
 import { env } from './libs/Env';
 import { Logger } from './libs/Logger';
-import { Events } from './libs/Events';
 import { ENV } from '../src/helpers/Enums';
+import { SocketIO } from './libs/SocketIO';
+import { Events } from './libs/Events';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const httpolyglot = require('httpolyglot');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const fileUpload = require('express-fileupload');
 
 const app: Express = express();
 
@@ -19,10 +24,13 @@ loadCron();
 
 /** Logging */
 app.use(morgan('dev'));
+
 /** Parse the request */
 app.use(express.urlencoded({ extended: false }));
+
 /** Takes care of JSON data */
 app.use(express.json());
+
 /** Remove X-Powered-By */
 app.disable('x-powered-by');
 
@@ -36,21 +44,10 @@ const corsOptions = {
     credentials: true,
     withCredentials: true,
 };
-app.use((req: Request, res: Response, next: NextFunction) => {
-    ////TEMPORARILY REMOVED
-    // const origins = process.env?.ALLOWED_ORIGINS ?? '';
-    // const allowedOrigins = origins.split(',');
-    // const origin: string = req.headers?.host ?? '';
-    // console.log(origin, allowedOrigins);
+app.use(cors(corsOptions));
 
-    // if (allowedOrigins.includes(origin)) {
-    //   console.log('ALLOWED', origin);
-    //   corsOptions["Access-Control-Allow-Origin"] = origin; // restrict it to the required domain
-    // }
-    // console.log(corsOptions)
-    app.use(cors(corsOptions));
-    next();
-});
+/** File upload */
+app.use(fileUpload());
 
 /** Routes */
 loadRoutes().then(async (routes) => {
@@ -117,13 +114,28 @@ loadRoutes().then(async (routes) => {
 
 /** Server */
 const run = async () => {
-    const httpServer = http.createServer(app);
+    const httpServer = httpolyglot.createServer({}, app); //http.createServer(app);
     const PORT: string | number | undefined = env('PORT', 6060);
 
     httpServer.listen(PORT, () => {
         const environment = env('NODE_ENV', ENV.DEVELOPMENT);
         Logger.info('ENVIRONMENT', environment);
         Logger.serverStarted(PORT);
+
+        /**
+         *  STORE socketio to global variable
+         *
+         *  SET: app.set('socketio', io);
+         *  GET: app.get('socketio');
+         *          or
+         *       req.app.get('socketio');
+         */
+        const io = new SocketIO(httpServer);
+        app.set('socketio', io);
+        io.listSockets();
+
+        const event = new Events(undefined, io);
+        event.startServer(httpServer);
     });
 };
 

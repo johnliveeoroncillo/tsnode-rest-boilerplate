@@ -114,7 +114,7 @@ export class EventTemplate {
 
     generate(): void {
         const route = `./src/functions/events/${this.name}/${this.filename}`;
-        if (existsSync(route)) throw new Error('API file already existed');
+        if (existsSync(route)) throw new Error('Event file already existed');
 
         //ACTION
         fse.outputFileSync(

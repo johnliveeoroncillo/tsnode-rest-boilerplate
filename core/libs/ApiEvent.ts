@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { ObjectID } from 'typeorm';
 export interface KeyValue {
     [key: string]: string | boolean | number | undefined;
 }
@@ -56,7 +57,7 @@ export interface TokenData {
 
 //EDIT INTERFACE TO YOUR DESIRED INDENTITY
 export interface Identity {
-    id: number | string;
+    id: number | string | ObjectID;
     uuid: string;
 }
 export interface HttpRequest extends Request {

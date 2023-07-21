@@ -35,7 +35,7 @@ export async function execute(req: HttpRequest, res: Response): Promise<HttpResp
     try {
         const request = Validate(req.body);
         /**
-         * FOR IMAGE 
+         * FOR IMAGE
          * if (req.files?.<name>) request.<name> = req.files.<name>;
          * Object req.files.<name>
          * name: String
@@ -68,7 +68,7 @@ export async function execute(req: HttpRequest, res: Response): Promise<HttpResp
 
 const handler_test = `import { execute } from './handler';
 import { <name>Request } from './request';
-import { TestReponse, HttpRequest } from '<dynamic_path>../../../../core/libs/ApiEvent';
+import { TestReponse, HttpRequest, KeyValue } from '<dynamic_path>../../../../core/libs/ApiEvent';
 
 test('200: SUCCESS', async () => {
     const request = {
@@ -76,8 +76,8 @@ test('200: SUCCESS', async () => {
         body: <<name>Request>{
             key: 'value',
         },
-        params: {},
-        query: {},
+        params: <KeyValue>{},
+        query: <KeyValue>{},
     };
 
     const result = await execute(request as HttpRequest, TestReponse);

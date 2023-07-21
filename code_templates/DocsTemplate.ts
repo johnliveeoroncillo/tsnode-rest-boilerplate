@@ -193,6 +193,9 @@ export class DocsTemplate {
     }
 
     generate(): void {
+        const route = `./docs/${this.name}`;
+        if (existsSync(route)) throw new Error('Doc file already existed');
+
         if (!existsSync(`./docs/${this.name}/${this.name}.puml`))
             fse.outputFileSync(`./docs/${this.name}/${this.name}.puml`, content);
         if (!existsSync(`./docs/${this.name}/doc.ts`)) fse.outputFileSync(`./docs/${this.name}/doc.ts`, apidoc);

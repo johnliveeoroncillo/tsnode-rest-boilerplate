@@ -2,12 +2,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import path from 'path';
-import fs from 'fs';
+import fs, { appendFileSync, existsSync, writeFileSync } from 'fs';
 import { Response } from 'express';
 import { Response500 } from './defaults';
 import { Config, HttpResponse, RouteConfig } from './libs/ApiEvent';
 import glob from 'glob';
 import { LogColor } from './libs/Logger';
+import { Carbon } from './libs/Carbon';
 const Table = require('cli-table');
 const colors = require('colors/safe');
 
@@ -166,15 +167,36 @@ const API_RESPONSE = (response: any, res?: Response): HttpResponse => {
         new_response = JSON.parse(JSON.stringify(response));
         code = new_response?.code ?? 500;
         code = isNaN(code) ? 500 : code;
+        if (code > 500) code = 500;
         new_response.code = code;
         new_response.message = new_response?.message ?? response.toString();
     } catch (e: any) {
         new_response = { code, message: response.toString() };
     }
+    if (code > 400) {
+        logMessage(new_response);
+    }
+
     if (res) res.status(code).json(new_response);
     return {
         ...new_response,
     };
 };
 
-export { loadCron, generateRoute, loadRoutes, loadMigrations, API_RESPONSE, listRoutes };
+const logMessage = (message: any): void => {
+    const logname = `./logs/${Carbon.now('YYYY-MM-DD')}.log`;
+    if (!existsSync(logname)) {
+        writeFileSync(logname, '');
+    }
+
+    const messageLog = `
+=== ${Carbon.now('YYYY-MM-DD hh:mm:ss A')} ===}
+ERROR:
+\n
+${JSON.stringify(message, undefined, 4)}
+\n
+======\n`;
+    appendFileSync(logname, messageLog);
+};
+
+export { loadCron, generateRoute, loadRoutes, loadMigrations, API_RESPONSE, listRoutes, logMessage };

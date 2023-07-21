@@ -1,6 +1,0 @@
-client_profile: 
-  handler: ./src/functions/apis/client/profile/handler
-  endpoint: /profile
-  method: get
-  enabled: true
-  middleware: authorizer

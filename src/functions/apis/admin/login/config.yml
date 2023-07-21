@@ -1,8 +1,0 @@
-admin_login: 
-  handler: ./src/functions/apis/admin/login/handler
-  endpoint: /login/admin
-  method: post
-  enabled: true
-  #UNCOMMENT TO ATTACH MIDDLEWARE
-  #EXAMPLE: middleware: middleware
-  #middleware: <middleware_name>

@@ -51,7 +51,7 @@ export class TokenService {
         }
     }
 
-    static getUserData(req: HttpRequest): unknown {
+    static getUserData(req: HttpRequest): unknown | Identity {
         return req?.identity ?? {};
     }
 }

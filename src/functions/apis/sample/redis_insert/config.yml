@@ -1,0 +1,8 @@
+redis_insert: 
+  handler: ./src/functions/apis/sample/redis_insert/handler
+  endpoint: /redis/insert
+  method: post
+  enabled: true
+  #UNCOMMENT TO ATTACH MIDDLEWARE
+  #EXAMPLE: middleware: middleware
+  #middleware: <middleware_name>

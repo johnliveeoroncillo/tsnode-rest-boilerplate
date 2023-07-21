@@ -1,4 +1,4 @@
-import yargs, { Arguments } from 'yargs';
+import yargs, { Arguments, option } from 'yargs';
 import { MigrationTemplate } from './code_templates/MigrationTemplate';
 import { ApiTemplate } from './code_templates/ApiTemplate';
 import { ModelTemplate } from './code_templates/ModelTemplate';
@@ -7,6 +7,7 @@ import { ServiceTemplate } from './code_templates/ServiceTemplate';
 import { CronTemplate } from './code_templates/CronTemplate';
 import { EventTemplate } from './code_templates/EventTemplate';
 import { DocsTemplate } from './code_templates/DocsTemplate';
+import { SocketTemplate } from './code_templates/SocketTemplate';
 
 const commands = yargs(process.argv.slice(2)).options({
     docs: {
@@ -45,7 +46,13 @@ try {
         'Create a model class',
         () => {},
         async (argv: Arguments) => {
-            const template = new ModelTemplate(<string>argv.name, <string>argv.table_name);
+            let type = 'mysql';
+            if (argv.mongo) {
+                type = 'mongo';
+            } else if (argv.postgre) {
+                type = 'postgre';
+            }
+            const template = new ModelTemplate(<string>argv.name, <string>argv.table_name, type);
             await template.generate();
 
             console.log('Model successfully created');
@@ -57,10 +64,16 @@ try {
         'Create a repository class',
         () => {},
         async (argv: Arguments) => {
-            const repository = new RepositoryTemplate(<string>argv.name);
+            let type = 'mysql';
+            if (argv.mongo) {
+                type = 'mongo';
+            } else if (argv.postgre) {
+                type = 'postgre';
+            }
+            const repository = new RepositoryTemplate(<string>argv.name, type);
             repository.generate();
 
-            const template = new ModelTemplate(<string>argv.name, <string>argv.table_name);
+            const template = new ModelTemplate(<string>argv.name, <string>argv.table_name, type);
             await template.generate();
 
             console.log('Repository successfully created');
@@ -99,6 +112,17 @@ try {
             const template = new EventTemplate(<string>argv.name);
             template.generate();
             console.log('Event successfully created');
+        },
+    );
+
+    commands.command(
+        'make:socket <name>',
+        'Create a new socket event',
+        () => {},
+        (argv: Arguments) => {
+            const template = new SocketTemplate(<string>argv.name);
+            template.generate();
+            console.log('Socket event successfully created');
         },
     );
 

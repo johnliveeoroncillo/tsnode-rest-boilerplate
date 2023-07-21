@@ -6,8 +6,12 @@ export class Carbon {
         return moment();
     }
 
-    static now(): string {
-        return moment().format('YYYY-MM-DD HH:mm:ss');
+    static format(date: string | Date, format = 'YYYY-MM-DD'): string {
+        return moment(date).format(format);
+    }
+
+    static now(format = 'YYYY-MM-DD HH:mm:ss'): string {
+        return moment().format(format);
     }
 
     static date_diff(

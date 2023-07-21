@@ -11,3 +11,7 @@ export enum USER_SCOPE {
 export enum EVENTS {
     EVENT_TEST = 'event_test',
 }
+
+export enum SOCKETS {
+    SOCKET_TEST = 'socket_test',
+}
