@@ -1,6 +1,5 @@
 /** source/server.ts */
-import http from 'http';
-import express, { Express, NextFunction, Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express';
 import morgan from 'morgan';
 import { loadRoutes, API_RESPONSE, loadCron, listRoutes, ApiRecord } from './';
 import { Config, METHODS, RouteConfig } from './libs/ApiEvent';
@@ -10,11 +9,12 @@ import cors from 'cors';
 import { env } from './libs/Env';
 import { Logger } from './libs/Logger';
 import { ENV } from '../src/helpers/Enums';
-import { createWriteStream } from 'fs';
-import { Carbon } from './libs/Carbon';
 import { SocketIO } from './libs/SocketIO';
+import { Events } from './libs/Events';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const httpolyglot = require('httpolyglot');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const fileUpload = require('express-fileupload');
 
 const app: Express = express();
@@ -23,15 +23,8 @@ const app: Express = express();
 loadCron();
 
 /** Logging */
-const accessLogStream = createWriteStream(`./logs/${Carbon.format(Carbon.now())}.log`, { flags: 'a' });
-app.use(
-    morgan('combined', {
-        skip: function (req, res) {
-            return res.statusCode < 400;
-        },
-        stream: accessLogStream,
-    }),
-);
+app.use(morgan('dev'));
+
 /** Parse the request */
 app.use(express.urlencoded({ extended: false }));
 
@@ -129,16 +122,20 @@ const run = async () => {
         Logger.info('ENVIRONMENT', environment);
         Logger.serverStarted(PORT);
 
-        const io = new SocketIO(httpServer);
-        /** 
+        /**
          *  STORE socketio to global variable
-         * 
+         *
          *  SET: app.set('socketio', io);
          *  GET: app.get('socketio');
          *          or
          *       req.app.get('socketio');
          */
+        const io = new SocketIO(httpServer);
         app.set('socketio', io);
+        io.listSockets();
+
+        const event = new Events(undefined, io);
+        event.startServer(httpServer);
     });
 };
 

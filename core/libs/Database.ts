@@ -1,5 +1,7 @@
 import { Connection, ConnectionOptions, createConnection } from 'typeorm';
+import { logMessage } from '..';
 import { env } from './Env';
+import { Logger } from './Logger';
 interface ActiveConnections {
     [key: string]: Connection;
 }
@@ -7,6 +9,7 @@ interface ActiveConnections {
 export enum Dialect {
     mysql = 'mysql',
     postgres = 'postgres',
+    mongodb = 'mongodb',
 }
 
 let active: ActiveConnections = {};
@@ -17,6 +20,7 @@ export class Database {
     protected static password: string = env('MYSQL_PASSWORD', '');
     protected static db: string = env('MYSQL_DB', '');
     protected static dialect: Dialect = Dialect.mysql;
+    protected static url = '';
 
     protected static logging: boolean = env('DB_LOGGING', 'false') === 'true';
 
@@ -25,14 +29,17 @@ export class Database {
             const connectionOptions: ConnectionOptions = {
                 name: conn,
                 type: this.dialect,
+                url: this.url,
                 host: this.host,
                 port: this.port,
                 username: this.username,
                 password: this.password,
                 database: this.db,
-                synchronize: false,
+                synchronize: this.dialect === Dialect.mongodb,
                 logging: this.logging,
-                entities: [`${__dirname}/../../src/models/*.{ts,js}`],
+                entities: [
+                    `${__dirname}/../../src/models/*${this.dialect === Dialect.mongodb ? 'MongoModel' : ''}.{ts,js}`,
+                ],
             };
 
             active[conn] = await createConnection(connectionOptions);

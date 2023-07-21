@@ -1,8 +1,0 @@
-client_login: 
-  handler: ./src/functions/apis/client/login/handler
-  endpoint: /login
-  method: post
-  enabled: true
-  #UNCOMMENT TO ATTACH MIDDLEWARE
-  #EXAMPLE: middleware: middleware
-  #middleware: <middleware_name>

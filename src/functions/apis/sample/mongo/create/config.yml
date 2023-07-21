@@ -1,0 +1,25 @@
+sample_mongo_create: 
+  handler: ./src/functions/apis/sample/mongo/create/handler
+  endpoint: /mongo
+  method: post
+  enabled: true
+
+  ##ADD API VERSION
+  ##EXAMPLE OUTPUT: /login to /v1/login
+  #version: 1
+
+  ##ADD API PREFIX
+  ##EXAMPLE: api
+  ##EXAMPLE OUTPUT: /login to /api/login
+  ##WORKS WITH VERSION SAMPLE OUTPUT: /api/v1/login
+  #prefix: api
+
+  ##ADD MIDDLEWARE
+  
+  ##SINGLE
+  ##EXAMPLE: middleware: authorizer
+  #middleware: <middleware_name>
+
+  ##MULTIPLE
+  ##EXAMPLE: middleware: [authorizer, second_authorizer]
+  #middleware: [<middleware_name1>, <middleware_name2>]

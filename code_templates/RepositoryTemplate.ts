@@ -1,4 +1,4 @@
-import { writeFileSync, existsSync } from 'fs';
+import { writeFileSync, existsSync, mkdirSync } from 'fs';
 import { pascalCase } from 'case-anything';
 
 let content = `import { EntityRepository, Repository } from 'typeorm';
@@ -15,14 +15,20 @@ export class <repository_name> extends Repository<model_name> {
 export class RepositoryTemplate {
     private readonly filename: string;
     private readonly name: string;
+    private readonly type: string;
 
-    constructor(name: string) {
+    constructor(name: string, type?: string) {
         this.name = pascalCase(`${name.trim()}Repository`);
         this.filename = `${this.name}.ts`;
+        this.type = type ?? 'mysql';
     }
 
     generate(): void {
-        if (existsSync(`./src/repository/${this.filename}`)) throw new Error('Repository file already existed');
+        if (!existsSync(`./src/models/${this.type}`)) {
+            mkdirSync(`./src/models/${this.type}`);
+        }
+        if (existsSync(`./src/repository/${this.type}/${this.filename}`))
+            throw new Error('Repository file already existed');
 
         const rawName = this.filename.replace(/Repository/g, '').replace(/\.[^/.]+$/, '');
         content = content.replace(/model_name/g, `${rawName}Model`);
