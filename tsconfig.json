@@ -16,6 +16,7 @@
     "lib": [
       "ES2021.String"
     ],
+    "typeRoots": ["./@types", "./node_modules/@types"],                /* List of folders to include type definitions from. */
   },
   "include" : [
     "**/*.ts", /* Include every ts file in source folder */

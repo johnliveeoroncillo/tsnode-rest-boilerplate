@@ -1,5 +1,4 @@
 import { Connection } from 'typeorm';
-import { v4 } from 'uuid';
 import { SampleMongoModel } from '../../../../../models/SampleMongoModel';
 import { SampleMongoRepository } from '../../../../../repository/SampleMongoRepository';
 import { SampleMongoCreateRequest } from './request';
@@ -15,6 +14,6 @@ export class SampleMongoCreateAction {
         const data = new SampleMongoModel();
         data.name = request.name;
 
-        return await this.sampleMongoRepository.save(data);
+        return await this.sampleMongoRepository.insertCollection(data);
     }
 }

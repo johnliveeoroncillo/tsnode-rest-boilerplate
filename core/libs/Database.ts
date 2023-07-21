@@ -35,7 +35,7 @@ export class Database {
                 username: this.username,
                 password: this.password,
                 database: this.db,
-                synchronize: false,
+                synchronize: this.dialect === Dialect.mongodb,
                 logging: this.logging,
                 entities: [
                     `${__dirname}/../../src/models/*${this.dialect === Dialect.mongodb ? 'MongoModel' : ''}.{ts,js}`,

@@ -7,8 +7,10 @@ import {
     Generated,
     ObjectIdColumn,
     ObjectID,
+    Index,
 } from 'typeorm';
 export class MongoModel extends BaseEntity {
+    @Index({ unique: true })
     @Column()
     @Generated('uuid')
     uuid: string;
@@ -17,18 +19,12 @@ export class MongoModel extends BaseEntity {
     public readonly id!: ObjectID;
 
     // timestamps
-    @CreateDateColumn({
-        type: 'timestamp',
-    })
+    @CreateDateColumn()
     created_at: string;
 
-    @UpdateDateColumn({
-        type: 'timestamp',
-    })
+    @UpdateDateColumn()
     updated_at: string;
 
-    @DeleteDateColumn({
-        type: 'varchar',
-    })
+    @DeleteDateColumn()
     deleted_at?: string;
 }
